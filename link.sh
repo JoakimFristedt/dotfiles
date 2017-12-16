@@ -7,3 +7,4 @@ ln -fs $PWD/bashrc ~/.bashrc
 
 #Vim
 ln -fs $PWD/vimrc ~/.vimrc
+ln -fs $PWD/ideavimrc ~/.ideavimrc

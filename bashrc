@@ -138,4 +138,4 @@ fi
 
 export PS1="$PS1${GIT_PIECE:-""}\n\[${color_green}\]\$ \[${color_none}\]"
 
-[[ $TERM != "screen" ]] && exec tmux
+#[[ $TERM != "screen" ]] && exec tmux

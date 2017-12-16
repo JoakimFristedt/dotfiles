@@ -1,0 +1,979 @@
+1513420988.050406 server started, pid 27061
+1513420988.050467 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050478 cmdq 0x563f2bd51510: bind-key C-b send-prefix
+1513420988.050493 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050502 cmdq 0x563f2bd51510: bind-key C-o rotate-window
+1513420988.050513 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050522 cmdq 0x563f2bd51510: bind-key C-z suspend-client
+1513420988.050534 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050542 cmdq 0x563f2bd51510: bind-key Space next-layout
+1513420988.050553 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050562 cmdq 0x563f2bd51510: bind-key ! break-pane
+1513420988.050572 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050580 cmdq 0x563f2bd51510: bind-key " split-window
+1513420988.050591 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050599 cmdq 0x563f2bd51510: bind-key # list-buffers
+1513420988.050612 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050622 cmdq 0x563f2bd51510: bind-key $ command-prompt -I#S "rename-session '%%'"
+1513420988.050633 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050642 cmdq 0x563f2bd51510: bind-key % split-window -h
+1513420988.050655 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050665 cmdq 0x563f2bd51510: bind-key & confirm-before "-pkill-window #W? (y/n)" kill-window
+1513420988.050677 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050686 cmdq 0x563f2bd51510: bind-key ' command-prompt -pindex "select-window -t ':%%'"
+1513420988.050697 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050705 cmdq 0x563f2bd51510: bind-key ( switch-client -p
+1513420988.050716 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050725 cmdq 0x563f2bd51510: bind-key ) switch-client -n
+1513420988.050737 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050746 cmdq 0x563f2bd51510: bind-key , command-prompt -I#W "rename-window '%%'"
+1513420988.050756 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050764 cmdq 0x563f2bd51510: bind-key - delete-buffer
+1513420988.050775 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050784 cmdq 0x563f2bd51510: bind-key . command-prompt "move-window -t '%%'"
+1513420988.050794 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050802 cmdq 0x563f2bd51510: bind-key 0 select-window -t:=0
+1513420988.050814 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050822 cmdq 0x563f2bd51510: bind-key 1 select-window -t:=1
+1513420988.050833 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050841 cmdq 0x563f2bd51510: bind-key 2 select-window -t:=2
+1513420988.050852 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050861 cmdq 0x563f2bd51510: bind-key 3 select-window -t:=3
+1513420988.050871 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050880 cmdq 0x563f2bd51510: bind-key 4 select-window -t:=4
+1513420988.050892 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050900 cmdq 0x563f2bd51510: bind-key 5 select-window -t:=5
+1513420988.050911 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050919 cmdq 0x563f2bd51510: bind-key 6 select-window -t:=6
+1513420988.050930 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050938 cmdq 0x563f2bd51510: bind-key 7 select-window -t:=7
+1513420988.050949 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050957 cmdq 0x563f2bd51510: bind-key 8 select-window -t:=8
+1513420988.050967 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050976 cmdq 0x563f2bd51510: bind-key 9 select-window -t:=9
+1513420988.050986 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.050994 cmdq 0x563f2bd51510: bind-key : command-prompt
+1513420988.051004 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051012 cmdq 0x563f2bd51510: bind-key ; last-pane
+1513420988.051022 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051030 cmdq 0x563f2bd51510: bind-key = choose-buffer
+1513420988.051049 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051057 cmdq 0x563f2bd51510: bind-key ? list-keys
+1513420988.051067 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051075 cmdq 0x563f2bd51510: bind-key D choose-client
+1513420988.051085 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051093 cmdq 0x563f2bd51510: bind-key L switch-client -l
+1513420988.051104 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051113 cmdq 0x563f2bd51510: bind-key M select-pane -M
+1513420988.051124 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051132 cmdq 0x563f2bd51510: bind-key [ copy-mode
+1513420988.051141 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051150 cmdq 0x563f2bd51510: bind-key ] paste-buffer
+1513420988.051160 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051168 cmdq 0x563f2bd51510: bind-key c new-window
+1513420988.051178 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051186 cmdq 0x563f2bd51510: bind-key d detach-client
+1513420988.051197 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051206 cmdq 0x563f2bd51510: bind-key f command-prompt "find-window '%%'"
+1513420988.051215 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051223 cmdq 0x563f2bd51510: bind-key i display-message
+1513420988.051233 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051241 cmdq 0x563f2bd51510: bind-key l last-window
+1513420988.051250 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051258 cmdq 0x563f2bd51510: bind-key m select-pane -m
+1513420988.051268 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051276 cmdq 0x563f2bd51510: bind-key n next-window
+1513420988.051286 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051294 cmdq 0x563f2bd51510: bind-key o select-pane -t:.+
+1513420988.051304 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051312 cmdq 0x563f2bd51510: bind-key p previous-window
+1513420988.051322 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051330 cmdq 0x563f2bd51510: bind-key q display-panes
+1513420988.051339 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051347 cmdq 0x563f2bd51510: bind-key r refresh-client
+1513420988.051356 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051364 cmdq 0x563f2bd51510: bind-key s choose-tree
+1513420988.051374 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051382 cmdq 0x563f2bd51510: bind-key t clock-mode
+1513420988.051391 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051399 cmdq 0x563f2bd51510: bind-key w choose-window
+1513420988.051409 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051418 cmdq 0x563f2bd51510: bind-key x confirm-before "-pkill-pane #P? (y/n)" kill-pane
+1513420988.051428 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051436 cmdq 0x563f2bd51510: bind-key z resize-pane -Z
+1513420988.051446 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051454 cmdq 0x563f2bd51510: bind-key { swap-pane -U
+1513420988.051464 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051472 cmdq 0x563f2bd51510: bind-key } swap-pane -D
+1513420988.051482 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051490 cmdq 0x563f2bd51510: bind-key ~ show-messages
+1513420988.051500 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051509 cmdq 0x563f2bd51510: bind-key PPage copy-mode -u
+1513420988.051519 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051527 cmdq 0x563f2bd51510: bind-key -r Up select-pane -U
+1513420988.051538 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051546 cmdq 0x563f2bd51510: bind-key -r Down select-pane -D
+1513420988.051558 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051566 cmdq 0x563f2bd51510: bind-key -r Left select-pane -L
+1513420988.051577 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051585 cmdq 0x563f2bd51510: bind-key -r Right select-pane -R
+1513420988.051596 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051612 cmdq 0x563f2bd51510: bind-key M-1 select-layout even-horizontal
+1513420988.051623 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051632 cmdq 0x563f2bd51510: bind-key M-2 select-layout even-vertical
+1513420988.051642 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051651 cmdq 0x563f2bd51510: bind-key M-3 select-layout main-horizontal
+1513420988.051661 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051669 cmdq 0x563f2bd51510: bind-key M-4 select-layout main-vertical
+1513420988.051679 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051688 cmdq 0x563f2bd51510: bind-key M-5 select-layout tiled
+1513420988.051698 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051706 cmdq 0x563f2bd51510: bind-key M-n next-window -a
+1513420988.051716 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051724 cmdq 0x563f2bd51510: bind-key M-o rotate-window -D
+1513420988.051734 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051743 cmdq 0x563f2bd51510: bind-key M-p previous-window -a
+1513420988.051754 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051763 cmdq 0x563f2bd51510: bind-key -r M-Up resize-pane -U 5
+1513420988.051775 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051784 cmdq 0x563f2bd51510: bind-key -r M-Down resize-pane -D 5
+1513420988.051795 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051804 cmdq 0x563f2bd51510: bind-key -r M-Left resize-pane -L 5
+1513420988.051815 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051823 cmdq 0x563f2bd51510: bind-key -r M-Right resize-pane -R 5
+1513420988.051834 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051843 cmdq 0x563f2bd51510: bind-key -r C-Up resize-pane -U
+1513420988.051853 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051862 cmdq 0x563f2bd51510: bind-key -r C-Down resize-pane -D
+1513420988.051873 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051881 cmdq 0x563f2bd51510: bind-key -r C-Left resize-pane -L
+1513420988.051892 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051900 cmdq 0x563f2bd51510: bind-key -r C-Right resize-pane -R
+1513420988.051912 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051922 cmdq 0x563f2bd51510: bind-key -n MouseDown1Pane select-pane -t=; send-keys -M
+1513420988.051935 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051943 cmdq 0x563f2bd51510: bind-key -n MouseDrag1Border resize-pane -M
+1513420988.051955 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051963 cmdq 0x563f2bd51510: bind-key -n MouseDown1Status select-window -t=
+1513420988.051975 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.051983 cmdq 0x563f2bd51510: bind-key -n WheelDownStatus next-window
+1513420988.051994 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.052002 cmdq 0x563f2bd51510: bind-key -n WheelUpStatus previous-window
+1513420988.052016 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.052026 cmdq 0x563f2bd51510: bind-key -n MouseDrag1Pane if -Ft= #{mouse_any_flag} "if -Ft= "#{pane_in_mode}" "copy-mode -M" "send-keys -M"" "copy-mode -M"
+1513420988.052040 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.052051 cmdq 0x563f2bd51510: bind-key -n MouseDown3Pane if-shell -Ft= #{mouse_any_flag} "select-pane -t=; send-keys -M" "select-pane -mt="
+1513420988.052065 continuing cmdq 0x563f2bd51510: flags=0, client=-1
+1513420988.052075 cmdq 0x563f2bd51510: bind-key -n WheelUpPane if-shell -Ft= #{mouse_any_flag} "send-keys -M" "if -Ft= "#{pane_in_mode}" "send-keys -M" "copy-mode -et=""
+1513420988.052203 socket path /tmp/tmux-1000/default
+1513420988.052272 new client 7
+1513420988.052309 loading /home/joakim/.tmux.conf
+1513420988.052334 /home/joakim/.tmux.conf: ### General
+1513420988.052344 /home/joakim/.tmux.conf: #set -g mouse-select-window on
+1513420988.052353 /home/joakim/.tmux.conf: #set -g mouse-select-window on
+1513420988.052362 /home/joakim/.tmux.conf: 
+1513420988.052381 /home/joakim/.tmux.conf: #set -g default-command "login-shell"
+1513420988.052389 /home/joakim/.tmux.conf: 
+1513420988.052398 /home/joakim/.tmux.conf: set -g history-limit 20000
+1513420988.052411 /home/joakim/.tmux.conf: 
+1513420988.052421 /home/joakim/.tmux.conf: # automatically renumber tmux windows
+1513420988.052429 /home/joakim/.tmux.conf: set -g renumber-windows on
+1513420988.052441 /home/joakim/.tmux.conf: 
+1513420988.052450 /home/joakim/.tmux.conf: # unbind default prefix and set it to Ctrl+a
+1513420988.052459 /home/joakim/.tmux.conf: unbind C-b
+1513420988.052470 /home/joakim/.tmux.conf: set -g prefix C-a
+1513420988.052482 /home/joakim/.tmux.conf: bind C-a send-prefix
+1513420988.052492 /home/joakim/.tmux.conf: 
+1513420988.052501 /home/joakim/.tmux.conf: # for nested tmux sessions
+1513420988.052510 /home/joakim/.tmux.conf: bind-key a send-prefix
+1513420988.052520 /home/joakim/.tmux.conf: 
+1513420988.052528 /home/joakim/.tmux.conf: # Activity Monitoring
+1513420988.052537 /home/joakim/.tmux.conf: setw -g monitor-activity off
+1513420988.052549 /home/joakim/.tmux.conf: set -g visual-activity off
+1513420988.052560 /home/joakim/.tmux.conf: 
+1513420988.052569 /home/joakim/.tmux.conf: #### Movement
+1513420988.052577 /home/joakim/.tmux.conf: 
+1513420988.052586 /home/joakim/.tmux.conf: # reload config file
+1513420988.052595 /home/joakim/.tmux.conf: bind r source-file ~/.tmux.conf \\; display "Config Reloaded!"
+1513420988.052609 /home/joakim/.tmux.conf: 
+1513420988.052618 /home/joakim/.tmux.conf: # quickly open a new window
+1513420988.052626 /home/joakim/.tmux.conf: bind N new-window
+1513420988.052636 /home/joakim/.tmux.conf: 
+1513420988.052646 /home/joakim/.tmux.conf: # split window and fix path for tmux 1.9
+1513420988.052655 /home/joakim/.tmux.conf: bind | split-window -h -c "#{pane_current_path}"
+1513420988.052667 /home/joakim/.tmux.conf: bind - split-window -v -c "#{pane_current_path}"
+1513420988.052679 /home/joakim/.tmux.conf: 
+1513420988.052687 /home/joakim/.tmux.conf: # synchronize all panes in a window
+1513420988.052696 /home/joakim/.tmux.conf: bind y setw synchronize-panes
+1513420988.052706 /home/joakim/.tmux.conf: 
+1513420988.052715 /home/joakim/.tmux.conf: # pane movement shortcuts
+1513420988.052724 /home/joakim/.tmux.conf: bind h select-pane -L
+1513420988.052734 /home/joakim/.tmux.conf: bind j select-pane -D
+1513420988.052745 /home/joakim/.tmux.conf: bind k select-pane -U
+1513420988.052755 /home/joakim/.tmux.conf: bind l select-pane -R
+1513420988.052765 /home/joakim/.tmux.conf: 
+1513420988.052774 /home/joakim/.tmux.conf: bind -r C-h select-window -t :-
+1513420988.052787 /home/joakim/.tmux.conf: bind -r C-l select-window -t :+
+1513420988.052798 /home/joakim/.tmux.conf: 
+1513420988.052807 /home/joakim/.tmux.conf: # Resize pane shortcuts
+1513420988.052815 /home/joakim/.tmux.conf: bind -r H resize-pane -L 10
+1513420988.052827 /home/joakim/.tmux.conf: bind -r J resize-pane -D 10
+1513420988.052838 /home/joakim/.tmux.conf: bind -r K resize-pane -U 10
+1513420988.052849 /home/joakim/.tmux.conf: bind -r L resize-pane -R 10
+1513420988.052859 /home/joakim/.tmux.conf: 
+1513420988.052868 /home/joakim/.tmux.conf: # enable mouse support for switching panes/windows
+1513420988.052876 /home/joakim/.tmux.conf: setw -g mouse on
+1513420988.052888 /home/joakim/.tmux.conf: 
+1513420988.052897 /home/joakim/.tmux.conf: # set vi mode for copy mode
+1513420988.052905 /home/joakim/.tmux.conf: setw -g mode-keys vi
+1513420988.052917 /home/joakim/.tmux.conf: # more settings to make copy-mode more vim-like
+1513420988.052926 /home/joakim/.tmux.conf: unbind [
+1513420988.052937 /home/joakim/.tmux.conf: bind Escape copy-mode
+1513420988.052947 /home/joakim/.tmux.conf: unbind p
+1513420988.052983 /home/joakim/.tmux.conf: bind P paste-buffer
+1513420988.052996 /home/joakim/.tmux.conf: bind -t vi-copy y copy-pipe "xclip -sel clip -i"
+1513420988.053008 /home/joakim/.tmux.conf: #### COLOUR (Solarized 256)
+1513420988.053017 /home/joakim/.tmux.conf: 
+1513420988.053025 /home/joakim/.tmux.conf: # default statusbar colors
+1513420988.053043 /home/joakim/.tmux.conf: set-option -g status-bg colour235 #base02
+1513420988.053056 /home/joakim/.tmux.conf: set-option -g status-fg colour136 #yellow
+1513420988.053069 /home/joakim/.tmux.conf: set-option -g status-attr default
+1513420988.053081 /home/joakim/.tmux.conf: 
+1513420988.053090 /home/joakim/.tmux.conf: # default window title colors
+1513420988.053099 /home/joakim/.tmux.conf: set-window-option -g window-status-fg colour244 #base0
+1513420988.053112 /home/joakim/.tmux.conf: set-window-option -g window-status-bg default
+1513420988.053126 /home/joakim/.tmux.conf: #set-window-option -g window-status-attr dim
+1513420988.053134 /home/joakim/.tmux.conf: 
+1513420988.053143 /home/joakim/.tmux.conf: # active window title colors
+1513420988.053152 /home/joakim/.tmux.conf: set-window-option -g window-status-current-fg colour166 #orange
+1513420988.053166 /home/joakim/.tmux.conf: set-window-option -g window-status-current-bg default
+1513420988.053180 /home/joakim/.tmux.conf: #set-window-option -g window-status-current-attr bright
+1513420988.053189 /home/joakim/.tmux.conf: 
+1513420988.053197 /home/joakim/.tmux.conf: # pane border
+1513420988.053206 /home/joakim/.tmux.conf: set-option -g pane-border-fg colour235 #base02
+1513420988.053219 /home/joakim/.tmux.conf: set-option -g pane-active-border-fg colour240 #base01
+1513420988.053231 /home/joakim/.tmux.conf: 
+1513420988.053239 /home/joakim/.tmux.conf: # message text
+1513420988.053248 /home/joakim/.tmux.conf: set-option -g message-bg colour235 #base02
+1513420988.053261 /home/joakim/.tmux.conf: set-option -g message-fg colour166 #orange
+1513420988.053272 /home/joakim/.tmux.conf: 
+1513420988.053281 /home/joakim/.tmux.conf: # pane number display
+1513420988.053290 /home/joakim/.tmux.conf: set-option -g display-panes-active-colour colour33 #blue
+1513420988.053303 /home/joakim/.tmux.conf: set-option -g display-panes-colour colour166 #orange
+1513420988.053315 /home/joakim/.tmux.conf: 
+1513420988.053323 /home/joakim/.tmux.conf: # clock
+1513420988.053332 /home/joakim/.tmux.conf: set-window-option -g clock-mode-colour colour64 #green
+1513420988.053344 /home/joakim/.tmux.conf: 
+1513420988.053352 /home/joakim/.tmux.conf: # bell
+1513420988.053362 /home/joakim/.tmux.conf: set-window-option -g window-status-bell-style fg=colour235,bg=colour160 #base02, red
+1513420988.053381 continuing cmdq 0x563f2bd55d80: flags=0, client=-1
+1513420988.053391 cmdq 0x563f2bd55d80: set-option -g history-limit 20000
+1513420988.053407 cmdq 0x563f2bd55d80: set-option -g renumber-windows on
+1513420988.053419 cmdq 0x563f2bd55d80: unbind-key C-b
+1513420988.053430 cmdq 0x563f2bd55d80: set-option -g prefix C-a
+1513420988.053441 cmdq 0x563f2bd55d80: bind-key C-a send-prefix
+1513420988.053453 cmdq 0x563f2bd55d80: bind-key a send-prefix
+1513420988.053464 cmdq 0x563f2bd55d80: set-window-option -g monitor-activity off
+1513420988.053476 cmdq 0x563f2bd55d80: set-option -g visual-activity off
+1513420988.053489 cmdq 0x563f2bd55d80: bind-key r source-file /home/joakim/.tmux.conf ; display "Config Reloaded!"
+1513420988.053502 cmdq 0x563f2bd55d80: bind-key N new-window
+1513420988.053514 cmdq 0x563f2bd55d80: bind-key | split-window -h -c #{pane_current_path}
+1513420988.053527 cmdq 0x563f2bd55d80: bind-key - split-window -v -c #{pane_current_path}
+1513420988.053539 cmdq 0x563f2bd55d80: bind-key y setw synchronize-panes
+1513420988.053550 cmdq 0x563f2bd55d80: bind-key h select-pane -L
+1513420988.053561 cmdq 0x563f2bd55d80: bind-key j select-pane -D
+1513420988.053571 cmdq 0x563f2bd55d80: bind-key k select-pane -U
+1513420988.053582 cmdq 0x563f2bd55d80: bind-key l select-pane -R
+1513420988.053593 cmdq 0x563f2bd55d80: bind-key -r C-h select-window -t :-
+1513420988.053605 cmdq 0x563f2bd55d80: bind-key -r C-l select-window -t :+
+1513420988.053616 cmdq 0x563f2bd55d80: bind-key -r H resize-pane -L 10
+1513420988.053628 cmdq 0x563f2bd55d80: bind-key -r J resize-pane -D 10
+1513420988.053639 cmdq 0x563f2bd55d80: bind-key -r K resize-pane -U 10
+1513420988.053650 cmdq 0x563f2bd55d80: bind-key -r L resize-pane -R 10
+1513420988.053661 cmdq 0x563f2bd55d80: set-window-option -g mouse on
+1513420988.053684 cmdq 0x563f2bd55d80: set-window-option -g mode-keys vi
+1513420988.053695 cmdq 0x563f2bd55d80: unbind-key [
+1513420988.053705 cmdq 0x563f2bd55d80: bind-key Escape copy-mode
+1513420988.053715 cmdq 0x563f2bd55d80: unbind-key p
+1513420988.053725 cmdq 0x563f2bd55d80: bind-key P paste-buffer
+1513420988.053736 cmdq 0x563f2bd55d80: bind-key -t vi-copy y copy-pipe "xclip -sel clip -i"
+1513420988.053747 cmdq 0x563f2bd55d80: set-option -g status-bg colour235
+1513420988.053766 cmdq 0x563f2bd55d80: set-option -g status-fg colour136
+1513420988.053779 cmdq 0x563f2bd55d80: set-option -g status-attr default
+1513420988.053790 cmdq 0x563f2bd55d80: set-window-option -g window-status-fg colour244
+1513420988.053803 cmdq 0x563f2bd55d80: set-window-option -g window-status-bg default
+1513420988.053815 cmdq 0x563f2bd55d80: set-window-option -g window-status-current-fg colour166
+1513420988.053827 cmdq 0x563f2bd55d80: set-window-option -g window-status-current-bg default
+1513420988.053839 cmdq 0x563f2bd55d80: set-option -g pane-border-fg colour235
+1513420988.053850 cmdq 0x563f2bd55d80: set-option -g pane-active-border-fg colour240
+1513420988.053862 cmdq 0x563f2bd55d80: set-option -g message-bg colour235
+1513420988.053872 cmdq 0x563f2bd55d80: set-option -g message-fg colour166
+1513420988.053884 cmdq 0x563f2bd55d80: set-option -g display-panes-active-colour colour33
+1513420988.053895 cmdq 0x563f2bd55d80: set-option -g display-panes-colour colour166
+1513420988.053906 cmdq 0x563f2bd55d80: set-window-option -g clock-mode-colour colour64
+1513420988.053917 cmdq 0x563f2bd55d80: set-window-option -g window-status-bell-style fg=colour235,bg=colour160
+1513420988.053930 unref client 7 (2 references)
+1513420988.053944 event dispatch enter
+1513420988.053969 got 100 from client 7
+1513420988.053978 got 101 from client 7
+1513420988.053986 got 102 from client 7
+1513420988.053994 got 103 from client 7
+1513420988.054003 event dispatch exit
+1513420988.054011 event dispatch enter
+1513420988.054026 got 104 from client 7
+1513420988.054035 event dispatch exit
+1513420988.054043 event dispatch enter
+1513420988.054057 got 107 from client 7
+1513420988.054066 got 105 from client 7
+1513420988.054075 got 105 from client 7
+1513420988.054083 got 105 from client 7
+1513420988.054092 got 105 from client 7
+1513420988.054100 got 105 from client 7
+1513420988.054108 got 105 from client 7
+1513420988.054117 got 105 from client 7
+1513420988.054125 got 105 from client 7
+1513420988.054133 got 105 from client 7
+1513420988.054142 got 105 from client 7
+1513420988.054150 got 105 from client 7
+1513420988.054158 got 105 from client 7
+1513420988.054167 got 105 from client 7
+1513420988.054175 got 105 from client 7
+1513420988.054184 got 105 from client 7
+1513420988.054192 got 105 from client 7
+1513420988.054201 got 105 from client 7
+1513420988.054209 got 105 from client 7
+1513420988.054217 got 105 from client 7
+1513420988.054230 got 105 from client 7
+1513420988.054242 got 105 from client 7
+1513420988.054250 got 105 from client 7
+1513420988.054259 got 105 from client 7
+1513420988.054267 got 105 from client 7
+1513420988.054276 got 105 from client 7
+1513420988.054284 got 105 from client 7
+1513420988.054292 got 105 from client 7
+1513420988.054301 got 105 from client 7
+1513420988.054309 got 105 from client 7
+1513420988.054318 got 105 from client 7
+1513420988.054327 got 105 from client 7
+1513420988.054335 got 105 from client 7
+1513420988.054343 got 105 from client 7
+1513420988.054352 got 105 from client 7
+1513420988.054360 got 105 from client 7
+1513420988.054368 got 105 from client 7
+1513420988.054377 got 105 from client 7
+1513420988.054385 got 105 from client 7
+1513420988.054393 got 105 from client 7
+1513420988.054402 got 105 from client 7
+1513420988.054410 got 105 from client 7
+1513420988.054419 got 105 from client 7
+1513420988.054427 got 105 from client 7
+1513420988.054435 got 105 from client 7
+1513420988.054444 got 105 from client 7
+1513420988.054452 got 105 from client 7
+1513420988.054461 got 105 from client 7
+1513420988.054469 got 105 from client 7
+1513420988.054487 got 105 from client 7
+1513420988.054496 got 105 from client 7
+1513420988.054504 got 105 from client 7
+1513420988.054512 got 105 from client 7
+1513420988.054521 got 105 from client 7
+1513420988.054529 got 105 from client 7
+1513420988.054538 got 105 from client 7
+1513420988.054546 got 105 from client 7
+1513420988.054555 got 105 from client 7
+1513420988.054563 got 105 from client 7
+1513420988.054572 got 105 from client 7
+1513420988.054580 got 105 from client 7
+1513420988.054589 got 105 from client 7
+1513420988.054597 got 105 from client 7
+1513420988.054605 got 105 from client 7
+1513420988.054614 got 105 from client 7
+1513420988.054622 got 105 from client 7
+1513420988.054630 got 105 from client 7
+1513420988.054639 got 105 from client 7
+1513420988.054647 got 105 from client 7
+1513420988.054656 got 105 from client 7
+1513420988.054664 got 105 from client 7
+1513420988.054672 got 105 from client 7
+1513420988.054681 got 105 from client 7
+1513420988.054689 got 105 from client 7
+1513420988.054697 got 105 from client 7
+1513420988.054706 got 106 from client 7
+1513420988.054728 got 200 from client 7
+1513420988.054741 continuing cmdq 0x563f2bd57050: flags=0, client=7
+1513420988.054750 cmdq 0x563f2bd57050: new-session
+1513420988.054760 new term: xterm-256color
+1513420988.054942 xterm-256color override: XT 
+1513420988.054960 xterm-256color override: Ms \033]52;%p1%s;%p2%s\a
+1513420988.054973 xterm-256color override: Cs \033]12;%p1%s\a
+1513420988.054985 xterm-256color override: Cr \033]112\a
+1513420988.054998 xterm-256color override: Ss \033[%p1%d q
+1513420988.055011 xterm-256color override: Se \033[2 q
+1513420988.055038 new key \033Oo: 0x103c (KP/)
+1513420988.055050 new key \033Oj: 0x103d (KP*)
+1513420988.055061 new key \033Om: 0x103e (KP-)
+1513420988.055071 new key \033Ow: 0x103f (KP7)
+1513420988.055082 new key \033Ox: 0x1040 (KP8)
+1513420988.055092 new key \033Oy: 0x1041 (KP9)
+1513420988.055103 new key \033Ok: 0x1042 (KP+)
+1513420988.055114 new key \033Ot: 0x1043 (KP4)
+1513420988.055124 new key \033Ou: 0x1044 (KP5)
+1513420988.055134 new key \033Ov: 0x1045 (KP6)
+1513420988.055144 new key \033Oq: 0x1046 (KP1)
+1513420988.055155 new key \033Or: 0x1047 (KP2)
+1513420988.055165 new key \033Os: 0x1048 (KP3)
+1513420988.055173 new key \033OM: 0x1049 (KPEnter)
+1513420988.055182 new key \033Op: 0x104a (KP0)
+1513420988.055190 new key \033On: 0x104b (KP.)
+1513420988.055199 new key \033OA: 0x1038 (Up)
+1513420988.055208 new key \033OB: 0x1039 (Down)
+1513420988.055218 new key \033OC: 0x103b (Right)
+1513420988.055229 new key \033OD: 0x103a (Left)
+1513420988.055239 new key \033[A: 0x1038 (Up)
+1513420988.055249 new key \033[B: 0x1039 (Down)
+1513420988.055260 new key \033[C: 0x103b (Right)
+1513420988.055271 new key \033[D: 0x103a (Left)
+1513420988.055281 new key \033OH: 0x1033 (Home)
+1513420988.055292 new key \033OF: 0x1034 (End)
+1513420988.055303 new key \033[H: 0x1033 (Home)
+1513420988.055313 new key \033[F: 0x1034 (End)
+1513420988.055322 new key \033Oa: 0x5038 (C-Up)
+1513420988.055330 new key \033Ob: 0x5039 (C-Down)
+1513420988.055339 new key \033Oc: 0x503b (C-Right)
+1513420988.055347 new key \033Od: 0x503a (C-Left)
+1513420988.055356 new key \033[a: 0x9038 (S-Up)
+1513420988.055364 new key \033[b: 0x9039 (S-Down)
+1513420988.055373 new key \033[c: 0x903b (S-Right)
+1513420988.055381 new key \033[d: 0x903a (S-Left)
+1513420988.055390 new key \033[11^: 0x5025 (C-F1)
+1513420988.055399 new key \033[12^: 0x5026 (C-F2)
+1513420988.055407 new key \033[13^: 0x5027 (C-F3)
+1513420988.055416 new key \033[14^: 0x5028 (C-F4)
+1513420988.055424 new key \033[15^: 0x5029 (C-F5)
+1513420988.055433 new key \033[17^: 0x502a (C-F6)
+1513420988.055441 new key \033[18^: 0x502b (C-F7)
+1513420988.055450 new key \033[19^: 0x502c (C-F8)
+1513420988.055458 new key \033[20^: 0x502d (C-F9)
+1513420988.055467 new key \033[21^: 0x502e (C-F10)
+1513420988.055475 new key \033[23^: 0x502f (C-F11)
+1513420988.055484 new key \033[24^: 0x5030 (C-F12)
+1513420988.055492 new key \033[2^: 0x5031 (C-IC)
+1513420988.055501 new key \033[3^: 0x5032 (C-DC)
+1513420988.055510 new key \033[7^: 0x5033 (C-Home)
+1513420988.055532 new key \033[8^: 0x5034 (C-End)
+1513420988.055540 new key \033[6^: 0x5035 (C-NPage)
+1513420988.055549 new key \033[5^: 0x5036 (C-PPage)
+1513420988.055558 new key \033[11$: 0x9025 (S-F1)
+1513420988.055568 new key \033[12$: 0x9026 (S-F2)
+1513420988.055578 new key \033[13$: 0x9027 (S-F3)
+1513420988.055589 new key \033[14$: 0x9028 (S-F4)
+1513420988.055600 new key \033[15$: 0x9029 (S-F5)
+1513420988.055611 new key \033[17$: 0x902a (S-F6)
+1513420988.055622 new key \033[18$: 0x902b (S-F7)
+1513420988.055633 new key \033[19$: 0x902c (S-F8)
+1513420988.055644 new key \033[20$: 0x902d (S-F9)
+1513420988.055655 new key \033[21$: 0x902e (S-F10)
+1513420988.055666 new key \033[23$: 0x902f (S-F11)
+1513420988.055677 new key \033[24$: 0x9030 (S-F12)
+1513420988.055688 new key \033[2$: 0x9031 (S-IC)
+1513420988.055700 new key \033[3$: 0x9032 (S-DC)
+1513420988.055711 new key \033[7$: 0x9033 (S-Home)
+1513420988.055722 new key \033[8$: 0x9034 (S-End)
+1513420988.055731 new key \033[6$: 0x9035 (S-NPage)
+1513420988.055740 new key \033[5$: 0x9036 (S-PPage)
+1513420988.055749 new key \033[11@: 0xd025 (C-S-F1)
+1513420988.055757 new key \033[12@: 0xd026 (C-S-F2)
+1513420988.055766 new key \033[13@: 0xd027 (C-S-F3)
+1513420988.055775 new key \033[14@: 0xd028 (C-S-F4)
+1513420988.055783 new key \033[15@: 0xd029 (C-S-F5)
+1513420988.055792 new key \033[17@: 0xd02a (C-S-F6)
+1513420988.055800 new key \033[18@: 0xd02b (C-S-F7)
+1513420988.055809 new key \033[19@: 0xd02c (C-S-F8)
+1513420988.055818 new key \033[20@: 0xd02d (C-S-F9)
+1513420988.055826 new key \033[21@: 0xd02e (C-S-F10)
+1513420988.055835 new key \033[23@: 0xd02f (C-S-F11)
+1513420988.055846 new key \033[24@: 0xd030 (C-S-F12)
+1513420988.055855 new key \033[2@: 0xd031 (C-S-IC)
+1513420988.055863 new key \033[3@: 0xd032 (C-S-DC)
+1513420988.055872 new key \033[7@: 0xd033 (C-S-Home)
+1513420988.055881 new key \033[8@: 0xd034 (C-S-End)
+1513420988.055889 new key \033[6@: 0xd035 (C-S-NPage)
+1513420988.055898 new key \033[5@: 0xd036 (C-S-PPage)
+1513420988.055907 new key \033[I: 0x1000 ((null))
+1513420988.055916 new key \033[O: 0x1001 ((null))
+1513420988.055924 new key \033OP: 0x1025 (F1)
+1513420988.055933 new key \033OQ: 0x1026 (F2)
+1513420988.055942 new key \033OR: 0x1027 (F3)
+1513420988.055950 new key \033OS: 0x1028 (F4)
+1513420988.055959 new key \033[15~: 0x1029 (F5)
+1513420988.055967 new key \033[17~: 0x102a (F6)
+1513420988.055976 new key \033[18~: 0x102b (F7)
+1513420988.055985 new key \033[19~: 0x102c (F8)
+1513420988.055993 new key \033[20~: 0x102d (F9)
+1513420988.056002 new key \033[21~: 0x102e (F10)
+1513420988.056010 new key \033[23~: 0x102f (F11)
+1513420988.056019 new key \033[24~: 0x1030 (F12)
+1513420988.056028 new key \033[1;2P: 0x9025 (S-F1)
+1513420988.056037 new key \033[1;2Q: 0x9026 (S-F2)
+1513420988.056045 new key \033[1;2R: 0x9027 (S-F3)
+1513420988.056054 new key \033[1;2S: 0x9028 (S-F4)
+1513420988.056063 new key \033[15;2~: 0x9029 (S-F5)
+1513420988.056072 new key \033[17;2~: 0x902a (S-F6)
+1513420988.056081 new key \033[18;2~: 0x902b (S-F7)
+1513420988.056089 new key \033[19;2~: 0x902c (S-F8)
+1513420988.056099 new key \033[20;2~: 0x902d (S-F9)
+1513420988.056108 new key \033[21;2~: 0x902e (S-F10)
+1513420988.056117 new key \033[23;2~: 0x902f (S-F11)
+1513420988.056126 new key \033[24;2~: 0x9030 (S-F12)
+1513420988.056134 new key \033[1;5P: 0x5025 (C-F1)
+1513420988.056143 new key \033[1;5Q: 0x5026 (C-F2)
+1513420988.056152 new key \033[1;5R: 0x5027 (C-F3)
+1513420988.056160 new key \033[1;5S: 0x5028 (C-F4)
+1513420988.056169 new key \033[15;5~: 0x5029 (C-F5)
+1513420988.056178 new key \033[17;5~: 0x502a (C-F6)
+1513420988.056186 new key \033[18;5~: 0x502b (C-F7)
+1513420988.056195 new key \033[19;5~: 0x502c (C-F8)
+1513420988.056204 new key \033[20;5~: 0x502d (C-F9)
+1513420988.056212 new key \033[21;5~: 0x502e (C-F10)
+1513420988.056221 new key \033[23;5~: 0x502f (C-F11)
+1513420988.056230 new key \033[24;5~: 0x5030 (C-F12)
+1513420988.056238 new key \033[1;6P: 0xd025 (C-S-F1)
+1513420988.056247 new key \033[1;6Q: 0xd026 (C-S-F2)
+1513420988.056256 new key \033[1;6R: 0xd027 (C-S-F3)
+1513420988.056278 new key \033[1;6S: 0xd028 (C-S-F4)
+1513420988.056287 new key \033[15;6~: 0xd029 (C-S-F5)
+1513420988.056296 new key \033[17;6~: 0xd02a (C-S-F6)
+1513420988.056304 new key \033[18;6~: 0xd02b (C-S-F7)
+1513420988.056314 new key \033[19;6~: 0xd02c (C-S-F8)
+1513420988.056323 new key \033[20;6~: 0xd02d (C-S-F9)
+1513420988.056332 new key \033[21;6~: 0xd02e (C-S-F10)
+1513420988.056340 new key \033[23;6~: 0xd02f (C-S-F11)
+1513420988.056349 new key \033[24;6~: 0xd030 (C-S-F12)
+1513420988.056358 new key \033[1;3P: 0x3025 (M-F1)
+1513420988.056367 new key \033[1;3Q: 0x3026 (M-F2)
+1513420988.056375 new key \033[1;3R: 0x3027 (M-F3)
+1513420988.056384 new key \033[1;3S: 0x3028 (M-F4)
+1513420988.056393 new key \033[15;3~: 0x3029 (M-F5)
+1513420988.056402 new key \033[17;3~: 0x302a (M-F6)
+1513420988.056410 new key \033[18;3~: 0x302b (M-F7)
+1513420988.056419 new key \033[19;3~: 0x302c (M-F8)
+1513420988.056428 new key \033[20;3~: 0x302d (M-F9)
+1513420988.056436 new key \033[21;3~: 0x302e (M-F10)
+1513420988.056445 new key \033[23;3~: 0x302f (M-F11)
+1513420988.056454 new key \033[24;3~: 0x3030 (M-F12)
+1513420988.056462 new key \033[1;4P: 0xb025 (M-S-F1)
+1513420988.056471 new key \033[1;4Q: 0xb026 (M-S-F2)
+1513420988.056480 new key \033[1;4R: 0xb027 (M-S-F3)
+1513420988.056488 new key \033[2~: 0x1031 (IC)
+1513420988.056497 new key \033[3~: 0x1032 (DC)
+1513420988.056506 replacing key \033OH: 0x1033 (Home)
+1513420988.056515 replacing key \033OF: 0x1034 (End)
+1513420988.056525 new key \033[6~: 0x1035 (NPage)
+1513420988.056533 new key \033[5~: 0x1036 (PPage)
+1513420988.056542 new key \033[Z: 0x1037 (BTab)
+1513420988.056551 replacing key \033OA: 0x1038 (Up)
+1513420988.056559 replacing key \033OB: 0x1039 (Down)
+1513420988.056568 replacing key \033OD: 0x103a (Left)
+1513420988.056577 replacing key \033OC: 0x103b (Right)
+1513420988.056585 new key \033[3;2~: 0x9032 (S-DC)
+1513420988.056594 new key \033[3;3~: 0x3032 (M-DC)
+1513420988.056603 new key \033[3;4~: 0xb032 (M-S-DC)
+1513420988.056611 new key \033[3;5~: 0x5032 (C-DC)
+1513420988.056620 new key \033[3;6~: 0xd032 (C-S-DC)
+1513420988.056629 new key \033[3;7~: 0x7032 (C-M-DC)
+1513420988.056638 new key \033[1;2B: 0x9039 (S-Down)
+1513420988.056646 new key \033[1;3B: 0x3039 (M-Down)
+1513420988.056655 new key \033[1;4B: 0xb039 (M-S-Down)
+1513420988.056664 new key \033[1;5B: 0x5039 (C-Down)
+1513420988.056673 new key \033[1;6B: 0xd039 (C-S-Down)
+1513420988.056681 new key \033[1;7B: 0x7039 (C-M-Down)
+1513420988.056690 new key \033[1;2F: 0x9034 (S-End)
+1513420988.056699 new key \033[1;3F: 0x3034 (M-End)
+1513420988.056707 new key \033[1;4F: 0xb034 (M-S-End)
+1513420988.056716 new key \033[1;5F: 0x5034 (C-End)
+1513420988.056725 new key \033[1;6F: 0xd034 (C-S-End)
+1513420988.056733 new key \033[1;7F: 0x7034 (C-M-End)
+1513420988.056742 new key \033[1;2H: 0x9033 (S-Home)
+1513420988.056751 new key \033[1;3H: 0x3033 (M-Home)
+1513420988.056759 new key \033[1;4H: 0xb033 (M-S-Home)
+1513420988.056769 new key \033[1;5H: 0x5033 (C-Home)
+1513420988.056778 new key \033[1;6H: 0xd033 (C-S-Home)
+1513420988.056787 new key \033[1;7H: 0x7033 (C-M-Home)
+1513420988.056796 new key \033[2;2~: 0x9031 (S-IC)
+1513420988.056804 new key \033[2;3~: 0x3031 (M-IC)
+1513420988.056813 new key \033[2;4~: 0xb031 (M-S-IC)
+1513420988.056822 new key \033[2;5~: 0x5031 (C-IC)
+1513420988.056831 new key \033[2;6~: 0xd031 (C-S-IC)
+1513420988.056839 new key \033[2;7~: 0x7031 (C-M-IC)
+1513420988.056848 new key \033[1;2D: 0x903a (S-Left)
+1513420988.056857 new key \033[1;3D: 0x303a (M-Left)
+1513420988.056866 new key \033[1;4D: 0xb03a (M-S-Left)
+1513420988.056874 new key \033[1;5D: 0x503a (C-Left)
+1513420988.056883 new key \033[1;6D: 0xd03a (C-S-Left)
+1513420988.056892 new key \033[1;7D: 0x703a (C-M-Left)
+1513420988.056901 new key \033[6;2~: 0x9035 (S-NPage)
+1513420988.056909 new key \033[6;3~: 0x3035 (M-NPage)
+1513420988.056918 new key \033[6;4~: 0xb035 (M-S-NPage)
+1513420988.056927 new key \033[6;5~: 0x5035 (C-NPage)
+1513420988.056936 new key \033[6;6~: 0xd035 (C-S-NPage)
+1513420988.056944 new key \033[6;7~: 0x7035 (C-M-NPage)
+1513420988.056953 new key \033[5;2~: 0x9036 (S-PPage)
+1513420988.056969 new key \033[5;3~: 0x3036 (M-PPage)
+1513420988.056979 new key \033[5;4~: 0xb036 (M-S-PPage)
+1513420988.056988 new key \033[5;5~: 0x5036 (C-PPage)
+1513420988.056998 new key \033[5;6~: 0xd036 (C-S-PPage)
+1513420988.057007 new key \033[5;7~: 0x7036 (C-M-PPage)
+1513420988.057016 new key \033[1;2C: 0x903b (S-Right)
+1513420988.057024 new key \033[1;3C: 0x303b (M-Right)
+1513420988.057033 new key \033[1;4C: 0xb03b (M-S-Right)
+1513420988.057042 new key \033[1;5C: 0x503b (C-Right)
+1513420988.057051 new key \033[1;6C: 0xd03b (C-S-Right)
+1513420988.057060 new key \033[1;7C: 0x703b (C-M-Right)
+1513420988.057069 new key \033[1;2A: 0x9038 (S-Up)
+1513420988.057078 new key \033[1;3A: 0x3038 (M-Up)
+1513420988.057086 new key \033[1;4A: 0xb038 (M-S-Up)
+1513420988.057095 new key \033[1;5A: 0x5038 (C-Up)
+1513420988.057104 new key \033[1;6A: 0xd038 (C-S-Up)
+1513420988.057113 new key \033[1;7A: 0x7038 (C-M-Up)
+1513420988.057179 @0 alerts flags added 0x2
+1513420988.057193 spawn: /bin/bash -- 
+1513420988.058470 @0 alerts timer reset 0
+1513420988.058490 session 0 created
+1513420988.058501 writing 207 to client 7
+1513420988.058513 client 7, status interval 15
+1513420988.058534 session 0 has 3 references
+1513420988.058543 session 0 has 2 references
+1513420988.058551 unref client 7 (2 references)
+1513420988.058564 event dispatch exit
+1513420988.058681 format '[#S] ' -> '[0] '
+1513420988.058748 format ' "#{=21:pane_title}" 11:43 16-dec-17' -> ' "joakim-latitude" 11:43 16-dec-17'
+1513420988.058808 format '#{window_flags}' -> '*'
+1513420988.058818 format '#I:#W#{?window_flags,#{window_flags}, }' -> '0:bash*'
+1513420988.059096 @0 active pane not changed
+1513420988.059106 event dispatch enter
+1513420988.059137 event dispatch exit
+1513420988.059150 @0 active pane not changed
+1513420988.059160 event dispatch enter
+1513420988.059251 got 208 from client 7
+1513420988.059262 event dispatch exit
+1513420988.059272 @0 active pane not changed
+1513420988.059279 event dispatch enter
+1513420988.114304 %0 has 113 bytes
+1513420988.114326 @0 alerts timer reset 0
+1513420988.114336 input_parse: %0 ground, 113 bytes: \033[01;32mjoakim@joakim-latitude\033[00m:\033[01;34m~/code/dotfiles\033[00m \033[01;33m(dotfiles:master *)\033[0m\r\r\n\033[01;32m$ \033[0m
+1513420988.114346 input_csi_dispatch: 'm' "" "01"
+1513420988.114371 input_csi_dispatch: 'm' "" "00"
+1513420988.114379 input_csi_dispatch: 'm' "" "01"
+1513420988.114392 input_csi_dispatch: 'm' "" "00"
+1513420988.114399 input_csi_dispatch: 'm' "" "01"
+1513420988.114412 input_csi_dispatch: 'm' "" "0"
+1513420988.114419 input_c0_dispatch: '\r'
+1513420988.114425 input_c0_dispatch: '\r'
+1513420988.114431 input_c0_dispatch: '\n'
+1513420988.114438 input_csi_dispatch: 'm' "" "01"
+1513420988.114447 input_csi_dispatch: 'm' "" "0"
+1513420988.114454 event dispatch exit
+1513420988.114463 @0 active pane changed
+1513420988.114509 format '#{pane_current_command}' -> 'bash'
+1513420988.114517 format '' -> ''
+1513420988.114524 format '#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}' -> 'bash'
+1513420988.114534 @0 name not changed (still bash)
+1513420988.114540 event dispatch enter
+1513420988.114553 event dispatch exit
+1513420988.114561 @0 active pane not changed
+1513420988.114567 event dispatch enter
+1513420989.759395 keys are 1 (:)
+1513420989.759487 complete key : 0x3a
+1513420989.759528 session 0 not pasting
+1513420989.759576 writing key 0x3a (:)
+1513420989.759624 event dispatch exit
+1513420989.759666 @0 active pane not changed
+1513420989.759696 event dispatch enter
+1513420989.759757 event dispatch exit
+1513420989.759803 @0 active pane not changed
+1513420989.759838 event dispatch enter
+1513420989.760120 %0 has 1 bytes
+1513420989.760167 @0 alerts timer reset 0
+1513420989.760205 input_parse: %0 ground, 1 bytes: :
+1513420989.760266 event dispatch exit
+1513420989.760305 @0 active pane changed
+1513420989.760526 format '#{pane_current_command}' -> 'bash'
+1513420989.760566 format '' -> ''
+1513420989.760600 format '#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}' -> 'bash'
+1513420989.760699 @0 name not changed (still bash)
+1513420989.760732 event dispatch enter
+1513420989.760790 event dispatch exit
+1513420989.760836 @0 active pane not changed
+1513420989.760872 event dispatch enter
+1513420989.854690 keys are 1 (q)
+1513420989.854839 complete key q 0x71
+1513420989.854888 session 0 not pasting
+1513420989.854932 writing key 0x71 (q)
+1513420989.854989 event dispatch exit
+1513420989.855037 @0 active pane not changed
+1513420989.855074 event dispatch enter
+1513420989.855144 event dispatch exit
+1513420989.855187 @0 active pane not changed
+1513420989.855222 event dispatch enter
+1513420989.855355 %0 has 1 bytes
+1513420989.855404 @0 alerts timer reset 0
+1513420989.855446 input_parse: %0 ground, 1 bytes: q
+1513420989.855516 event dispatch exit
+1513420989.855562 @0 active pane changed
+1513420989.855601 @0 name timer queued (404739 left)
+1513420989.855638 event dispatch enter
+1513420989.855694 event dispatch exit
+1513420989.855733 @0 active pane changed
+1513420989.855770 @0 name timer already queued (404568 left)
+1513420989.855804 event dispatch enter
+1513420989.971816 keys are 1 (\r)
+1513420989.971922 complete key \r 0xd
+1513420989.971970 session 0 not pasting
+1513420989.972014 writing key 0xd (Enter)
+1513420989.972062 event dispatch exit
+1513420989.972109 @0 active pane changed
+1513420989.972148 @0 name timer already queued (288192 left)
+1513420989.972183 event dispatch enter
+1513420989.972253 event dispatch exit
+1513420989.972294 @0 active pane changed
+1513420989.972339 @0 name timer already queued (288004 left)
+1513420989.972383 event dispatch enter
+1513420989.972460 %0 has 2 bytes
+1513420989.972512 @0 alerts timer reset 0
+1513420989.972565 input_parse: %0 ground, 2 bytes: \r\n
+1513420989.972612 input_c0_dispatch: '\r'
+1513420989.972658 input_c0_dispatch: '\n'
+1513420989.972710 event dispatch exit
+1513420989.972769 @0 active pane changed
+1513420989.972819 @0 name timer already queued (287522 left)
+1513420989.972862 event dispatch enter
+1513420989.972936 event dispatch exit
+1513420989.973070 @0 active pane changed
+1513420989.973121 @0 name timer already queued (287221 left)
+1513420989.973165 event dispatch enter
+1513420990.060257 %0 has 23 bytes
+1513420990.060283 @0 alerts timer reset 0
+1513420990.060291 input_parse: %0 ground, 23 bytes: :q: command not found\r\n
+1513420990.060314 input_c0_dispatch: '\r'
+1513420990.060320 input_c0_dispatch: '\n'
+1513420990.060328 event dispatch exit
+1513420990.060336 @0 active pane changed
+1513420990.060342 @0 name timer already queued (199992 left)
+1513420990.060348 event dispatch enter
+1513420990.060360 event dispatch exit
+1513420990.060368 @0 active pane changed
+1513420990.060375 @0 name timer already queued (199960 left)
+1513420990.060381 event dispatch enter
+1513420990.073813 %0 has 113 bytes
+1513420990.073834 @0 alerts timer reset 0
+1513420990.073843 input_parse: %0 ground, 113 bytes: \033[01;32mjoakim@joakim-latitude\033[00m:\033[01;34m~/code/dotfiles\033[00m \033[01;33m(dotfiles:master *)\033[0m\r\r\n\033[01;32m$ \033[0m
+1513420990.073851 input_csi_dispatch: 'm' "" "01"
+1513420990.073875 input_csi_dispatch: 'm' "" "00"
+1513420990.073882 input_csi_dispatch: 'm' "" "01"
+1513420990.073893 input_csi_dispatch: 'm' "" "00"
+1513420990.073899 input_csi_dispatch: 'm' "" "01"
+1513420990.073910 input_csi_dispatch: 'm' "" "0"
+1513420990.073916 input_c0_dispatch: '\r'
+1513420990.073921 input_c0_dispatch: '\r'
+1513420990.073926 input_c0_dispatch: '\n'
+1513420990.073933 input_csi_dispatch: 'm' "" "01"
+1513420990.073940 input_csi_dispatch: 'm' "" "0"
+1513420990.073946 event dispatch exit
+1513420990.073955 @0 active pane changed
+1513420990.073961 @0 name timer already queued (186373 left)
+1513420990.073966 event dispatch enter
+1513420990.073978 event dispatch exit
+1513420990.073984 @0 active pane changed
+1513420990.073989 @0 name timer already queued (186345 left)
+1513420990.073996 event dispatch enter
+1513420990.261407 @0 name timer expired
+1513420990.261518 event dispatch exit
+1513420990.261571 @0 active pane changed
+1513420990.261866 format '#{pane_current_command}' -> 'bash'
+1513420990.261974 format '' -> ''
+1513420990.262017 format '#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}' -> 'bash'
+1513420990.262078 @0 name not changed (still bash)
+1513420990.262116 event dispatch enter
+1513420990.591835 keys are 1 (:)
+1513420990.591940 complete key : 0x3a
+1513420990.591988 session 0 not pasting
+1513420990.592030 writing key 0x3a (:)
+1513420990.592078 event dispatch exit
+1513420990.592126 @0 active pane not changed
+1513420990.592162 event dispatch enter
+1513420990.592230 event dispatch exit
+1513420990.592272 @0 active pane not changed
+1513420990.592307 event dispatch enter
+1513420990.592514 %0 has 1 bytes
+1513420990.592587 @0 alerts timer reset 0
+1513420990.592632 input_parse: %0 ground, 1 bytes: :
+1513420990.592707 event dispatch exit
+1513420990.592756 @0 active pane changed
+1513420990.592794 @0 name timer queued (168815 left)
+1513420990.592831 event dispatch enter
+1513420990.592898 event dispatch exit
+1513420990.592939 @0 active pane changed
+1513420990.593050 @0 name timer already queued (168560 left)
+1513420990.593087 event dispatch enter
+1513420990.713783 keys are 1 (q)
+1513420990.713860 complete key q 0x71
+1513420990.713896 session 0 not pasting
+1513420990.713928 writing key 0x71 (q)
+1513420990.713964 event dispatch exit
+1513420990.713999 @0 active pane changed
+1513420990.714028 @0 name timer already queued (47581 left)
+1513420990.714055 event dispatch enter
+1513420990.714106 event dispatch exit
+1513420990.714142 @0 active pane changed
+1513420990.714171 @0 name timer already queued (47438 left)
+1513420990.714199 event dispatch enter
+1513420990.714278 %0 has 1 bytes
+1513420990.714312 @0 alerts timer reset 0
+1513420990.714343 input_parse: %0 ground, 1 bytes: q
+1513420990.714393 event dispatch exit
+1513420990.714426 @0 active pane changed
+1513420990.714453 @0 name timer already queued (47154 left)
+1513420990.714478 event dispatch enter
+1513420990.714521 event dispatch exit
+1513420990.714554 @0 active pane changed
+1513420990.714582 @0 name timer already queued (47026 left)
+1513420990.714607 event dispatch enter
+1513420990.762798 @0 name timer expired
+1513420990.762914 event dispatch exit
+1513420990.762977 @0 active pane changed
+1513420990.763313 format '#{pane_current_command}' -> 'bash'
+1513420990.763389 format '' -> ''
+1513420990.763438 format '#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}' -> 'bash'
+1513420990.763503 @0 name not changed (still bash)
+1513420990.763548 event dispatch enter
+1513420990.861827 keys are 1 (a)
+1513420990.861950 complete key a 0x61
+1513420990.862005 session 0 not pasting
+1513420990.862048 writing key 0x61 (a)
+1513420990.862096 event dispatch exit
+1513420990.862144 @0 active pane not changed
+1513420990.862180 event dispatch enter
+1513420990.862248 event dispatch exit
+1513420990.862290 @0 active pane not changed
+1513420990.862331 event dispatch enter
+1513420990.862580 %0 has 1 bytes
+1513420990.862654 @0 alerts timer reset 0
+1513420990.862697 input_parse: %0 ground, 1 bytes: a
+1513420990.862772 event dispatch exit
+1513420990.862821 @0 active pane changed
+1513420990.862860 @0 name timer queued (400161 left)
+1513420990.862897 event dispatch enter
+1513420990.862965 event dispatch exit
+1513420990.863006 @0 active pane changed
+1513420990.863049 @0 name timer already queued (399973 left)
+1513420990.863093 event dispatch enter
+1513420990.942755 keys are 1 (\r)
+1513420990.942870 complete key \r 0xd
+1513420990.942921 session 0 not pasting
+1513420990.942964 writing key 0xd (Enter)
+1513420990.943013 event dispatch exit
+1513420990.943059 @0 active pane changed
+1513420990.943097 @0 name timer already queued (319924 left)
+1513420990.943133 event dispatch enter
+1513420990.943202 event dispatch exit
+1513420990.943243 @0 active pane changed
+1513420990.943288 @0 name timer already queued (319736 left)
+1513420990.943328 event dispatch enter
+1513420990.943403 %0 has 2 bytes
+1513420990.943455 @0 alerts timer reset 0
+1513420990.943507 input_parse: %0 ground, 2 bytes: \r\n
+1513420990.943552 input_c0_dispatch: '\r'
+1513420990.943666 input_c0_dispatch: '\n'
+1513420990.943722 event dispatch exit
+1513420990.943781 @0 active pane changed
+1513420990.943831 @0 name timer already queued (319193 left)
+1513420990.943876 event dispatch enter
+1513420990.943956 event dispatch exit
+1513420990.944003 @0 active pane changed
+1513420990.944048 @0 name timer already queued (318975 left)
+1513420990.944089 event dispatch enter
+1513420991.033136 %0 has 24 bytes
+1513420991.033175 @0 alerts timer reset 0
+1513420991.033184 input_parse: %0 ground, 24 bytes: :qa: command not found\r\n
+1513420991.033212 input_c0_dispatch: '\r'
+1513420991.033220 input_c0_dispatch: '\n'
+1513420991.033228 event dispatch exit
+1513420991.033238 @0 active pane changed
+1513420991.033243 @0 name timer already queued (229772 left)
+1513420991.033249 event dispatch enter
+1513420991.033265 event dispatch exit
+1513420991.033272 @0 active pane changed
+1513420991.033278 @0 name timer already queued (229738 left)
+1513420991.033284 event dispatch enter
+1513420991.047039 %0 has 113 bytes
+1513420991.047060 @0 alerts timer reset 0
+1513420991.047069 input_parse: %0 ground, 113 bytes: \033[01;32mjoakim@joakim-latitude\033[00m:\033[01;34m~/code/dotfiles\033[00m \033[01;33m(dotfiles:master *)\033[0m\r\r\n\033[01;32m$ \033[0m
+1513420991.047077 input_csi_dispatch: 'm' "" "01"
+1513420991.047103 input_csi_dispatch: 'm' "" "00"
+1513420991.047111 input_csi_dispatch: 'm' "" "01"
+1513420991.047121 input_csi_dispatch: 'm' "" "00"
+1513420991.047128 input_csi_dispatch: 'm' "" "01"
+1513420991.047139 input_csi_dispatch: 'm' "" "0"
+1513420991.047145 input_c0_dispatch: '\r'
+1513420991.047150 input_c0_dispatch: '\r'
+1513420991.047155 input_c0_dispatch: '\n'
+1513420991.047162 input_csi_dispatch: 'm' "" "01"
+1513420991.047169 input_csi_dispatch: 'm' "" "0"
+1513420991.047176 event dispatch exit
+1513420991.047184 @0 active pane changed
+1513420991.047190 @0 name timer already queued (215826 left)
+1513420991.047195 event dispatch enter
+1513420991.047206 event dispatch exit
+1513420991.047213 @0 active pane changed
+1513420991.047218 @0 name timer already queued (215798 left)
+1513420991.047224 event dispatch enter
+1513420991.263661 @0 name timer expired
+1513420991.263773 event dispatch exit
+1513420991.263825 @0 active pane changed
+1513420991.264120 format '#{pane_current_command}' -> 'bash'
+1513420991.264170 format '' -> ''
+1513420991.264212 format '#{?pane_in_mode,[tmux],#{pane_current_command}}#{?pane_dead,[dead],}' -> 'bash'
+1513420991.264272 @0 name not changed (still bash)
+1513420991.264309 event dispatch enter
+1513420991.484846 keys are 1 (\004)
+1513420991.485046 complete key \004 0x4
+1513420991.485097 session 0 not pasting
+1513420991.485143 writing key 0x4 (C-d)
+1513420991.485192 event dispatch exit
+1513420991.485240 @0 active pane not changed
+1513420991.485276 event dispatch enter
+1513420991.485346 event dispatch exit
+1513420991.485397 @0 active pane not changed
+1513420991.485433 event dispatch enter
+1513420991.485534 %0 has 8 bytes
+1513420991.485624 @0 alerts timer reset 0
+1513420991.485683 input_parse: %0 ground, 8 bytes: logout\r\n
+1513420991.485790 input_c0_dispatch: '\r'
+1513420991.485829 input_c0_dispatch: '\n'
+1513420991.485869 event dispatch exit
+1513420991.485914 @0 active pane changed
+1513420991.485952 @0 name timer queued (277913 left)
+1513420991.485989 event dispatch enter
+1513420991.486050 event dispatch exit
+1513420991.486098 @0 active pane changed
+1513420991.486136 @0 name timer already queued (277729 left)
+1513420991.486170 event dispatch enter
+1513420991.489945 session 0 has 2 references
+1513420991.490035 session 0 destroyed
+1513420991.490082 session 0 has 2 references
+1513420991.490135 session 0 has 1 references
+1513420991.490192 event dispatch exit
+1513420991.490230 writing 203 to client 7
+1513420991.490281 event dispatch enter
+1513420991.490378 session 0 freed (0 references)
+1513420991.490428 event dispatch exit
+1513420991.490472 event dispatch enter
+1513420991.490725 got 205 from client 7
+1513420991.490999 writing 204 to client 7
+1513420991.491052 event dispatch exit
+1513420991.491090 event dispatch enter
+1513420991.491218 event dispatch exit
+1513420991.491257 event dispatch enter
+1513420991.492052 lost client 7
+1513420991.492197 unref client 7 (1 references)
+1513420991.492277 event dispatch exit

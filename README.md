@@ -1,3 +1,7 @@
+# solarized
+
+`git clone https://github.com/Anthony25/gnome-terminal-colors-solarized`
+
 # vimrc
 
-Download `git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`
+`git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim`

@@ -1,0 +1,6 @@
+if [ ! -a ~/.inputrc ]; then echo '$include /etc/inputrc' > ~/.inputrc; fi
+set editing-mode vi
+set page-completions Off
+set completion-query-items 350
+set show-all-if-ambiguous On
+set completion-ignore-case On

@@ -1,0 +1,2 @@
+git/*
+!git/install_git_extras.sh

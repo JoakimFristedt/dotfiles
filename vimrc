@@ -6,12 +6,9 @@ Plugin 'nvie/vim-flake8'
 Plugin 'kien/ctrlp.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'scrooloose/nerdtree'
-Plugin 'pearofducks/solarized-powerlines'
 Plugin 'tpope/vim-surround'
-Plugin 'bling/vim-airline'
+Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ervandew/supertab'
-Plugin 'kburdett/vim-nuuid'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
@@ -31,16 +28,16 @@ set directory=$HOME/.vim/swap " no more swapfiles in the same directory
 set backupdir=$HOME/.vim/backups " no more backupfiles in the same directory
 set backupskip=/tmp/*,/private/tmp/* " http://vim.wikia.com/wiki/Editing_crontab
 set backup
-
+set linespace=0
 set splitbelow
 set splitright
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set visualbell " no beep but visual bell
-set cursorline " Highlight the screen line of the cursor
-set ttyfast " Indicates a fast terminal connection.
-set ruler " Show the line and column number of the cursor position
+"set cursorline " Highlight the screen line of the cursor
+"set ttyfast " Indicates a fast terminal connection.
+"set ruler " Show the line and column number of the cursor position
 set laststatus=2 " = always
 set hlsearch
 set ignorecase " case-sensitive search intelligently
@@ -50,10 +47,10 @@ set smartcase " all lower -> insensitive, on upper case -> sensitive
 nnoremap / /\v
 vnoremap / /\v
 
-autocmd VimEnter * wincmd w
-autocmd BufEnter * silent! lcd %:p:h
+"autocmd BufEnter * silent! lcd %:p:h
 autocmd VimEnter * NERDTree
-autocmd BufWinEnter * NERDTreeMirror
+autocmd VimEnter * wincmd w
+"autocmd BufWinEnter * NERDTreeMirror
 
 " Stifle many interruptive "Hit Enter" prompts
 set shortmess=atI
@@ -65,8 +62,9 @@ let g:solarized_visibility="high"
 let g:solarized_contrast="high"
 colorscheme solarized
 set background=dark
-let g:airline_theme='solarized'
-
+let g:airline_powerline_fonts=1
+let g:airline_solarized_bg='dark'
+"let g:airline#extensions#tabline#enabled=1
 set foldmethod=indent
 set foldlevel=99
 set encoding=utf-8
@@ -74,8 +72,13 @@ set clipboard=unnamedplus
 set backspace=indent,eol,start
 set number
 let python_highlight_all=1
-let g:SuperTabMappingForward = '<c-space>'
-let g:SuperTabMappingBackward = '<s-c-space>'
+
+let g:SuperTabMappingForward='<c-space>'
+let g:SuperTabMappingBackward='<s-c-space>'
+
+let NERDTreeMinimalUI=1
+let NERDTreeDirArrows=1
+let NERDTreeAutoDeleteBuffer=1
 
 " Leader=Space
 let mapleader=" "
@@ -96,7 +99,7 @@ map  <Leader>w <Plug>(easymotion-bd-w)
 nmap <Leader>w <Plug>(easymotion-overwin-w)
 
 " Fuzzy search change / to z/ for default
-map / <Plug>(incsearch-fuzzy-/)
+map z/ <Plug>(incsearch-fuzzy-/)
 "map z? <Plug>(incsearch-fuzzy-?)
 "map zg/ <Plug>(incsearch-fuzzy-stay)
 
@@ -146,4 +149,3 @@ map <leader>tl :set list!<CR>
 
 " Escape shortcut
 inoremap jj <ESC>
-

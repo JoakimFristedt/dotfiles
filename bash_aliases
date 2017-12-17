@@ -7,8 +7,9 @@ alias c=clear
 
 alias rmr='rm -ri'
 
-alias ll='ls -ll'
-alias la='ls -al'
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -l'
 
 alias cp='cp -iv'
 alias mv='mv -iv'

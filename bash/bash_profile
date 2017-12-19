@@ -18,6 +18,8 @@ fi
 # set PATH so it includes user's private bin directories
 PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
+export EDITOR=/usr/bin/vim
+
 # Java
 export JAVA_HOME="/usr/lib/jvm/default-java"
 export PATH="$JAVA_HOME:$PATH"

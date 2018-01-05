@@ -14,6 +14,8 @@ Plugin 'haya14busa/incsearch.vim'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch-easymotion.vim'
 Plugin 'tmux-plugins/vim-tmux'
+Plugin 'tpope/vim-repeat'
+Plugin 'svermeulen/vim-easyclip'
 call vundle#end()
 
 set nocompatible
@@ -22,8 +24,7 @@ filetype off
 syntax on
 
 set undodir=$HOME/.vim/undos
-set undofile " new feature of undo files
-
+set undofile
 set directory=$HOME/.vim/swap " no more swapfiles in the same directory
 set backupdir=$HOME/.vim/backups " no more backupfiles in the same directory
 set backupskip=/tmp/*,/private/tmp/* " http://vim.wikia.com/wiki/Editing_crontab
@@ -33,6 +34,7 @@ set splitbelow
 set splitright
 set tabstop=4
 set shiftwidth=4
+autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 set expandtab
 set visualbell " no beep but visual bell
 "set cursorline " Highlight the screen line of the cursor
@@ -42,17 +44,17 @@ set hlsearch
 set ignorecase " case-sensitive search intelligently
 set smartcase " all lower -> insensitive, on upper case -> sensitive
 
+" Stifle many interruptive "Hit Enter" prompts
+set shortmess=atI
+set t_Co=256
+
 " searches use normal regexes
-nnoremap / /\v
-vnoremap / /\v
+"nnoremap / /\v
+"vnoremap / /\v
 
 "autocmd BufEnter * silent! lcd %:p:h
 autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd w
-
-" Stifle many interruptive "Hit Enter" prompts
-set shortmess=atI
-set t_Co=256
 
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
@@ -60,17 +62,20 @@ let g:solarized_visibility="high"
 let g:solarized_contrast="high"
 colorscheme solarized
 set background=dark
+
 let g:airline_powerline_fonts=1
 let g:airline_solarized_bg='dark'
 "let g:airline#extensions#tabline#enabled=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
+
 set foldmethod=indent
 set foldlevel=99
 set encoding=utf-8
 set clipboard=unnamedplus
 set backspace=indent,eol,start
 set number
+
 let python_highlight_all=1
 
 let g:SuperTabMappingForward='<c-space>'
@@ -88,7 +93,7 @@ map  <Leader>f <Plug>(easymotion-bd-f)
 nmap <Leader>f <Plug>(easymotion-overwin-f)
 
 " s{char}{char} to move to {char}{char}
-nmap s <Plug>(easymotion-overwin-f2)
+"nmap s <Plug>(easymotion-overwin-f2)
 
 " Move to line
 map <Leader>L <Plug>(easymotion-bd-jk)
@@ -114,8 +119,7 @@ function! s:config_easyfuzzymotion(...) abort
   \ }), get(a:, 1, {}))
 endfunction
 
-"noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_easyfuzzymotion())
-noremap <silent><expr> / incsearch#go(<SID>config_easyfuzzymotion())
+noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_easyfuzzymotion())
 
 let g:SuperTabMappingForward = '<nul>'
 let g:SuperTabMappingBackward = '<s-nul>'

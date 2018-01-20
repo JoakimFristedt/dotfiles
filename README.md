@@ -9,3 +9,8 @@
 # tmux
 
 `git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm`
+
+# i3wm
+
+`sudo apt-get install i3`
+

@@ -14,3 +14,14 @@
 
 `sudo apt-get install i3`
 
+## Nice to have
+
+* xbacklight
+* alsa-utils
+* pulseaudio
+* playerctl
+* lxappearance
+* pcmanfm
+* arandr
+* nm-applet
+* Unclutter

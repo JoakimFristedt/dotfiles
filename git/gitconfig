@@ -1,0 +1,28 @@
+[user]
+	email = joakim.fristedt@findwise.com
+	name = Joakim Fristedt
+[core]
+	excludesfile = ~/.gitignore
+	editor = /usr/bin/vim
+[color]
+	ui = auto
+[branch]
+	autosetuprebase = always
+[alias]
+    tree = log --graph --pretty=format:'%C(white bold dim)%h%Creset%C(green)%d%Creset %C(white)%s%C(reset) (by %C(green dim)%an %C(red dim)%ar%C(reset))%Creset' --all
+	brtree = log --graph --pretty=format:'%C(white bold dim)%h%Creset%C(green)%d%Creset %C(white)%s%C(reset) (by %C(green dim)%an %C(red dim)%ar%C(reset))%Creset' --simplify-by-decoration --all
+    t = "!git tree"
+    d = "!f() { git diff  HEAD~\"$1^\"; }; f"
+	b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
+	gc = checkout
+	a = add
+	s = status -s
+	co = checkout
+	cob = checkout -b
+	la = "!git config -l | grep alias | cut -c 7-"
+	dn = diff --name-only
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process

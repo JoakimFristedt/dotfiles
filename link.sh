@@ -11,3 +11,4 @@ ln -s $PWD/vim/vimrc ~/.vimrc
 ln -s $PWD/vim/ideavimrc ~/.ideavimrc
 
 ln -s $PWD/git/gitignore ~/.gitignore
+ln -s $PWD/git/gitconfig ~/.gitconfig

@@ -1,2 +1,2 @@
-git/*
-!git/install_git_extras.sh
+git/git-completion.bash
+git/git-prompt.sh

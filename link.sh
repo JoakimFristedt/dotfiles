@@ -7,6 +7,7 @@ ln -s $PWD/bash/bashrc ~/.bashrc
 
 ln -s $PWD/tmux/tmux.conf ~/.tmux.conf
 
+mkdir -p $PWD/.vim/{undos,swap,backups}
 ln -s $PWD/vim/vimrc ~/.vimrc
 ln -s $PWD/vim/ideavimrc ~/.ideavimrc
 

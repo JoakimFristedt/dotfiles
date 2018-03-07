@@ -155,3 +155,5 @@ map <leader>tl :set list!<CR>
 
 " Escape shortcut
 inoremap jj <ESC>
+
+map <leader>r :NERDTreeFind<cr>

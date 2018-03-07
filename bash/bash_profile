@@ -22,7 +22,7 @@ export EDITOR=/usr/bin/vim
 
 # Java
 export JAVA_HOME="/usr/lib/jvm/default-java"
-export PATH="$JAVA_HOME:$PATH"
+export PATH="$JAVA_HOME/bin:$PATH"
 
 # Maven
 export M2_HOME="/opt/apache-maven-3.5.2"

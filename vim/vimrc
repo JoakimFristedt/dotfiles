@@ -15,7 +15,7 @@ Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch-easymotion.vim'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat'
-Plugin 'svermeulen/vim-easyclip'
+Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 
 set nocompatible
@@ -33,9 +33,9 @@ set linespace=0
 set splitbelow
 set splitright
 set tabstop=4
+set expandtab
 set shiftwidth=4
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
-set expandtab
 set visualbell " no beep but visual bell
 "set cursorline " Highlight the screen line of the cursor
 set ttyfast " Indicates a fast terminal connection.
@@ -77,9 +77,6 @@ set backspace=indent,eol,start
 set number
 
 let python_highlight_all=1
-
-let g:SuperTabMappingForward='<c-space>'
-let g:SuperTabMappingBackward='<s-c-space>'
 
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
@@ -123,14 +120,10 @@ endfunction
 
 noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_easyfuzzymotion())
 
-let g:SuperTabMappingForward = '<nul>'
-let g:SuperTabMappingBackward = '<s-nul>'
-
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-inoremap <S-Tab> <C-d>
 
 nmap <silent> <C-T> :NERDTreeToggle<CR>
 

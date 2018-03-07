@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# pavucontrol to choose output
+
+MODIFY_AUDIO="$(pactl list short sinks | sed -e 's,^\([0-9][0-9]*\)[^0-9].*,\1,' | head -n 1)"
+VOLUME="$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')"
+MUTE_STATE="$(pactl list sinks | grep '^[[:space:]]Mute:' | head -n $(( $SINK + 1 )) | tail -n 1 | sed -e 's,.* \(.*\),\1,')"
+
+action() {
+    pactl $2 $MODIFY_AUDIO $3
+}
+
+get_volume() {
+    if [ "$MUTE_STATE" == "yes" ]; then
+        echo "MUTE"
+    else
+        echo $VOLUME%
+    fi
+}
+
+$1 $@

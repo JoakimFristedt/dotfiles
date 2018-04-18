@@ -21,6 +21,9 @@
 	cob = checkout -b
 	la = "!git config -l | grep alias | cut -c 7-"
 	dn = diff --name-only
+    cm = commit -m
+    ca = commit --amend
+    pull = pull --prune
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f

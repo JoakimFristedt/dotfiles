@@ -16,6 +16,7 @@ Plugin 'haya14busa/incsearch-easymotion.vim'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'gcmt/wildfire.vim'
 call vundle#end()
 
 set nocompatible
@@ -150,3 +151,7 @@ map <leader>tl :set list!<CR>
 inoremap jj <ESC>
 
 map <leader>r :NERDTreeFind<cr>
+
+nmap <leader>a <Plug>(wildfire-quick-select)
+
+let g:wildfire_objects = ["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]

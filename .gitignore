@@ -1,2 +1,3 @@
 git/git-completion.bash
 git/git-prompt.sh
+completion/bash_completion.d

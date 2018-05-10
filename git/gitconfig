@@ -23,7 +23,7 @@
 	dn = diff --name-only
     cm = commit -m
     ca = commit --amend
-    pull = pull --prune
+    pl = pull --prune
 [filter "lfs"]
 	required = true
 	clean = git-lfs clean -- %f

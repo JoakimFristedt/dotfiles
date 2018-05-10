@@ -155,3 +155,6 @@ map <leader>r :NERDTreeFind<cr>
 nmap <leader>a <Plug>(wildfire-quick-select)
 
 let g:wildfire_objects = ["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
+
+" format json
+" %!python -m json.tool

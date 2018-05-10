@@ -23,6 +23,6 @@ alias openPorts='sudo lsof -i | grep LISTEN'
 
 alias fix-line-endings='find ./ -type f -exec dos2unix {} \;'
 
-alias intellij="nohup idea . &"
+alias intellij="nohup idea.sh . &"
 alias mci="mvn clean install"
 alias mjr="mvn jetty:run"

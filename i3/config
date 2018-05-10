@@ -55,7 +55,7 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
+# split in horizontal orientation, ö
 bindsym $mod+odiaeresis split h
 
 # split in vertical orientation
@@ -118,9 +118,6 @@ bindsym $mod+Shift+z move workspace to output HDMI-1
 
 exec_always feh --bg-fill ~/Pictures/desktop.png
 
-#assign [class="(?i)google-chrome"] $workspace1
-#assign [class="(?i)gnome-terminal"] $workspace2
-#assign [class="(?i)jetbrains-idea-ce"] $workspace3
 for_window [class="(?i)spotify"] move to workspace $workspace10
 
 # reload the configuration file
@@ -130,7 +127,11 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 
 # exit i3 (logs you out of your X session)
+
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
+
+# Sway exit
+#bindsym $mod+Shift+e exit
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -180,7 +181,6 @@ client.focused_inactive #002b36 #073642 #839496 #073642
 client.unfocused        #002b36 #073642 #839496 #073642
 client.urgent           #002b36 #dc322f #fdf6e3 #002b36
 
-# Move to .xinitrc?
 exec_always setxkbmap -option caps:escape
 exec_always xset r rate 200 35
 
@@ -189,6 +189,9 @@ bindsym $mod+Mod1+l exec i3lock --color 002b36
 
 # Work screen
 exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 2560x1440 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
+
+# ica
+#exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
 
 # Presentation mode
 bindsym $mod+p exec xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1

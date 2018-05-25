@@ -32,3 +32,5 @@ sudo apt-get install build-essential python-dev python3-dev
 * arandr
 * nm-applet
 * Unclutter
+* feh
+* i3blocks

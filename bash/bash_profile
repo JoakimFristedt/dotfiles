@@ -21,13 +21,13 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export EDITOR=/usr/bin/vim
 
 # Java
-export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
+export JAVA_HOME="/usr/lib/jvm/default-java"
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Maven
-export M2_HOME="/opt/apache-maven-3.5.2"
+export M2_HOME="/opt/apache-maven-3.5.3"
 export M2="$M2_HOME/bin"
 export MAVEN_OPTS="-Xms1g -Xmx1g"
 export PATH="$M2:$PATH"
 
-PATH="$PATH:/opt/idea-IC-181.4668.68/bin"
+PATH="$PATH:/opt/idea-IC-181.5087.20/bin"

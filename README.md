@@ -35,3 +35,4 @@ sudo apt-get install build-essential python-dev python3-dev
 * feh
 * i3blocks
 * urlview
+* xclip

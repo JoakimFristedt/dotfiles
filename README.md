@@ -34,3 +34,4 @@ sudo apt-get install build-essential python-dev python3-dev
 * Unclutter
 * feh
 * i3blocks
+* urlview

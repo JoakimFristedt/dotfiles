@@ -30,4 +30,4 @@ export M2="$M2_HOME/bin"
 export MAVEN_OPTS="-Xms1g -Xmx1g"
 export PATH="$M2:$PATH"
 
-PATH="$PATH:/opt/idea-IC-181.5087.20/bin"
+PATH="$PATH:/opt/idea/bin"

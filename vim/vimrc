@@ -17,6 +17,7 @@ Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'gcmt/wildfire.vim'
+Plugin '907th/vim-auto-save'
 call vundle#end()
 
 set nocompatible
@@ -26,8 +27,8 @@ syntax on
 
 set undodir=$HOME/.vim/undos
 set undofile
-set directory=$HOME/.vim/swap " no more swapfiles in the same directory
-set backupdir=$HOME/.vim/backups " no more backupfiles in the same directory
+set directory=$HOME/.vim/swap
+set backupdir=$HOME/.vim/backups
 set backupskip=/tmp/*,/private/tmp/* " http://vim.wikia.com/wiki/Editing_crontab
 set backup
 set linespace=0
@@ -156,5 +157,11 @@ nmap <leader>a <Plug>(wildfire-quick-select)
 
 let g:wildfire_objects = ["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 
+let g:auto_save=1
+let g:auto_save_in_insert_mode=0
+let g:auto_save_silent=1
+set noswapfile
+
 " format json
 " %!python -m json.tool
+

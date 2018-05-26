@@ -24,9 +24,9 @@ install() {
         echo "Not extracting $idea_tar_file since $idea_full_install_path exists"
     fi
 
-    symlink_idea_tar_file="$install_dir/idea"
-    ln -sf $install_dir/$idea_dir_name $symlink_idea_tar_file
-    echo "symlink_idea_tar_file $symlink_idea_tar_file created for $install_dir/$idea_dir_name"
+    symlink_idea_file="$install_dir/idea"
+    ln -sf $install_dir/$idea_dir_name $symlink_idea_file
+    echo "Symlink $symlink_idea_file created for $install_dir/$idea_dir_name"
 }
 
 install

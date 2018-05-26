@@ -11,6 +11,3 @@ install() {
 
 install $prompt
 install $completion
-
-
-

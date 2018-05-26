@@ -1,0 +1,33 @@
+#!/bin/bash
+
+maven_version="3.5.3"
+maven_dir_name="apache-maven-$maven_version"
+full_maven_tar_file_name="$maven_dir_name-bin.tar.gz"
+
+base_url="http://apache.mirrors.spacedump.net/maven/maven-3/$maven_version/binaries/$full_maven_tar_file_name"
+install_dir="/opt"
+
+install() {
+    maven_tar_file="$install_dir/$full_maven_tar_file_name"
+    full_install_path="$install_dir/$maven_dir_name"
+
+    if [ ! -f "$maven_tar_file" ]; then
+        echo "Downloading $full_maven_tar_file_name to $maven_tar_file"
+        wget --quiet -c -P $install_dir $base_url/$full_maven_tar_file_name
+    else
+        echo "$maven_tar_file already exists, not downloading"
+    fi
+
+    if [ ! -d "$maven_dir_name" ]; then
+        tar -xf $maven_tar_file -C $install_dir
+        echo "Extracted $maven_tar_file to $full_install_path"
+    else
+        echo "Not extracting $maven_tar_file since $full_install_path exists"
+    fi
+
+    symlink_maven_file="$install_dir/maven"
+    ln -sf $full_install_path $symlink_maven_file
+    echo "Symlink $symlink_maven_file created for $full_install_path"
+}
+
+install

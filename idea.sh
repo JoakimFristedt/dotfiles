@@ -1,7 +1,7 @@
 #!/bin/bash
 
 base_url="https://download.jetbrains.com/idea"
-idea_version="ideaIC-2018.1.3"
+idea_version="ideaIC-2018.1.4"
 extension="tar.gz"
 install_dir="/opt"
 

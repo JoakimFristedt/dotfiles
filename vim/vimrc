@@ -27,8 +27,8 @@ syntax on
 
 set undodir=$HOME/.vim/undos
 set undofile
-set directory=$HOME/.vim/swap
-set backupdir=$HOME/.vim/backups
+set directory=$HOME/.vim/swap " no more swapfiles in the same directory
+set backupdir=$HOME/.vim/backups " no more backupfiles in the same directory
 set backupskip=/tmp/*,/private/tmp/* " http://vim.wikia.com/wiki/Editing_crontab
 set backup
 set linespace=0

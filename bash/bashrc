@@ -114,8 +114,9 @@ fi
 shopt -s histappend
 PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
-if [ -f ~/.git-completion.bash ]; then
-    source ~/.git-completion.bash
+if [ -f ~/.bash_completion.d/.git-completion.bash ]; then
+    source /usr/share/bash-completion/completions/git
+    source ~/.bash_completion.d/.git-completion.bash
     source ~/.git-prompt.sh
 fi
 

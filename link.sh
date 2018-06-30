@@ -15,3 +15,4 @@ ln -s $DIR/vim/ideavimrc ~/.ideavimrc
 
 ln -s $DIR/git/gitignore ~/.gitignore
 ln -s $DIR/git/gitconfig ~/.gitconfig
+ln -s $DIR/git/git-prompt.sh ~/.git-prompt.sh

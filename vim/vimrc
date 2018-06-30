@@ -38,6 +38,7 @@ set tabstop=4
 set expandtab
 set shiftwidth=4
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 set visualbell " no beep but visual bell
 "set cursorline " Highlight the screen line of the cursor
 set ttyfast " Indicates a fast terminal connection.

@@ -29,3 +29,5 @@ alias mci="mvn clean install"
 alias mjr="mvn jetty:run"
 alias mvs="mvn versions:set"
 alias mvc="mvn versions:commit"
+
+alias vimrc="vim ~/.vimrc"

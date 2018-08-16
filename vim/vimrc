@@ -18,6 +18,7 @@ Plugin 'tpope/vim-repeat'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'gcmt/wildfire.vim'
 Plugin '907th/vim-auto-save'
+Plugin 'simnalamburt/vim-mundo'
 call vundle#end()
 
 set nocompatible
@@ -84,11 +85,11 @@ let python_highlight_all=1
 let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
 let NERDTreeAutoDeleteBuffer=1
-let g:NERDTreeHijackNetrw = 1
+let g:NERDTreeHijackNetrw=1
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 " Leader=Space
 let mapleader=" "
-let g:ctrlp_cmd = 'CtrlPBuffer'
+let g:ctrlp_cmd='CtrlPBuffer'
 
 " <Leader>f{char} to move to {char}
 map  <Leader>f <Plug>(easymotion-bd-f)
@@ -166,3 +167,8 @@ set noswapfile
 " format json
 " %!python -m json.tool
 
+vnoremap < <gv
+vnoremap > >gv
+nnoremap <C-N> :MundoToggle<CR>
+let g:mundo_right=1
+let g:mundo_close_on_revert=1

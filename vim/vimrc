@@ -22,6 +22,8 @@ Plugin 'simnalamburt/vim-mundo'
 Plugin 'majutsushi/tagbar' " sudo apt-get install ctags
 Plugin 'elzr/vim-json'
 Plugin 'mkitt/tabline.vim'
+Plugin 'AndrewRadev/linediff.vim'
+Plugin 'godlygeek/tabular'
 call vundle#end()
 
 set nocompatible
@@ -45,12 +47,11 @@ set tabstop=4
 set expandtab
 set shiftwidth=4
 set visualbell
-"set cursorline " Highlight the screen line of the cursor
-set ttyfast " Indicates a fast terminal connection.
-set laststatus=2 " = always
+set ttyfast
+set laststatus=2
 set hlsearch
-set ignorecase " case-sensitive search intelligently
-set smartcase " all lower -> insensitive, on upper case -> sensitive
+set ignorecase
+set smartcase
 set foldmethod=indent
 set foldlevel=99
 set encoding=utf-8
@@ -72,8 +73,8 @@ autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
-let g:solarized_visibility="high"
-let g:solarized_contrast="high"
+let g:solarized_visibility='high'
+let g:solarized_contrast='high'
 colorscheme solarized
 set background=dark
 
@@ -107,32 +108,32 @@ let g:mundo_close_on_revert=1
 let g:vim_json_syntax_conceal=2
 
 " <Leader>f{char} to move to {char}
-map  <Leader>f <Plug>(easymotion-bd-f)
-nmap <Leader>f <Plug>(easymotion-overwin-f)
+map  <leader>f <Plug>(easymotion-bd-f)
+nmap <leader>f <Plug>(easymotion-overwin-f)
 
 " Move to line
-map <Leader>L <Plug>(easymotion-bd-jk)
-nmap <Leader>L <Plug>(easymotion-overwin-line)
+map <leader>L <Plug>(easymotion-bd-jk)
+nmap <leader>L <Plug>(easymotion-overwin-line)
 
 " Move to word
-map  <Leader>w <Plug>(easymotion-bd-w)
-nmap <Leader>w <Plug>(easymotion-overwin-w)
+map  <leader>w <Plug>(easymotion-bd-w)
+nmap <leader>w <Plug>(easymotion-overwin-w)
 
-" Fuzzy search change / to z/ for default
-map z/ <Plug>(incsearch-fuzzy-/)
-"map z? <Plug>(incsearch-fuzzy-?)
-"map zg/ <Plug>(incsearch-fuzzy-stay)
-
+map <leader>/ <Plug>(incsearch-fuzzy-/)
 
 noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_easyfuzzymotion())
+noremap H ^
+noremap L $
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <BS> :nohlsearch<CR>
 nnoremap <C-N> :MundoToggle<CR>
-vnoremap H ^
-vnoremap L $
+nnoremap <leader>1 1gt<CR>
+nnoremap <leader>2 2gt<CR>
+nnoremap <leader>3 3gt<CR>
+
 inoremap <Up> <Nop>
 inoremap <Down> <Nop>
 inoremap <Left> <Nop>
@@ -157,7 +158,7 @@ map <leader>r :NERDTreeFind<cr>
 nmap <leader>a <Plug>(wildfire-quick-select)
 nmap <F8> :TagbarToggle<CR>
 
-autocmd Filetype sh nnoremap <Leader>b :!bash % <CR>
+autocmd Filetype sh nnoremap <leader>b :!bash % <CR>
 
 " fuzzy-search with EasyMotion
 function! s:config_easyfuzzymotion(...) abort

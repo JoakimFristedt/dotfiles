@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# man xkeyboard-config
+
+sudo apt-get install dconf-tools
+
+dconf write /org/gnome/desktop/input-sources/xkb-options "['caps:escape']"
+
+dconf read /org/gnome/desktop/input-sources/xkb-options
+

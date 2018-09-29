@@ -9,7 +9,7 @@
 ## YouCompleteMe
 
 ```
-sudo apt-get install build-essential python-dev python3-dev
+sudo apt-get install build-essential python-dev python3-dev cmake
 ~/.vim/bundle/YouCompleteMe/install.py
 ```
 

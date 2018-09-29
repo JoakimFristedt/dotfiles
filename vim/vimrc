@@ -73,7 +73,7 @@ autocmd VimEnter * wincmd w
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType python setlocal ts=2 sts=2 sw=2 expandtab
-
+autocmd Filetype sh nnoremap <leader>b :!bash % <CR>
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
 let g:solarized_visibility='high'
@@ -96,7 +96,7 @@ let g:NERDTreeHijackNetrw=1
 let NERDTreeIgnore = ['\.pyc$', '\.class$']
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 " Leader=Space
-let mapleader=" "
+let mapleader=' '
 let g:ctrlp_cmd='CtrlPBuffer'
 
 let g:wildfire_objects = ["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
@@ -110,9 +110,9 @@ let g:mundo_close_on_revert=1
 
 let g:vim_json_syntax_conceal=2
 
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger='<tab>'
+let g:UltiSnipsJumpForwardTrigger='<c-tab>'
+let g:UltiSnipsJumpBackwardTrigger='<s-tab>'
 
 let g:ycm_collect_identifiers_from_tags_files=1 " Let YCM read tags from Ctags file
 let g:ycm_use_ultisnips_completer=1 " Default 1, just ensure
@@ -175,7 +175,7 @@ map <leader>r :NERDTreeFind<cr>
 nmap <leader>a <Plug>(wildfire-quick-select)
 nmap <F8> :TagbarToggle<CR>
 
-autocmd Filetype sh nnoremap <leader>b :!bash % <CR>
+highlight NERDTreeOpenable ctermfg=1
 
 " fuzzy-search with EasyMotion
 function! s:config_easyfuzzymotion(...) abort

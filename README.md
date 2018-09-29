@@ -27,16 +27,17 @@ Clone and follow instructions [here](https://github.com/free5lot/hid-apple-patch
 
 ## Nice to have
 
-* xbacklight
-* alsa-utils
-* pulseaudio
-* playerctl
-* lxappearance
-* pcmanfm
-* arandr
-* nm-applet
-* Unclutter
-* feh
-* i3blocks
-* urlview
-* xclip
+sudo apt-get install \
+xbacklight \
+alsa-utils \
+pulseaudio \
+playerctl \
+lxappearance \
+pcmanfm \
+arandr \
+nm-applet \
+Unclutter \
+feh \
+i3blocks \
+urlview \
+xclip

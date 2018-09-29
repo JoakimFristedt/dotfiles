@@ -6,7 +6,6 @@ URL="https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/availab
 COMPLETIONS=("tmux.completion.bash" "maven.completion.bash" "ssh.completion.bash" "git.completion.bash")
 
 DIR="completion/bash_completion.d"
-COMPLETION_DIR="~/.bash_completion.d"
 
 if [ ! -d $DIR ]; then
     mkdir $DIR
@@ -20,7 +19,7 @@ ln -sf $SCRIPT_DIR/completion/bash_completion ~/.bash_completion
 
 
 if [ ! -d "~/.bash_completion.d" ]; then
-    mkdir $COMPLETION_DIR
+    mkdir ~/.bash_completion.d
 fi
 
 ln -sf $SCRIPT_DIR/completion/bash_completion.d/* ~/.bash_completion.d/

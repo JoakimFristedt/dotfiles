@@ -1,10 +1,11 @@
 #!/bin/bash
 
-maven_version="3.5.3"
+
+maven_version="3.5.4"
 maven_dir_name="apache-maven-$maven_version"
 full_maven_tar_file_name="$maven_dir_name-bin.tar.gz"
 
-base_url="http://apache.mirrors.spacedump.net/maven/maven-3/$maven_version/binaries/$full_maven_tar_file_name"
+base_url="http://apache.mirrors.spacedump.net/maven/maven-3/$maven_version/binaries"
 install_dir="/opt"
 
 install() {
@@ -13,7 +14,7 @@ install() {
 
     if [ ! -f "$maven_tar_file" ]; then
         echo "Downloading $full_maven_tar_file_name to $maven_tar_file"
-        wget --quiet -c -P $install_dir $base_url/$full_maven_tar_file_name
+        wget -c -P $install_dir $base_url/$full_maven_tar_file_name
     else
         echo "$maven_tar_file already exists, not downloading"
     fi

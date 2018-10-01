@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 maven_version="3.5.4"
 maven_dir_name="apache-maven-$maven_version"
 full_maven_tar_file_name="$maven_dir_name-bin.tar.gz"

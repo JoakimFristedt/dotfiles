@@ -25,19 +25,28 @@ sudo apt-get install build-essential python-dev python3-dev cmake
 
 Clone and follow instructions [here](https://github.com/free5lot/hid-apple-patched)
 
+# Must have
+
+```
+sudo apt-get install \
+  xclip \
+  jq \
+  urlview \
+```
 ## Nice to have
 
+```
 sudo apt-get install \
-xbacklight \
-alsa-utils \
-pulseaudio \
-playerctl \
-lxappearance \
-pcmanfm \
-arandr \
-nm-applet \
-Unclutter \
-feh \
-i3blocks \
-urlview \
-xclip
+  xbacklight \
+  alsa-utils \
+  pulseaudio \
+  playerctl \
+  lxappearance \
+  pcmanfm \
+  arandr \
+  nm-applet \
+  Unclutter \
+  feh \
+  i3blocks \
+  xclip
+```

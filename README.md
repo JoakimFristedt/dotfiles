@@ -45,8 +45,8 @@ sudo apt-get install \
   pcmanfm \
   arandr \
   nm-applet \
-  Unclutter \
+  unclutter \
   feh \
   i3blocks \
-  xclip
+  ctags
 ```

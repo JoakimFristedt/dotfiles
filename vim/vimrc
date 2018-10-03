@@ -26,6 +26,8 @@ Plugin 'tpope/vim-surround'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
 call vundle#end()
 
 set nocompatible
@@ -72,7 +74,7 @@ autocmd VimEnter * wincmd w
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType python setlocal ts=2 sts=2 sw=2 expandtab
-autocmd Filetype sh nnoremap <leader>b :!bash % <CR>
+
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
 let g:solarized_visibility='high'
@@ -175,6 +177,9 @@ map <leader>r :NERDTreeFind<cr>
 nmap <leader>a <Plug>(wildfire-quick-select)
 nmap <F8> :TagbarToggle<CR>
 
+" fzf
+map <leader>b :Buffers<CR>
+map <leader>o :Files<CR>
 
 " fuzzy-search with EasyMotion
 function! s:config_easyfuzzymotion(...) abort

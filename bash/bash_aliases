@@ -33,3 +33,5 @@ alias mvc="mvn versions:commit"
 alias vimrc="vim ~/.vimrc"
 
 alias xclip="xclip -selection clipboard"
+
+alias nh="nohup $@ > /dev/null &"

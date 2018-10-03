@@ -144,3 +144,5 @@ if [ -f '/opt/google-cloud-sdk/completion.bash.inc' ]; then source '/opt/google-
 if [[ ! $TERM =~ screen ]]; then
     exec tmux
 fi
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

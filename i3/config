@@ -9,7 +9,7 @@ set $up k
 set $right l
 
 set $primaryScreen eDP-1
-set $secondaryScreen HDMI-1
+set $secondaryScreen HDMI-2
 
 set $scripts_dir ~/.i3/scripts
 
@@ -192,10 +192,14 @@ exec_always synclient MaxTapTime=0 # disable touchpad click
 bindsym $mod+Mod1+l exec i3lock --color 002b36
 
 # Work screen
-exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 2560x1440 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
+#exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 2560x1440 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
 
 # ica
 #exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
+
+# telia
+exec_always --no-startup-id xrandr --output HDMI-2 --mode 3440x1440 --pos 0x0 --rotate normal --output HDMI-1 --off --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 688x1440 --rotate normal --output DP-2 --off
+ 
 
 # Presentation mode
 bindsym $mod+p exec xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1

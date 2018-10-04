@@ -12,6 +12,9 @@ Plugin 'haya14busa/incsearch-easymotion.vim'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
+Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plugin 'junegunn/fzf.vim'
+Plugin 'junegunn/limelight.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar' " sudo apt-get install ctags
 Plugin 'mkitt/tabline.vim'
@@ -26,8 +29,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plugin 'junegunn/fzf.vim'
 call vundle#end()
 
 set nocompatible
@@ -38,16 +39,16 @@ if has("syntax")
 endif
 set undodir=$HOME/.vim/undos
 set undofile
-set directory=$HOME/.vim/swap " no more swapfiles in the same directory
+set directory=$HOME/.vim/swap
 set noswapfile
-set backupdir=$HOME/.vim/backups " no more backupfiles in the same directory
+set backupdir=$HOME/.vim/backups
 set backupskip=/tmp/*,/private/tmp/* " http://vim.wikia.com/wiki/Editing_crontab
 set backup
 set linespace=0
 set splitbelow
 set splitright
 set tabstop=4
-"set expandtab
+set expandtab
 set shiftwidth=4
 set visualbell
 set ttyfast
@@ -74,6 +75,7 @@ autocmd VimEnter * wincmd w
 autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType python setlocal ts=2 sts=2 sw=2 expandtab
+autocmd FileType *.conf setlocal ts=2 sts=2 sw=2 expandtab
 
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
@@ -84,7 +86,6 @@ set background=dark
 
 let g:airline_powerline_fonts=1
 let g:airline_solarized_bg='dark'
-"let g:airline#extensions#tabline#enabled=1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
@@ -123,6 +124,9 @@ let g:ycm_complete_in_comments=1 " Completion in comments
 let g:ycm_complete_in_strings=1 " Completion in string
 let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+
+let g:limelight_conceal_ctermfg = 'gray'
+let g:limelight_conceal_ctermfg = 240
 
 " <Leader>f{char} to move to {char}
 map  <leader>f <Plug>(easymotion-bd-f)

@@ -1,4 +1,4 @@
-alias ..="cd .."
+alias ..='cd ..'
 alias ...='cd ../../'
 alias .3='cd ../../../'
 alias ~='cd ~'
@@ -15,23 +15,28 @@ alias cp='cp -iv'
 alias mv='mv -iv'
 alias mkdir='mkdir -pv'
 
-alias grep="grep --color=auto"
-alias egrep="egrep --color=auto"
-alias cpwd="pwd | tr -d '\n' | pbcopy"
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto'
+alias cpwd='pwd | tr -d "\n" | pbcopy'
 
 alias openPorts='sudo lsof -i | grep LISTEN'
 
 alias fix-line-endings='find ./ -type f -exec dos2unix {} \;'
 
-alias idea="nohup idea.sh . >/dev/null 2>&1 &"
+alias idea='nohup idea.sh . >/dev/null 2>&1 &'
 
-alias mci="mvn clean install"
-alias mjr="mvn jetty:run"
-alias mvs="mvn versions:set"
-alias mvc="mvn versions:commit"
+alias mci='mvn clean install'
+alias mjr='mvn jetty:run'
+alias mvs='mvn versions:set'
+alias mvc='mvn versions:commit'
 
-alias vimrc="vim ~/.vimrc"
+alias vimrc='vim ~/.vimrc'
 
-alias xclip="xclip -selection clipboard"
+alias xclip='xclip -selection clipboard'
 
-alias nh="nohup $@ > /dev/null &"
+alias nh='nohup $@ > /dev/null &'
+
+# fzf
+alias fvim='vim $(fzf)'
+alias fv='fvim'
+alias fgc='git checkout $(git branch | fzf)'

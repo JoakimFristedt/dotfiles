@@ -207,21 +207,10 @@ mode "$mode_system" {
 
 bindsym $mod+Delete mode "$mode_system"
 
-exec_always --no-startup-id $scripts_dir/display -p eDP-1 -s HDMI-2
-
-# findwise
-#exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 2560x1440 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
-
-#exec_always --no-startup-id $scripts_dir/display eDP-1 1920x1080
-
-# ica
-#exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 1920x1080 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off
-
-# telia
-#exec_always --no-startup-id xrandr --output HDMI-2 --mode 3440x1440 --pos 0x0 --rotate normal --output HDMI-1 --off --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 688x1440 --rotate normal --output DP-2 --off
+exec_always --no-startup-id $scripts_dir/display -p eDP-1 --auto-detect-secondary
  
 # Presentation mode
-bindsym $mod+p exec xrandr --output HDMI-1 --mode 1920x1080 --same-as eDP-1
+bindsym $mod+p exec $scripts_dir/display -p eDP-1 --auto-detect-secondary --mirror
 
 # Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id $scripts_dir/volume action set-sink-volume +3% #increase sound volume

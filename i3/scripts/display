@@ -10,6 +10,10 @@ command -v xrandr-tool > /dev/null 2>&1 || {
   exit 1;
 }
 
+command -v i3-nagbar > /dev/null 2>&1 || {
+  echo >&2 "display: I require i3-nagbar, but it's not installed. Errors will not be displayed";
+}
+
 function usage() {
   echo "Usage: display [options]"
   echo ""
@@ -18,6 +22,10 @@ function usage() {
   echo "    Primary display name"
   echo "-s, --secondary"
   echo "    Secondary display name"
+  echo "-a, --auto-detect-secondary"
+  echo "    Try to auto detect secondary display"
+  echo "--mirror-res"
+  echo "    Use custom resolution for mirrored display"
   echo "-m, --mirror"
   echo "    Mirror primary and secondary display"
   echo "-h, --help"
@@ -29,8 +37,10 @@ if [[ -z "$@" ]]; then
   exit 0
 fi
 
+pos="360x1440"
+
 function get_inactive_displays() {
-  if [[ -z $secondary || -z $secondary_res ]]; then
+  if [[ -z $secondary || -z $secondary_res || -z $(is_active_output $secondary) ]]; then
     pattern="s/$primary//"
   else
     pattern="s/\($primary\|$secondary\)//"
@@ -43,19 +53,27 @@ function get_inactive_displays() {
 }
 
 function get_active_displays() {
-  primary_cmd="--output ${primary} --primary --mode ${primary_res} --pos 360x1440 --rotate normal"
+  if ! is_active_output $primary; then
+    i3-nagbar -m "Primary display not valid: $primary"
+    exit 1
+  fi
+  primary_cmd="--output $primary --primary --mode $primary_res --pos $pos --rotate normal"
   inactive_displays=$(get_inactive_displays)
-  if [[ -z "$secondary" || -z "$secondary_res" ]]; then
+  if [[ -z "$secondary" || -z "$secondary_res" || -z $(is_active_output $secondary) ]]; then
     xrandr \
       $primary_cmd \
       $inactive_displays
   else
-    secondary_cmd="--output ${secondary} --mode ${secondary_res} --pos 0x0 --rotate normal"
+    secondary_cmd="--output $secondary --mode $secondary_res --pos 0x0 --rotate normal"
     xrandr \
       $primary_cmd \
       $secondary_cmd \
       $inactive_displays
   fi
+}
+
+function get_resolution() {
+  xrandr-tool resolution "$1" | head -n 1
 }
 
 function get_presentation_mode() {
@@ -70,17 +88,38 @@ function get_presentation_mode() {
   fi
 }
 
+function list_monitors() {
+  xrandr --listmonitors | cut -d ' ' -f 6 | sed '/^\s*$/d'
+}
+
+function is_active_output() {
+  if ! $(list_monitors | grep -qw "$1"); then
+    return 1
+  fi
+}
+
+function auto_detect_secondary() {
+  if [[ $(list_monitors | wc -l) -gt 1 ]]; then
+    list_monitors | tac | head -n 1
+  fi
+}
+
 while [ "$1" != "" ]; do
   case $1 in
     -p | --primary )
       shift
       primary="$1"
-      primary_res=$(xrandr-tool resolution "$primary" | head -n 1)
+      primary_res=$(get_resolution $primary)
       ;;
     -s | --secondary )
       shift
       secondary="$1"
-      secondary_res=$(xrandr-tool resolution "$secondary" | head -n 1)
+      secondary_res=$(get_resolution $secondary)
+      ;;
+    -a | --auto-detect-secondary )
+      shift
+      secondary=$(auto_detect_secondary)
+      secondary_res=$(get_resolution $secondary)
       ;;
     --mirror-res)
       shift
@@ -90,6 +129,10 @@ while [ "$1" != "" ]; do
       presentation_mode=true
       get_presentation_mode
       exit
+      ;;
+    --pos)
+      shift
+      pos="$1"
       ;;
     -h | --help )
       usage

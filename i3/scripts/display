@@ -18,9 +18,16 @@ function usage() {
   echo "    Primary display name"
   echo "-s, --secondary"
   echo "    Secondary display name"
+  echo "-m, --mirror"
+  echo "    Mirror primary and secondary display"
   echo "-h, --help"
   echo "    Print this usage"
 }
+
+if [[ -z "$@" ]]; then
+  usage
+  exit 0
+fi
 
 function get_inactive_displays() {
   if [[ -z $secondary || -z $secondary_res ]]; then
@@ -35,19 +42,31 @@ function get_inactive_displays() {
  echo $inactive_displays_cmd
 }
 
-function get_activate_displays() {
+function get_active_displays() {
   primary_cmd="--output ${primary} --primary --mode ${primary_res} --pos 360x1440 --rotate normal"
   inactive_displays=$(get_inactive_displays)
   if [[ -z "$secondary" || -z "$secondary_res" ]]; then
-    echo "xrandr \
+    xrandr \
       $primary_cmd \
-      $inactive_displays"
+      $inactive_displays
   else
     secondary_cmd="--output ${secondary} --mode ${secondary_res} --pos 0x0 --rotate normal"
-    echo "xrandr \
+    xrandr \
       $primary_cmd \
       $secondary_cmd \
-      $inactive_displays"
+      $inactive_displays
+  fi
+}
+
+function get_presentation_mode() {
+  if [[ -z "$mirror_res" ]]; then
+      mirror_res=$secondary_res
+  fi
+  if [[ -z $secondary ]]; then
+    get_active_displays
+  else
+    xrandr \
+      --output $secondary --mode $mirror_res --same-as $primary
   fi
 }
 
@@ -63,15 +82,31 @@ while [ "$1" != "" ]; do
       secondary="$1"
       secondary_res=$(xrandr-tool resolution "$secondary" | head -n 1)
       ;;
+    --mirror-res)
+      shift
+      mirror_res="$1"
+      ;;
+    -m | --mirror)
+      presentation_mode=true
+      get_presentation_mode
+      exit
+      ;;
     -h | --help )
       usage
       exit
       ;;
     * )
+      usage
       exit
+      ;;
   esac
   shift
 done
 
-# fix
-get_activate_displays
+if [[ "$primary" ]]; then
+  if [[ "$presentation_mode" ]]; then
+    get_presentation_mode
+    exit
+  fi
+  get_active_displays
+fi

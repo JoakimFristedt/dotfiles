@@ -207,7 +207,7 @@ mode "$mode_system" {
 
 bindsym $mod+Delete mode "$mode_system"
 
-exec_always --no-startup-id $scripts_dir/display -p eDP-1 -s HDMI-1
+exec_always --no-startup-id $scripts_dir/display -p eDP-1 -s HDMI-2
 
 # findwise
 #exec_always --no-startup-id xrandr --output HDMI-2 --off --output HDMI-1 --mode 2560x1440 --pos 0x0 --rotate normal --output DP-1 --off --output eDP-1 --primary --mode 1920x1080 --pos 360x1440 --rotate normal --output DP-2 --off

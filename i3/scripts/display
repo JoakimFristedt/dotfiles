@@ -40,7 +40,7 @@ fi
 pos="360x1440"
 
 function get_inactive_displays() {
-  if [[ -z $secondary || -z $secondary_res || -z $(is_active_output $secondary) ]]; then
+  if [[ -z $secondary || -z $secondary_res ]] || ! is_active_output $secondary; then
     pattern="s/$primary//"
   else
     pattern="s/\($primary\|$secondary\)//"
@@ -59,7 +59,7 @@ function get_active_displays() {
   fi
   primary_cmd="--output $primary --primary --mode $primary_res --pos $pos --rotate normal"
   inactive_displays=$(get_inactive_displays)
-  if [[ -z "$secondary" || -z "$secondary_res" || -z $(is_active_output $secondary) ]]; then
+  if [[ -z "$secondary" || -z "$secondary_res" ]] || ! is_active_output $secondary; then
     xrandr \
       $primary_cmd \
       $inactive_displays
@@ -117,7 +117,6 @@ while [ "$1" != "" ]; do
       secondary_res=$(get_resolution $secondary)
       ;;
     -a | --auto-detect-secondary )
-      shift
       secondary=$(auto_detect_secondary)
       secondary_res=$(get_resolution $secondary)
       ;;
@@ -127,8 +126,6 @@ while [ "$1" != "" ]; do
       ;;
     -m | --mirror)
       presentation_mode=true
-      get_presentation_mode
-      exit
       ;;
     --pos)
       shift
@@ -147,9 +144,12 @@ while [ "$1" != "" ]; do
 done
 
 if [[ "$primary" ]]; then
-  if [[ "$presentation_mode" ]]; then
+  if [[ "$presentation_mode" == true ]]; then
     get_presentation_mode
     exit
   fi
   get_active_displays
 fi
+
+# TODO:
+# Move all workspaces to secondary screen i3-msg move workspace to output eDP-1

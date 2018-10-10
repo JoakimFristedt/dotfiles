@@ -210,7 +210,7 @@ bindsym $mod+Delete mode "$mode_system"
 exec_always --no-startup-id $scripts_dir/display -p eDP-1 --auto-detect-secondary
  
 # Presentation mode
-bindsym $mod+p exec $scripts_dir/display -p eDP-1 --auto-detect-secondary --mirror
+bindsym $mod+p exec --no-startup-id $scripts_dir/display -p eDP-1 --auto-detect-secondary --mirror
 
 # Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id $scripts_dir/volume action set-sink-volume +3% #increase sound volume

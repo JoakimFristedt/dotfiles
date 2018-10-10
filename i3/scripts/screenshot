@@ -1,0 +1,42 @@
+#!/bin/bash
+
+command -v gnome-screenshot > /dev/null 2>&1 || {
+  echo >&2 "display: I require gnome-screenshot, but it's not installed. Aborting.";
+  exit 1;
+}
+
+command -v i3-nagbar > /dev/null 2>&1 || {
+  echo >&2 "display: I require i3-nagbar, but it's not installed. Errors will not be displayed";
+}
+
+function usage() {
+  echo "Usage: screenshot [options]"
+  echo "" 
+  echo "Options"
+  echo "-a, --area"
+  echo "    Grab an area of the screen instead of the entire screen"
+}
+
+function screenshot() {
+  if [[ "$area" == true ]]; then
+    gnome-screenshot -a
+  else
+    gnome-screenshot
+  fi
+}
+
+while [ "$1" != "" ]; do
+  case $1 in
+    -a | --area )
+      shift
+      area=true
+      ;;
+    -h | --help )
+      usage
+      exit
+      ;;
+  esac
+  shift
+done
+
+screenshot

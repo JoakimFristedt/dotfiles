@@ -120,6 +120,11 @@ while [ "$1" != "" ]; do
       secondary=$(auto_detect_secondary)
       secondary_res=$(get_resolution $secondary)
       ;;
+    --list-secondary )
+      secondary=$(auto_detect_secondary)
+      echo $secondary
+      exit
+      ;;
     --mirror-res)
       shift
       mirror_res="$1"

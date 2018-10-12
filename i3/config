@@ -208,9 +208,10 @@ bindsym $mod+Delete mode "$mode_system"
 
 exec --no-startup-id compton --config ~/.config/compton.conf -b
 
-exec_alway --no-startup-id $scripts_dir/display -p $primaryScreen --auto-detect-secondary
-
-bindsym $mod+p exec --no-startup-id $scripts_dir/display -p $primaryScreen --auto-detect-secondary --mirror
+exec_alway --no-startup-id $scripts_dir/display --above
+ 
+bindsym $mod+p exec --no-startup-id $scripts_dir/display --same
+bindsym $mod+o exec --no-startup-id $scripts_dir/display --above
 
 bindsym XF86AudioRaiseVolume exec --no-startup-id $scripts_dir/volume action set-sink-volume +3%
 bindsym XF86AudioLowerVolume exec --no-startup-id $scripts_dir/volume action set-sink-volume -3%

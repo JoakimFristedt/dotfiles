@@ -1,12 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 command -v gnome-screenshot > /dev/null 2>&1 || {
   echo >&2 "display: I require gnome-screenshot, but it's not installed. Aborting.";
   exit 1;
-}
-
-command -v i3-nagbar > /dev/null 2>&1 || {
-  echo >&2 "display: I require i3-nagbar, but it's not installed. Errors will not be displayed";
 }
 
 function usage() {
@@ -15,21 +11,17 @@ function usage() {
   echo "Options"
   echo "-a, --area"
   echo "    Grab an area of the screen instead of the entire screen"
-}
-
-function screenshot() {
-  if [[ "$area" == true ]]; then
-    gnome-screenshot -a
-  else
-    gnome-screenshot
-  fi
+  echo "-w, --window"
+  echo "    Grab an area of the screen instead of the entire screen"
 }
 
 while [ "$1" != "" ]; do
   case $1 in
     -a | --area )
-      shift
-      area=true
+      gnome-screenshot -a
+      ;;
+    -w | --window )
+      gnome-screenshot -w
       ;;
     -h | --help )
       usage
@@ -38,5 +30,3 @@ while [ "$1" != "" ]; do
   esac
   shift
 done
-
-screenshot

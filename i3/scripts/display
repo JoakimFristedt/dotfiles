@@ -31,34 +31,50 @@ if [[ "$#" != 1 ]]; then
     exit 1
 fi
 
-xrandr --auto
+function get_primary() {
+  xrandr | grep ' connected primary ' | cut --delimiter ' ' --fields 1
+}
 
-primary=$(xrandr | grep ' connected primary ' | cut --delimiter ' ' --fields 1)
+function get_secondary() {
+  xrandr | grep ' connected ' | grep --invert-match 'primary' | cut --delimiter ' ' --fields 1
+}
 
-secondary=$(xrandr | grep ' connected ' | grep --invert-match 'primary' | cut --delimiter ' ' --fields 1)
 
-number_of_secondary_monitors=$(xrandr | grep ' connected ' | grep --invert-match ' connected primary ' | wc --lines)
-
-if [[ $number_of_secondary_monitors != 1 ]]; then
-    echo "automon: Expected to find one secondary monitor but found $number_of_secondary_monitors, aborting."
-    exit 1
-fi
+function change_layout() {
+  primary=$(get_primary)
+  secondary=$(get_secondary)
+  xrandr --auto
+  number_of_secondary_monitors=$(xrandr | grep ' connected ' | grep --invert-match ' connected primary ' | wc --lines)
+  if [[ $number_of_secondary_monitors != 1 ]]; then
+      echo "automon: Expected to find one secondary monitor but found $number_of_secondary_monitors, aborting."
+      exit 1
+  fi
+  xrandr --output "$secondary" "$1" "$primary" --primary
+}
 
 case $1 in
     -a | --above )
-        xrandr --output "$secondary" --above "$primary"
+        change_layout --above
         ;;
     -b | --below )
-        xrandr --output "$secondary" --below "$primary"
+        change_layout --below
         ;;
     -l | --left )
-        xrandr --output "$secondary" --left-of "$primary"
+        change_layout --left-of
         ;;
     -r | --right )
-        xrandr --output "$secondary" --right-of "$primary"
+        change_layout --right-of
         ;;
     -s | --same )
-        xrandr --output "$secondary" --same-as "$primary"
+        change_layout --same-as
+        ;;
+    --list-primary )
+        echo $(get_primary)
+        exit
+        ;;
+    --list-secondary )
+        echo $(get_secondary)
+        exit
         ;;
     * )
         usage

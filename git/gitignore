@@ -147,6 +147,7 @@ local_settings.py
 # Flask stuff:
 instance/
 .webassets-cache
+/flask
 
 # Scrapy stuff:
 .scrapy
@@ -196,3 +197,4 @@ venv.bak/
 # End of https://www.gitignore.io/api/java,scala,python,intellij
 
 *.out
+

@@ -79,9 +79,8 @@ autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType json setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType python setlocal ts=2 sts=2 sw=2 expandtab
 autocmd FileType *.conf setlocal ts=2 sts=2 sw=2 expandtab
-"autocmd VimEnter * NERDTreeTabsToggle
 
-"map <Leader>n <plug>NERDTreeTabsToggle<CR>
+let mapleader=' '
 
 let g:solarized_termtrans=1
 let g:solarized_termcolors=256
@@ -107,8 +106,8 @@ au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 
 let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_no_startup_for_diff=0
+let g:nerdtree_tabs_autoclose=0
 
-let mapleader=' '
 let g:ctrlp_cmd='CtrlPBuffer'
 
 let g:wildfire_objects = ["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
@@ -139,23 +138,20 @@ let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_ctermfg = 240
 
-" <Leader>f{char} to move to {char}
 map  <leader>f <Plug>(easymotion-bd-f)
 nmap <leader>f <Plug>(easymotion-overwin-f)
 
-" Move to line
+" move to line
 map <leader>L <Plug>(easymotion-bd-jk)
 nmap <leader>L <Plug>(easymotion-overwin-line)
 
-" Move to word
+" move to word
 map  <leader>w <Plug>(easymotion-bd-w)
 nmap <leader>w <Plug>(easymotion-overwin-w)
 
-map <leader>/ <Plug>(incsearch-fuzzy-/)
-
 map <C-b> :YcmCompleter GoTo<CR>
 
-noremap <silent><expr> <Leader>/ incsearch#go(<SID>config_easyfuzzymotion())
+noremap <silent><expr> <leader>/ incsearch#go(<SID>config_easyfuzzymotion())OA
 noremap H ^
 noremap L $
 nnoremap <C-J> <C-W><C-J>
@@ -195,6 +191,7 @@ nmap <F8> :TagbarToggle<CR>
 " fzf
 map <leader>b :Buffers<CR>
 map <leader>o :Files<CR>
+map <leader>c :Commands<CR>
 
 " fuzzy-search with EasyMotion
 function! s:config_easyfuzzymotion(...) abort

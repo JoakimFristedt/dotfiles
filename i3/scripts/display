@@ -1,82 +1,169 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 command -v xrandr > /dev/null 2>&1 || {
-  echo >&2 "automon: I require xrandr, but it's not installed. Aborting.";
+  echo >&2 "display: I require xrandr, but it's not installed. Aborting.";
   exit 1;
 }
 
-function usage() {
-    echo "Usage: automon OPTION"
-    echo ""
-    echo "Options"
-    echo "    -a, --above"
-    echo "        Place the secondary monitor above the primary"
-    echo ""
-    echo "    -b, --below"
-    echo "        Place the secondary monitor below the primary"
-    echo ""
-    echo "    -l, --left"
-    echo "        Place the secondary monitor to the left of the primary"
-    echo ""
-    echo "    -r, --right"
-    echo "        Place the secondary monitor to the right of the primary"
-    echo ""
-    echo "    -s, --same"
-    echo "        Show the same thing on both monitors"
-    echo ""
+command -v xrandr-tool > /dev/null 2>&1 || {
+  echo >&2 "display: I require xrandr-took, but it's not installed. Aborting.";
+  exit 1;
 }
 
-if [[ "$#" != 1 ]]; then
-    usage
-    exit 1
+command -v i3-nagbar > /dev/null 2>&1 || {
+  echo >&2 "display: I require i3-nagbar, but it's not installed. Errors will not be displayed";
+}
+
+function usage() {
+  echo "Usage: display [options]"
+  echo ""
+  echo "Options"
+  echo "-p, --primary"
+  echo "    Primary display name"
+  echo "-s, --secondary"
+  echo "    Secondary display name"
+  echo "-a, --auto-detect-secondary"
+  echo "    Try to auto detect secondary display"
+  echo "--mirror-res"
+  echo "    Use custom resolution for mirrored display"
+  echo "--list-secondary"
+  echo "    List secondary disply"
+  echo "-m, --mirror"
+  echo "    Mirror primary and secondary display"
+  echo "-h, --help"
+  echo "    Print this usage"
+}
+
+if [[ -z "$@" ]]; then
+  usage
+  exit 0
 fi
 
-function get_primary() {
-  xrandr | grep ' connected primary ' | cut --delimiter ' ' --fields 1
+default_primary_pos="360x1440"
+
+function get_inactive_displays() {
+  if [[ -z $secondary || -z $secondary_res ]] || ! is_active_output $secondary; then
+    pattern="s/$primary//"
+  else
+    pattern="s/\($primary\|$secondary\)//"
+  fi
+  inactive_displays=$(xrandr-tool outputs | sed "$pattern" | sed '/^\s*$/d')
+  for display in $inactive_displays; do
+    inactive_displays_cmd+="--output $display --off "
+  done
+  echo $inactive_displays_cmd
+}
+
+function get_active_displays() {
+  if ! is_active_output $primary; then
+    i3-nagbar -m "Primary display not valid: $primary"
+    exit 1
+  fi
+  primary_cmd="--output $primary --primary --mode $primary_res --pos $default_primary_pos --rotate normal"
+  inactive_displays=$(get_inactive_displays)
+  if [[ -z "$secondary" || -z "$secondary_res" ]] || ! is_active_output $secondary; then
+    xrandr \
+      $primary_cmd \
+      $inactive_displays
+  else
+    secondary_cmd="--output $secondary --mode $secondary_res --pos 0x0 --rotate normal"
+    xrandr \
+      $primary_cmd \
+      $secondary_cmd \
+      $inactive_displays
+  fi
+}
+
+function get_resolution() {
+  xrandr-tool resolution "$1" | head -n 1
+}
+
+function get_presentation_mode() {
+  if [[ -z "$mirror_res" ]]; then
+    mirror_res=$secondary_res
+  fi
+  if [[ -z $secondary ]]; then
+    get_active_displays
+  else
+    xrandr \
+      --output $secondary \
+      --mode $mirror_res \
+      --same-as $primary
+  fi
+}
+
+function list_monitors() {
+  xrandr --listmonitors | cut --delimiter ' ' --fields 6 | sed '/^\s*$/d'
+}
+
+function is_active_output() {
+  if ! $(list_monitors | grep -qw "$1"); then
+    return 1
+  fi
+}
+
+function auto_detect_secondary() {
+  if [[ $(list_monitors | wc -l) -gt 1 ]]; then
+    list_monitors | tac | head -n 1
+  fi
 }
 
 function get_secondary() {
   xrandr | grep ' connected ' | grep --invert-match 'primary' | cut --delimiter ' ' --fields 1
 }
 
+xrandr --auto
 
-function change_layout() {
-  primary=$(get_primary)
-  secondary=$(get_secondary)
-  xrandr --auto
-  number_of_secondary_monitors=$(xrandr | grep ' connected ' | grep --invert-match ' connected primary ' | wc --lines)
-  if [[ $number_of_secondary_monitors != 1 ]]; then
-      echo "automon: Expected to find one secondary monitor but found $number_of_secondary_monitors, aborting."
-      exit 1
-  fi
-  xrandr --output "$secondary" "$1" "$primary" --primary
-}
-
-case $1 in
-    -a | --above )
-        change_layout --above
-        ;;
-    -b | --below )
-        change_layout --below
-        ;;
-    -l | --left )
-        change_layout --left-of
-        ;;
-    -r | --right )
-        change_layout --right-of
-        ;;
-    -s | --same )
-        change_layout --same-as
-        ;;
-    --list-primary )
-        echo $(get_primary)
-        exit
-        ;;
-    --list-secondary )
-        echo $(get_secondary)
-        exit
-        ;;
+while [ "$1" != "" ]; do
+  case $1 in
+    -p | --primary )
+      shift
+      primary="$1"
+      primary_res=$(get_resolution $primary)
+      ;;
+    -s | --secondary )
+      shift
+      secondary="$1"
+      secondary_res=$(get_resolution $secondary)
+      ;;
+    -a | --auto-detect-secondary )
+      secondary=$(auto_detect_secondary)
+      secondary_res=$(get_resolution $secondary)
+      ;;
+    --mirror-res)
+      shift
+      mirror_res="$1"
+      ;;
+    -m | --mirror)
+      presentation_mode=true
+      ;;
+    --list-secondary)
+      get_secondary
+      exit
+      ;;
+    --pos)
+      shift
+      pos="$1"
+      ;;
+    -h | --help )
+      usage
+      exit
+      ;;
     * )
-        usage
-        exit 1
-esac
+      usage
+      exit
+      ;;
+  esac
+  shift
+done
+
+if [[ "$primary" ]]; then
+  if [[ "$presentation_mode" == true ]]; then
+    get_presentation_mode
+    exit
+  fi
+  get_active_displays
+fi
+
+# TODO:
+# Move all workspaces to secondary screen i3-msg move workspace to output eDP-1

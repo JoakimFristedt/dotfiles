@@ -96,7 +96,7 @@ let NERDTreeMinimalUI=1
 let NERDTreeDirArrows=1
 let NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeHijackNetrw=1
-let NERDTreeIgnore = ['\.pyc$', '\.classyc$', '__init__.py', '__pycache__']
+let NERDTreeIgnore=['\.pyc$', '\.classyc$', '__init__.py', '__pycache__']
 highlight NERDTreeOpenable ctermfg=1
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 
@@ -106,7 +106,7 @@ let g:nerdtree_tabs_autoclose=0
 
 let g:ctrlp_cmd='CtrlPBuffer'
 
-let g:wildfire_objects = ["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
+let g:wildfire_objects=["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 
 let g:auto_save=1
 let g:auto_save_in_insert_mode=0
@@ -128,8 +128,8 @@ let g:ycm_complete_in_comments=1
 let g:ycm_complete_in_strings=1
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_collect_identifiers_from_comments_and_strings=1
-let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:ycm_key_list_select_completion=['<C-j>']
+let g:ycm_key_list_previous_completion=['<C-k>']
 
 let g:limelight_conceal_ctermfg = 'gray'
 let g:limelight_conceal_ctermfg = 240
@@ -171,7 +171,7 @@ nnoremap <S-Tab> :bprev<CR>
 
 nnoremap <F8> :TagbarToggle<CR>
 nnoremap <C-N> :MundoToggle<CR>
-nnoremap <leader>r :NERDTreeFind<cr>
+nnoremap <leader>r :NERDTreeFind<CR>
 nnoremap <silent> <C-T> :NERDTreeToggle<CR>
 nnoremap <silent><expr> <leader>/ incsearch#go(<SID>config_easyfuzzymotion())
 

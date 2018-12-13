@@ -1,7 +1,7 @@
 #!/bin/bash
 
 base_url="https://download.jetbrains.com/idea"
-idea_version="ideaIC-2018.2.4"
+idea_version="ideaIC-2018.3.1"
 extension="tar.gz"
 install_dir="/opt"
 
@@ -9,7 +9,7 @@ install() {
     idea_tar_file="$install_dir/$idea_version.$extension"
     if [ ! -f "$idea_tar_file" ]; then
         echo "Downloading $idea_version to $idea_tar_file"
-        wget -c -P $install_dir $base_url/$idea_version.$extension
+        wget --continue --directory-prefix $install_dir $base_url/$idea_version.$extension
     else
         echo "$install_dir/$idea_version.$extension already exists, not downloading"
     fi
@@ -25,6 +25,7 @@ install() {
     fi
 
     symlink_idea_file="$install_dir/idea"
+    rm $symlink_idea_file
     ln -sf $install_dir/$idea_dir_name $symlink_idea_file
     echo "Symlink $symlink_idea_file created for $install_dir/$idea_dir_name"
 }

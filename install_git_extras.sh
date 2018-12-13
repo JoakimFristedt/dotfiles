@@ -7,8 +7,8 @@ completion="git-completion.bash"
 prompt="git-prompt.sh"
 
 install() {
-    wget --quiet -nc -P $DIR/git $base_url/$1
-    ln -fs $DIR/git/$1 ~/.$1
+  wget --quiet -nc -P $DIR/git $base_url/$1
+  ln -fs $DIR/git/$1 ~/.$1
 }
 
 install $prompt

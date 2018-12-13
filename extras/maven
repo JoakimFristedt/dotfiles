@@ -1,6 +1,6 @@
 #!/bin/bash
 
-maven_version="3.5.4"
+maven_version="3.6.0"
 maven_dir_name="apache-maven-$maven_version"
 full_maven_tar_file_name="$maven_dir_name-bin.tar.gz"
 
@@ -26,6 +26,7 @@ install() {
     fi
 
     symlink_maven_file="$install_dir/maven"
+    rm $symlink_maven_file
     ln -sf $full_install_path $symlink_maven_file
     echo "Symlink $symlink_maven_file created for $full_install_path"
 }

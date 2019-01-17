@@ -162,10 +162,11 @@ nnoremap <leader>2 2gt<CR>
 nnoremap <leader>3 3gt<CR>
 nnoremap <leader>tl :tabnext<CR>
 nnoremap <leader>th :tabprevious<CR>
-nnoremap <leader>tn :tabnew<cr>
-nnoremap <leader>to :tabonly<cr>
-nnoremap <leader>tc :tabclose<cr>
-nnoremap <leader>tm :tabmove
+nnoremap <leader>tn :tabnew<CR>
+nnoremap <leader>to :tabonly<CR>
+nnoremap <leader>tc :tabclose<CR>
+nnoremap <leader>tm :tabmove<CR>
+nnoremap <leader>e :%!bash<CR>
 
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
@@ -185,9 +186,12 @@ inoremap <Up> <Nop>
 inoremap <Down> <Nop>
 inoremap <Left> <Nop>
 inoremap <Right> <Nop>
-"inoremap <BS> <Nop>
+
 inoremap jj <ESC>
 inoremap <S-Tab> <C-d>
+
+vnoremap <leader>fj :!jq .<CR>
+vnoremap <leader>e :!bash<CR>
 
 vnoremap < <gv
 vnoremap > >gv

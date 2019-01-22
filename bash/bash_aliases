@@ -26,9 +26,11 @@ alias fix-line-endings='find ./ -type f -exec dos2unix {} \;'
 alias idea='nohup idea.sh . >/dev/null 2>&1 &'
 
 alias mci='mvn clean install'
+alias mcid='mvn clean install -Ddockerfile.skip'
 alias mjr='mvn jetty:run'
 alias mvs='mvn versions:set'
 alias mvc='mvn versions:commit'
+alias msr='mvn spring-boot:run'
 
 alias vimrc='vim ~/.vimrc'
 

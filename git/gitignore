@@ -198,3 +198,6 @@ venv.bak/
 
 *.out
 
+### Ansible ###
+*.retry
+

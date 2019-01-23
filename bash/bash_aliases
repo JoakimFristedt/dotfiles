@@ -41,4 +41,5 @@ alias nh='nohup $@ > /dev/null &'
 # fzf
 alias fvim='vim $(fzf)'
 alias fv='fvim'
-alias fgc='git checkout $(git branch | fzf)'
+alias gcb='git checkout $(git branch | fzf)'
+alias gcf='git checkout -- $(git diff --name-only | fzf)'

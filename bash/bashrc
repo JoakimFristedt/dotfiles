@@ -147,3 +147,5 @@ fi
 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf/shell/fzf_magic_completion.bash ] && source ~/.fzf/shell/fzf_magic_completion.bash
+

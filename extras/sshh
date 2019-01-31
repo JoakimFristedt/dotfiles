@@ -1,0 +1,5 @@
+#!/bin/bash
+
+install_dir="/usr/bin"
+wget -P $install_dir "https://raw.githubusercontent.com/yudai/sshh/master/sshh" 
+chmod a+x $install_dir/sshh

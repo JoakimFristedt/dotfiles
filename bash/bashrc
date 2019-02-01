@@ -141,11 +141,14 @@ if [ -f '/opt/google-cloud-sdk/path.bash.inc' ]; then source '/opt/google-cloud-
 # The next line enables shell command completion for gcloud.
 if [ -f '/opt/google-cloud-sdk/completion.bash.inc' ]; then source '/opt/google-cloud-sdk/completion.bash.inc'; fi
 
-if [[ ! $TERM =~ screen ]]; then
-    exec tmux
-fi
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
+shopt -s histappend
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/.fzf/shell/fzf_magic_completion.bash ] && source ~/.fzf/shell/fzf_magic_completion.bash
 
+if [[ ! $TERM =~ screen ]]; then
+    exec tmux
+fi

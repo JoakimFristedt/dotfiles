@@ -191,6 +191,5 @@ exec --no-startup-id dropbox start
 
 for_window [class="(?i)google-chrome"] move to workspace $workspace1
 for_window [class="(?i)terminal"] move to workspace $workspace2
-for_window [class="(?i)idea"] move to workspace $workspace3
 for_window [class="(?i)spotify"] move to workspace $workspace10
 for_window[class="."] focus

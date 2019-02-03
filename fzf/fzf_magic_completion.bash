@@ -2,7 +2,7 @@ if [[ $- =~ i ]]; then
 
 # Author: Brian Beffa <brbsix@gmail.com>
 # Original source: https://brbsix.github.io/2015/11/29/accessing-tab-completion-programmatically-in-bash/
-__get_completions(){
+__get_completions() {
   local completion COMP_CWORD COMP_LINE COMP_POINT COMP_WORDS COMPREPLY=()
 
   declare -F _completion_loader &>/dev/null || {
@@ -17,7 +17,6 @@ __get_completions(){
   COMP_WORDS=("$@")
 
   [[ ${COMP_LINE[@]: -1} = ' ' ]] && COMP_WORDS+=('')
-  echo $COMP_WORDS
 
   COMP_CWORD=$(( ${#COMP_WORDS[@]} - 1 ))
 
@@ -37,7 +36,7 @@ __get_completions(){
 
 __fzf_magic_completion__() {
   current="${READLINE_LINE}"
-  local cmd="${FZF_CTRL_T_COMMAND:-"__get_completions $current \\ "}"
+  local cmd="${FZF_CTRL_T_COMMAND:-"__get_completions $current \\\ "}"
   eval "$cmd" | FZF_DEFAULT_OPTS="--height ${FZF_TMUX_HEIGHT:-40%} --reverse $FZF_DEFAULT_OPTS $FZF_CTRL_T_OPTS" fzf -m "$@" | while read -r item; do
     printf '%q ' "$item"
   done

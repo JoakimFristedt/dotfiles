@@ -21,10 +21,6 @@ sudo apt-get install build-essential python-dev python3-dev cmake
 
 `sudo apt-get install i3`
 
-# Macbook fix keyboad
-
-Clone and follow instructions [here](https://github.com/free5lot/hid-apple-patched)
-
 # Must have
 
 ```

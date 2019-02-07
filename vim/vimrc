@@ -1,10 +1,9 @@
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin '907th/vim-auto-save'
-Plugin 'AndrewRadev/linediff.vim'
-Plugin 'SirVer/ultisnips'
-Plugin 'Valloric/YouCompleteMe'
+Plugin '908th/vim-auto-save'
 Plugin 'altercation/vim-colors-solarized'
+Plugin 'AndrewRadev/linediff.vim'
+Plugin 'dhruvasagar/vim-table-mode'
 Plugin 'easymotion/vim-easymotion'
 Plugin 'elzr/vim-json'
 Plugin 'gcmt/wildfire.vim'
@@ -25,9 +24,11 @@ Plugin 'nvie/vim-flake8'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'simnalamburt/vim-mundo'
+Plugin 'SirVer/ultisnips'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()
@@ -186,6 +187,7 @@ nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\
 nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :qa<CR>
 nnoremap <leader>l :set list!<CR>
+nnoremap <leader>lr :%s/\s\+$//e<CR>
 nnoremap <BS> :nohlsearch<CR>
 
 inoremap <Up> <Nop>

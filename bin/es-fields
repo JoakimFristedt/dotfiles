@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+command -v jq > /dev/null 2>&1 || {
+  echo >&2 "es-fields: I require jq, but it's not installed. Aborting.";
+  exit 1;
+}
+
+jq -r '.[].mappings
+  | to_entries[]
+  | .value
+  | .properties
+  | path(..)
+  | map(select(((. != "properties") and (. != "fields") and (. != "type") and (. != "ignore_above"))))
+  | join(".")' \
+  | uniq

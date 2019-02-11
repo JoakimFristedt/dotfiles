@@ -17,7 +17,6 @@ Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/limelight.vim'
-Plugin 'kien/ctrlp.vim'
 Plugin 'majutsushi/tagbar' " sudo apt-get install ctags
 Plugin 'mkitt/tabline.vim'
 Plugin 'nvie/vim-flake8'
@@ -28,7 +27,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-surround'
-Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe', { 'dir': '~/.vim/bundle/YouCompleteMe', 'do': './install.py' }
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()
@@ -135,6 +134,7 @@ let g:ycm_key_list_previous_completion=['<C-k>']
 
 let g:limelight_conceal_ctermfg='gray'
 let g:limelight_conceal_ctermfg=240
+
 let g:loaded_syntastic_java_javac_checker=1
 
 " move to char
@@ -190,6 +190,11 @@ nnoremap <leader>l :set list!<CR>
 nnoremap <leader>lr :%s/\s\+$//e<CR>
 nnoremap <BS> :nohlsearch<CR>
 
+nnoremap <Up> <Nop>
+nnoremap <Down> <Nop>
+nnoremap <Left> <Nop>
+nnoremap <Right> <Nop>
+
 inoremap <Up> <Nop>
 inoremap <Down> <Nop>
 inoremap <Left> <Nop>
@@ -205,6 +210,8 @@ vnoremap < <gv
 vnoremap > >gv
 
 cnoremap <C-H> <Left>
+cnoremap <C-J> <Down>
+cnoremap <C-K> <Up>
 cnoremap <C-L> <Right>
 
 " fuzzy-search with EasyMotion

@@ -13,6 +13,7 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
 HISTSIZE=1000
@@ -47,14 +48,14 @@ esac
 force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
-    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-	# We have color support; assume it's compliant with Ecma-48
-	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-	# a case would tend to support setf rather than setaf.)
-	color_prompt=yes
-    else
-	color_prompt=
-    fi
+  if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+  else
+    color_prompt=
+  fi
 fi
 
 if [ "$color_prompt" = yes ]; then
@@ -111,8 +112,6 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-shopt -s histappend
-PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
 
 if [ -f ~/.bash_completion.d/.git-completion.bash ]; then
     source /usr/share/bash-completion/completions/git
@@ -133,18 +132,11 @@ fi
 
 export PS1="$PS1${GIT_PIECE:-""}\n\[${color_green}\]\$ \[${color_none}\]"
 
-#[[ $TERM != "screen" ]] && exec tmux
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/opt/google-cloud-sdk/path.bash.inc' ]; then source '/opt/google-cloud-sdk/path.bash.inc'; fi
 
 # The next line enables shell command completion for gcloud.
 if [ -f '/opt/google-cloud-sdk/completion.bash.inc' ]; then source '/opt/google-cloud-sdk/completion.bash.inc'; fi
-
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-
-shopt -s histappend
-PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 [ -f ~/.fzf/shell/fzf_magic_completion.bash ] && source ~/.fzf/shell/fzf_magic_completion.bash

@@ -141,6 +141,8 @@ let g:limelight_conceal_ctermfg=240
 
 let g:loaded_syntastic_java_javac_checker=1
 
+let g:fzf_layout = { 'down': '~20%' }
+
 " move to char
 map  <leader>f <Plug>(easymotion-bd-f)
 " move to line
@@ -206,6 +208,8 @@ inoremap <Right> <Nop>
 
 inoremap jj <ESC>
 inoremap <S-Tab> <C-d>
+
+inoremap <expr> <C-L> fzf#vim#complete('cat /tmp/complete-*')
 
 vnoremap <leader>fj :!jq .<CR>
 vnoremap <leader>e :!bash<CR>

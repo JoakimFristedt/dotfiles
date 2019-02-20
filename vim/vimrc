@@ -1,6 +1,5 @@
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-Plugin '908th/vim-auto-save'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'AndrewRadev/linediff.vim'
 Plugin 'dhruvasagar/vim-table-mode'
@@ -30,6 +29,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'Valloric/YouCompleteMe', { 'dir': '~/.vim/bundle/YouCompleteMe', 'do': './install.py' }
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'vim-scripts/vim-auto-save'
 call vundle#end()
 
 set nocompatible
@@ -102,7 +102,6 @@ let NERDTreeDirArrows=1
 let NERDTreeAutoDeleteBuffer=1
 let g:NERDTreeHijackNetrw=1
 let NERDTreeIgnore=['\.pyc$', '\.classyc$', '__init__.py', '__pycache__']
-highlight NERDTreeOpenable ctermfg=1
 au VimEnter NERD_tree_1 enew | execute 'NERDTree '.argv()[0]
 
 let g:nerdtree_tabs_open_on_console_startup=1
@@ -143,6 +142,8 @@ let g:loaded_syntastic_java_javac_checker=1
 
 let g:fzf_layout = { 'down': '~20%' }
 
+let g:auto_save=1
+
 " move to char
 map  <leader>f <Plug>(easymotion-bd-f)
 " move to line
@@ -155,8 +156,14 @@ map <C-b> :YcmCompleter GoTo<CR>
 map <leader>b :Buffers<CR>
 map <leader>o :Files<CR>
 map <leader>c :Commands<CR>
+inoremap <expr> <C-L> fzf#vim#complete('cat /tmp/complete-*')
 
 nmap <leader>a <Plug>(wildfire-quick-select)
+
+map <Up> <Nop>
+map <Down> <Nop>
+map <Left> <Nop>
+map <Right> <Nop>
 
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -193,23 +200,11 @@ nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\
 nnoremap <leader>q :q<CR>
 nnoremap <leader>Q :qa<CR>
 nnoremap <leader>l :set list!<CR>
-nnoremap <leader>lr :%s/\s\+$//e<CR>
+nnoremap <leader>lt :%s/\s\+$//e<CR>
 nnoremap <BS> :nohlsearch<CR>
-
-nnoremap <Up> <Nop>
-nnoremap <Down> <Nop>
-nnoremap <Left> <Nop>
-nnoremap <Right> <Nop>
-
-inoremap <Up> <Nop>
-inoremap <Down> <Nop>
-inoremap <Left> <Nop>
-inoremap <Right> <Nop>
 
 inoremap jj <ESC>
 inoremap <S-Tab> <C-d>
-
-inoremap <expr> <C-L> fzf#vim#complete('cat /tmp/complete-*')
 
 vnoremap <leader>fj :!jq .<CR>
 vnoremap <leader>e :!bash<CR>

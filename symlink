@@ -2,20 +2,20 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-ln -s $DIR/bash/inputrc ~/.inputrc
-ln -s $DIR/bash/bash_aliases ~/.bash_aliases
-ln -s $DIR/bash/bash_profile ~/.bash_profile
-ln -s $DIR/bash/bashrc ~/.bashrc
+ln -s $DIR/bash/inputrc $HOME/.inputrc
+ln -s $DIR/bash/bash_aliases $HOME/.bash_aliases
+ln -s $DIR/bash/bash_profile $HOME/.bash_profile
+ln -s $DIR/bash/bashrc $HOME/.bashrc
 
-ln -s $DIR/tmux/tmux.conf ~/.tmux.conf
+ln -s $DIR/tmux/tmux.conf $HOME/.tmux.conf
 
-mkdir -p ~/.vim/{undos,swap,backups}
-ln -s $DIR/vim/vimrc ~/.vimrc
-ln -s $DIR/vim/ideavimrc ~/.ideavimrc
+mkdir -p $HOME/.vim/{undos,swap,backups}
+ln -s $DIR/vim/vimrc $HOME/.vimrc
+ln -s $DIR/vim/ideavimrc $HOME/.ideavimrc
 
-ln -s $DIR/git/gitignore ~/.gitignore
-ln -s $DIR/git/gitconfig ~/.gitconfig
-ln -s $DIR/git/git-prompt.sh ~/.git-prompt.sh
+ln -s $DIR/git/gitignore $HOME/.gitignore
+ln -s $DIR/git/gitconfig $HOME/.gitconfig
+ln -s $DIR/git/git-prompt.sh $HOME/.git-prompt.sh
 
-mkdir ~/bin
-ln -s $DIR/bin/* ~/bin
+mkdir $HOME/bin
+ln -s $DIR/bin/* $HOME/bin

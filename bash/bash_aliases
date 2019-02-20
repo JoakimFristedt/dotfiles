@@ -19,11 +19,10 @@ alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias cpwd='pwd | tr -d "\n" | pbcopy'
 
-alias openPorts='sudo lsof -i | grep LISTEN'
+alias __list_open_ports='sudo lsof -i | grep LISTEN'
+alias __fix_line_endings='find ./ -type f -exec dos2unix {} \;'
 
-alias fix-line-endings='find ./ -type f -exec dos2unix {} \;'
-
-alias idea='nohup idea.sh . >/dev/null 2>&1 &'
+alias idea='bash -c "nohup idea.sh . >/dev/null 2>&1 &"'
 
 alias mci='mvn clean install'
 alias mcid='mvn clean install -Ddockerfile.skip'

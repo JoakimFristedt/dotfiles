@@ -142,8 +142,6 @@ let g:loaded_syntastic_java_javac_checker=1
 
 let g:fzf_layout = { 'down': '~20%' }
 
-let g:auto_save=1
-
 " move to char
 map  <leader>f <Plug>(easymotion-bd-f)
 " move to line

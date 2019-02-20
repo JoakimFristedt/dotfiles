@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 maven_version="3.6.0"
 maven_dir_name="apache-maven-$maven_version"

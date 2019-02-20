@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 base_url="https://download.jetbrains.com/idea"
 idea_version="ideaIC-2018.3.3"

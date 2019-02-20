@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+base_url="https://raw.githubusercontent.com/Bash-it/bash-it/master/completion/available"
+completions=("tmux.completion.bash" "maven.completion.bash" "ssh.completion.bash" "git.completion.bash")
+completion_dir="$DIR/bash_completion.d"
+
+if [ ! -d $completion_dir ]; then
+  mkdir $completion_dir
+fi
+
+for file in "${completions[@]}" ; do
+  wget -O $completion_dir/$file $base_url/$file
+done
+
+ln -sf $DIR/bash_completion ~/.bash_completion
+
+
+if [ ! -d "$HOME/.bash_completion.d" ]; then
+  mkdir $HOME/.bash_completion.d
+fi
+
+ln -sf $DIR/bash_completion.d/* $HOME/.bash_completion.d/

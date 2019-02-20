@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 install_dir="/usr/bin"
 wget -P $install_dir "https://raw.githubusercontent.com/yudai/sshh/master/sshh" 

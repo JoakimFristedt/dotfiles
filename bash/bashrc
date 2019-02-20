@@ -142,5 +142,7 @@ if [ -f '/opt/google-cloud-sdk/completion.bash.inc' ]; then source '/opt/google-
 [ -f ~/.fzf/shell/fzf_magic_completion.bash ] && source ~/.fzf/shell/fzf_magic_completion.bash
 
 if [[ ! $TERM =~ screen ]]; then
-    exec tmux
+  if [ -x "$(command -v tmux)" ]; then
+      exec tmux
+  fi
 fi

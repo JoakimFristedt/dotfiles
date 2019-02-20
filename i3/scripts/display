@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 command -v xrandr > /dev/null 2>&1 || {
   echo >&2 "display: I require xrandr, but it's not installed. Aborting.";

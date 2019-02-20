@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+$DIR/symlink
+
+$DIR/vim/install
+$DIR/completion/install
+$DIR/git/install
+$DIR/tmux/install

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+fzf_dir="$HOME/.fzf"
+
+if [ ! -d $fzf_dir ]; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git $fzf_dir
+  $fzf_dir/install
+fi
+
+ln -s $DIR/fzf_magic_completion.bash $fzf_dir/shell/fzf_magic_completion.bash

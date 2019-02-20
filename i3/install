@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+__install() {
+  if [ -x "$(command -v i3)" ]; then
+    echo 'i3 is installed, skipping'
+  else
+    sudo apt-get install i3
+  fi
+}
+
+__configure() {
+  mkdir -p $HOME/.i3/scripts
+  ln -s $DIR/config $HOME/.i3/config
+  ln -s $DIR/i3blocks.conf $HOME/.i3/i3blocks.conf
+  ln -s $DIR/scripts/* $HOME/.i3/scripts/
+}
+
+__install
+__configure

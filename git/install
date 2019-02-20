@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -7,9 +7,11 @@ completion="git-completion.bash"
 prompt="git-prompt.sh"
 
 _install() {
-  wget --quiet -nc -P $DIR/git $base_url/$1
-  ln -fs $DIR/git/$1 ~/.$1
+  wget --quiet -nc -P $DIR $base_url/$1
+  ln -fs $DIR/$1 ~/.$1
 }
+
+sudo apt-get install git
 
 _install $prompt
 _install $completion

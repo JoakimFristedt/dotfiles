@@ -7,7 +7,7 @@ full_maven_tar_file_name="$maven_dir_name-bin.tar.gz"
 base_url="http://apache.mirrors.spacedump.net/maven/maven-3/$maven_version/binaries"
 install_dir="/opt"
 
-install() {
+__install() {
     maven_tar_file="$install_dir/$full_maven_tar_file_name"
     full_install_path="$install_dir/$maven_dir_name"
 
@@ -31,4 +31,4 @@ install() {
     echo "Symlink $symlink_maven_file created for $full_install_path"
 }
 
-install
+__install

@@ -21,4 +21,4 @@ if [ ! -d "$HOME/.bash_completion.d" ]; then
   mkdir $HOME/.bash_completion.d
 fi
 
-ln -sf $DIR/bash_completion.d/* $HOME/.bash_completion.d/
+ln -s $DIR/bash_completion.d/* $HOME/.bash_completion.d

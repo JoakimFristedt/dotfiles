@@ -1,0 +1,16 @@
+#!/usr/share/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+ln -s $DIR/inputrc $HOME/.inputrc
+ln -s $DIR/bash_aliases $HOME/.bash_aliases
+ln -s $DIR/bash_profile $HOME/.bash_profile
+ln -s $DIR/bashrc $HOME/.bashrc
+
+bin_dir="$HOME/bin"
+
+if [ ! -d $bin_dir ]; then
+  mkdir $HOME/bin
+fi
+
+ln -s $DIR/bin/* $HOME/bin

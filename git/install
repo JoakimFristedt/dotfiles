@@ -11,7 +11,16 @@ _install() {
   ln -fs $DIR/$1 ~/.$1
 }
 
-sudo apt-get install git
+if [ -x "$(command -v git)" ]; then
+  echo 'git is installed, skipping'
+else
+  sudo apt-get install git
+fi
 
 _install $prompt
 _install $completion
+
+ln -s $DIR/git/gitignore $HOME/.gitignore
+ln -s $DIR/git/gitconfig $HOME/.gitconfig
+ln -s $DIR/git/git-prompt.sh $HOME/.git-prompt.sh
+ln -s $DIR/git/git-completion.bash $HOME/.git-completion.bash

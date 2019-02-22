@@ -33,3 +33,5 @@ if [ ! -d $tpm_dir ]; then
 else
   echo 'tpm already exists'
 fi
+
+ln -s $DIR/tmux/tmux.conf $HOME/.tmux.conf

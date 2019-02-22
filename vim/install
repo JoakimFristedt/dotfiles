@@ -5,3 +5,7 @@ vundle_dir="$HOME/.vim/bundle/Vundle.vim"
 if [ ! -d $vundle_dir ]; then
   git clone https://github.com/gmarik/Vundle.vim.git $vundle_dir
 fi
+
+mkdir -p $HOME/.vim/{undos,swap,backups}
+ln -s $DIR/vim/vimrc $HOME/.vimrc
+ln -s $DIR/vim/ideavimrc $HOME/.ideavimrc

@@ -20,7 +20,7 @@ fi
 _install $prompt
 _install $completion
 
-ln -s $DIR/git/gitignore $HOME/.gitignore
-ln -s $DIR/git/gitconfig $HOME/.gitconfig
-ln -s $DIR/git/git-prompt.sh $HOME/.git-prompt.sh
-ln -s $DIR/git/git-completion.bash $HOME/.git-completion.bash
+ln -sf $DIR/gitignore $HOME/.gitignore
+ln -sf $DIR/gitconfig $HOME/.gitconfig
+ln -sf $DIR/git-prompt.sh $HOME/.git-prompt.sh
+ln -sf $DIR/git-completion.bash $HOME/.git-completion.bash

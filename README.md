@@ -2,9 +2,16 @@
 
 ```
 sudo apt-get install \
+  net-tools \
+  curl \
+  gcc \
   xclip \
   jq \
-  build-essential \
+  build-essential
+```
+
+```
+sudo apt-get install \
   cmake
   urlview \
   unclutter \

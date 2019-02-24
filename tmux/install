@@ -20,7 +20,11 @@ __install_tmux() {
 }
 
 __install_tpm() {
-  git clone https://github.com/tmux-plugins/tpm $tpm_dir 
+  if [ ! -d $tpm_dir ]; then
+    git clone https://github.com/tmux-plugins/tpm $tpm_dir 
+  else
+    echo 'tpm already exists'
+  fi
 }
 
 
@@ -42,10 +46,6 @@ else
   __install_tmux
 fi
 
-if [ ! -d $tpm_dir ]; then
-  __install_tpm
-else
-  echo 'tpm already exists'
-fi
+__install_tpm
 
 ln -sf $DIR/tmux.conf $HOME/.tmux.conf

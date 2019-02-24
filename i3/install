@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+scripts_dir="$HOME/.i3/scripts"
 
 __install() {
   if [ -x "$(command -v i3)" ]; then
@@ -11,7 +12,10 @@ __install() {
 }
 
 __configure() {
-  mkdir -p $HOME/.i3/scripts
+  if [ ! -d  $scripts_dir ]; then
+    mkdir -p $HOME/.i3/scripts
+  fi
+
   ln -s $DIR/config $HOME/.i3/config
   ln -s $DIR/i3blocks.conf $HOME/.i3/i3blocks.conf
   ln -s $DIR/scripts/* $HOME/.i3/scripts/

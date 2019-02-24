@@ -2,8 +2,8 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
+$DIR/git/install
 $DIR/bash/install
 $DIR/vim/install
 $DIR/completion/install
-$DIR/git/install
 $DIR/tmux/install

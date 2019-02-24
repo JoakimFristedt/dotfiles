@@ -16,7 +16,6 @@ done
 
 ln -sf $DIR/bash_completion ~/.bash_completion
 
-
 if [ ! -d "$HOME/.bash_completion.d" ]; then
   mkdir $HOME/.bash_completion.d
 fi

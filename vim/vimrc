@@ -36,7 +36,7 @@ filetype plugin on
 filetype plugin indent on
 filetype off
 if has("syntax")
-  syntax on
+    syntax on
 endif
 set undodir=$HOME/.vim/undos
 set undofile
@@ -60,14 +60,14 @@ set smartcase
 set foldmethod=indent
 set foldlevel=99
 set encoding=utf-8
-set clipboard=unnamedplus
+set clipboard=unnamed
 set backspace=indent,eol,start
 set number
 set shortmess=atI
 set t_Co=256
 
 setlocal complete+=k
-setlocal dictionary+=/tmp/complete-*
+"setlocal dictionary+=/tmp/complete-*
 setlocal iskeyword+=.
 
 " searches use normal regexes
@@ -154,7 +154,7 @@ map <C-b> :YcmCompleter GoTo<CR>
 map <leader>b :Buffers<CR>
 map <leader>o :Files<CR>
 map <leader>c :Commands<CR>
-inoremap <expr> <C-L> fzf#vim#complete('cat /tmp/complete-*')
+"inoremap <expr> <C-L> fzf#vim#complete('cat /tmp/complete-*')
 
 map /  <Plug>(incsearch-forward)
 map ?  <Plug>(incsearch-backward)

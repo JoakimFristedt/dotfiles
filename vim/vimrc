@@ -33,6 +33,7 @@ Plugin 'vim-scripts/vim-auto-save'
 call vundle#end()
 
 set nocompatible
+filetype plugin on
 filetype plugin indent on
 filetype off
 if has("syntax")
@@ -108,8 +109,6 @@ let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_no_startup_for_diff=0
 let g:nerdtree_tabs_autoclose=0
 
-let g:ctrlp_cmd='CtrlPBuffer'
-
 let g:wildfire_objects=["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 
 let g:auto_save=1
@@ -179,7 +178,6 @@ nnoremap <leader>tn :tabnew<CR>
 nnoremap <leader>to :tabonly<CR>
 nnoremap <leader>tc :tabclose<CR>
 nnoremap <leader>tm :tabmove<CR>
-nnoremap <leader>e :%!bash<CR>
 
 nnoremap <leader>vn :vnew<CR>
 nnoremap <leader>n :new<CR>
@@ -203,9 +201,6 @@ nnoremap <BS> :nohlsearch<CR>
 
 inoremap jj <ESC>
 inoremap <S-Tab> <C-d>
-
-vnoremap <leader>fj :!jq .<CR>
-vnoremap <leader>e :!bash<CR>
 
 vnoremap < <gv
 vnoremap > >gv

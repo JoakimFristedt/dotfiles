@@ -1,7 +1,17 @@
 #!/usr/bin/env bash
 
+__usage() {
+  echo "Usage: install [options]"
+  echo ""
+  echo "Options"
+  echo "-f, --force"
+  echo "    Force tmux installation"
+  echo "-h, --help"
+  echo "    Print this usage"
+}
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-VERSION=2.7
+VERSION=2.8
 tpm_dir="$HOME/.tmux/plugins/tpm"
 
 __install_tmux() {
@@ -27,25 +37,38 @@ __install_tpm() {
   fi
 }
 
+__install() {
+  if [ -x "$(command -v gcc)" ]; then
+    echo 'gcc is installed, skipping'
+  else
+    sudo apt-get -y install gcc
+  fi
+  if [[ ! $force ]] && [ -x "$(command -v gcc)" ]; then
+    echo 'tmux is installed, skipping'
+  else
+    __install_tmux
+  fi
+}
 
-if [ -x "$(command -v gcc)" ]; then
-  echo 'gcc is installed, skipping'
-else
-  sudo apt-get install gcc
-fi
+while [ "$1" != "" ]; do
+  case $1 in
+    -f | --force)
+      shift
+      force=true
+      ;;
+    -h | --help )
+      __usage
+      exit
+      ;;
+    * )
+      __usage
+      exit
+      ;;
+  esac
+  shift
+done
 
-if [ -x "$(command -v make)" ]; then
-  echo 'gcc is installed, skipping'
-else
-  sudo apt-get install make
-fi
-
-if [ -x "$(command -v tmux)" ]; then
-  echo 'tmux is installed, skipping'
-else
-  __install_tmux
-fi
-
+__install
 __install_tpm
 
-ln -sf $DIR/tmux.conf $HOME/.tmux.conf
+#ln -sf $DIR/tmux.conf $HOME/.tmux.conf

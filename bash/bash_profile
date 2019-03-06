@@ -32,3 +32,4 @@ export PATH="$M2:$PATH"
 
 # Intellij
 PATH="$PATH:/opt/idea/bin"
+export DOCKER_HOST=localhost:2375

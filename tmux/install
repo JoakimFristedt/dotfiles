@@ -43,6 +43,11 @@ __install() {
   else
     sudo apt-get -y install gcc
   fi
+  if [ -x "$(command -v make)" ]; then
+    echo 'make is installed, skipping'
+  else
+    sudo apt-get -y install make
+  fi
   if [[ ! $force ]] && [ -x "$(command -v gcc)" ]; then
     echo 'tmux is installed, skipping'
   else

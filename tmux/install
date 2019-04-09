@@ -76,4 +76,4 @@ done
 __install
 __install_tpm
 
-#ln -sf $DIR/tmux.conf $HOME/.tmux.conf
+ln -sf $DIR/tmux.conf $HOME/.tmux.conf

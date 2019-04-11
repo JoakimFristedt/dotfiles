@@ -3,16 +3,13 @@ call vundle#begin()
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'AndrewRadev/linediff.vim'
 Plugin 'dhruvasagar/vim-table-mode'
-Plugin 'easymotion/vim-easymotion'
 Plugin 'elzr/vim-json'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'gmarik/Vundle.vim'
 Plugin 'godlygeek/tabular'
-Plugin 'haya14busa/incsearch-easymotion.vim'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch.vim'
 Plugin 'honza/vim-snippets'
-Plugin 'jistr/vim-nerdtree-tabs'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/limelight.vim'
@@ -23,9 +20,11 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'SirVer/ultisnips'
+Plugin 'tpope/vim-speeddating'
 Plugin 'tmux-plugins/vim-tmux'
-Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-repeat' " cs,ds,yss
 Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
 Plugin 'Valloric/YouCompleteMe', { 'dir': '~/.vim/bundle/YouCompleteMe', 'do': './install.py' }
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -154,6 +153,10 @@ map <leader>b :Buffers<CR>
 map <leader>o :Files<CR>
 map <leader>c :Commands<CR>
 inoremap <expr> <C-L> fzf#vim#complete('cat /tmp/complete-*')
+
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay
 
 nmap <leader>a <Plug>(wildfire-quick-select)
 

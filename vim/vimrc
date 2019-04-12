@@ -13,7 +13,6 @@ Plugin 'honza/vim-snippets'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
 Plugin 'junegunn/limelight.vim'
-Plugin 'majutsushi/tagbar' " sudo apt-get install ctags
 Plugin 'mkitt/tabline.vim'
 Plugin 'nvie/vim-flake8'
 Plugin 'scrooloose/nerdtree'
@@ -140,6 +139,8 @@ let g:loaded_syntastic_java_javac_checker=1
 
 let g:fzf_layout = { 'down': '~20%' }
 
+let g:auto_save=1
+
 " move to char
 map  <leader>f <Plug>(easymotion-bd-f)
 " move to line
@@ -188,11 +189,9 @@ nnoremap <leader>n :new<CR>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
-nnoremap <F8> :TagbarToggle<CR>
 nnoremap <C-N> :MundoToggle<CR>
 nnoremap <leader>r :NERDTreeFind<CR>
 nnoremap <silent> <C-T> :NERDTreeToggle<CR>
-nnoremap <silent><expr> <leader>/ incsearch#go(<SID>config_easyfuzzymotion())
 
 nnoremap \z :setlocal foldexpr=(getline(v:lnum)=~@/)?0:(getline(v:lnum-1)=~@/)\\|\\|(getline(v:lnum+1)=~@/)?1:2 foldmethod=expr foldlevel=0 foldcolumn=2<CR>
 
@@ -212,14 +211,3 @@ cnoremap <C-H> <Left>
 cnoremap <C-J> <Down>
 cnoremap <C-K> <Up>
 cnoremap <C-L> <Right>
-
-" fuzzy-search with EasyMotion
-function! s:config_easyfuzzymotion(...) abort
-  return extend(copy({
-  \   'converters': [incsearch#config#fuzzyword#converter()],
-  \   'modules': [incsearch#config#easymotion#module({'overwin': 1})],
-  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
-  \   'is_expr': 0,
-  \   'is_stay': 1
-  \ }), get(a:, 1, {}))
-endfunction

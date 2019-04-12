@@ -115,7 +115,7 @@ bindsym XF86MonBrightnessUp exec --no-startup-id $scrips_dir/backlight -inc 10
 bindsym XF86AudioMute exec --no-startup-id $scripts_dir/volume action set-sink-mute toggle
 
 bindsym Print exec $scripts_dir/screenshot --window
-bindsym $mod+Print exec $scripts_dir/screenshot --area
+bindsym $mod+i exec gnome-screenshot -a
 
 workspace $workspace1 output $primaryScreen
 workspace $workspace2 output $primaryScreen

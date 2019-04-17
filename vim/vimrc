@@ -28,6 +28,7 @@ Plugin 'Valloric/YouCompleteMe', { 'dir': '~/.vim/bundle/YouCompleteMe', 'do': '
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/vim-auto-save'
+Plugin 'terryma/vim-multiple-cursors'
 call vundle#end()
 
 set nocompatible
@@ -189,7 +190,7 @@ nnoremap <leader>n :new<CR>
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprev<CR>
 
-nnoremap <C-N> :MundoToggle<CR>
+"nnoremap <C-N> :MundoToggle<CR>
 nnoremap <leader>r :NERDTreeFind<CR>
 nnoremap <silent> <C-T> :NERDTreeToggle<CR>
 

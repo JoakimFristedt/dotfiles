@@ -1,3 +1,7 @@
 source ~/.vimrc
 set surround
 set multiple-cursors
+
+map /  /
+map ?  ?
+set ideajoin

@@ -1,6 +1,6 @@
 # initial
 
-```
+```bash
 sudo apt-get install \
   net-tools \
   curl \
@@ -10,7 +10,13 @@ sudo apt-get install \
   build-essential
 ```
 
+```bash
+gsettings set org.gnome.desktop.input-sources xkb-options "['caps:swapescape']"
 ```
+
+## i3vm
+
+```bash
 sudo apt-get install \
   cmake
   urlview \
@@ -23,6 +29,6 @@ sudo apt-get install \
 
 # solarized
 
-```
+```bash
 git clone https://github.com/Anthony25/gnome-terminal-colors-solarized
 ```

@@ -21,9 +21,9 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 export EDITOR=/usr/bin/vim
 
 # Java
-#export JAVA_HOME="/usr/lib/jvm/default-java"
+export JAVA_HOME="/usr/lib/jvm/default-java"
 #export JAVA_HOME="/usr/lib/jvm/java-1.8.0-openjdk-amd64"
-export JAVA_HOME="/usr/lib/jvm/jdk-11.0.6+10"
+#export JAVA_HOME="/usr/lib/jvm/jdk-11.0.6+10"
 export PATH="$JAVA_HOME/bin:$PATH"
 
 # Maven
@@ -31,6 +31,9 @@ export M2_HOME="/opt/maven"
 export M2="$M2_HOME/bin"
 export MAVEN_OPTS="-Xms4g -Xmx4g"
 export PATH="$M2:$PATH"
+
+# Gradlee
+export PATH="/opt/gradle/bin:$PATH"
 
 # Intellij
 PATH="$PATH:/opt/idea/bin"

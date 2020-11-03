@@ -3,6 +3,8 @@
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 vundle_dir="$HOME/.vim/bundle/Vundle.vim"
 
+# Fix so vim is installed?
+
 if [ ! -d $vundle_dir ]; then
   git clone https://github.com/gmarik/Vundle.vim.git $vundle_dir
 else

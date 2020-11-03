@@ -67,7 +67,7 @@ set shortmess=atI
 set t_Co=256
 
 setlocal complete+=k
-setlocal dictionary+=/tmp/complete-*
+"setlocal dictionary+=/tmp/complete-*
 setlocal iskeyword+=.
 
 " searches use normal regexes

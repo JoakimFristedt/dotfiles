@@ -48,3 +48,10 @@ alias fvim='vim $(fzf)'
 alias fv='fvim'
 alias gcb='git checkout $(git branch | fzf)'
 alias gcf='git checkout -- $(git diff --name-only --relative | fzf)'
+
+alias k="kubectl"
+alias kc='k config view | grep current-context | tr -s " " | cut -f 2 -d " "'
+
+alias kexec='k exec -it $(kubectl --context $(kc) get pods | fzf) -- /bin/bash'
+#alias klogs='k logs -f $(kubectl --context $(kc) get pods | fzf)'
+alias kgrep='k --context $(kc) get pods | grep $1'

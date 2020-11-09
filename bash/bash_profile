@@ -32,8 +32,16 @@ export M2="$M2_HOME/bin"
 export MAVEN_OPTS="-Xms4g -Xmx4g"
 export PATH="$M2:$PATH"
 
-# Gradlee
+# Gradle
 export PATH="/opt/gradle/bin:$PATH"
 
 # Intellij
 PATH="$PATH:/opt/idea/bin"
+
+export PATH=$PATH:~/bin
+
+alias img_check='/home/joakim/code/command-line-tools/bash/img_check.sh'
+export KUBECONFIG=/home/joakim/.kube/config:/home/joakim/.kube/config.lab:/home/joakim/.kube/config.dev:/home/joakim/.kube/config.qa:/home/joakim/.kube/config.stage:/home/joakim/.kube/config.prod
+
+source ~/bin/kubectx.bash_completion
+source ~/bin/kubens.bash_completion

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Repo: https://github.com/Bisnode/kubectl-tbac
+
+file_name="kubectl-tbac-linux.zip"
+curl -LO "https://github.com/Bisnode/kubectl-tbac/releases/download/v1.0.3/$file_name" > /tmp/$file_name
+
+unzip $file_name -d $HOME/bin
+
+chmod +x $HOME/bin/kubectl-tbac

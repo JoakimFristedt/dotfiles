@@ -18,7 +18,7 @@ gsettings set org.gnome.desktop.input-sources xkb-options "['caps:swapescape']"
 
 ```bash
 sudo apt-get install \
-  cmake
+  cmake \
   urlview \
   unclutter \
   feh \

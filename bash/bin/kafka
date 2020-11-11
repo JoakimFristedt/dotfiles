@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+command -v kafkacat > /dev/null 2>&1 || {
+  echo >&2 "kafka: I require kafkacat, but it's not installed. Aborting.";
+  exit 1;
+}
+
+command -v fzf > /dev/null 2>&1 || {
+  echo >&2 "kafka: I require fzf, but it's not installed. Aborting.";
+  exit 1;
+}
+
+if [ -f .kafka_config ]; then
+  source .kafka_config
+else
+  KAFKA_BROKER="localhost:9092"
+  KAFKA_USERNAME=""
+  KAFKA_PASSWORD=""
+fi
+
+if [ -z $KAFKA_USERNAME ]; then
+  KAFKA_SECURITY_OPTS=""
+else
+KAFKA_SECURITY_OPTS="-X security.protocol=SASL_SSL \
+  -X sasl.username=$KAFKA_USERNAME \
+  -X sasl.password=$KAFKA_PASSWORD \
+  -X sasl.mechanisms=PLAIN"
+fi
+
+function _kafka_list_topics() {
+  kafkacat \
+    -L \
+    $KAFKA_SECURITY_OPTS \
+    -b $KAFKA_BROKER | grep "topic\s\"" | cut -d "\"" -f 2
+}
+
+function _kafka_consume_topic() {
+  kafkacat \
+    -C \
+    $KAFKA_SECURITY_OPTS \
+    -b $KAFKA_BROKER \
+    -t $(_kafka_list_topics | fzf)
+}
+
+_kafka_consume_topic

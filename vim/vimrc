@@ -184,6 +184,8 @@ nnoremap <leader>to :tabonly<CR>
 nnoremap <leader>tc :tabclose<CR>
 nnoremap <leader>tm :tabmove<CR>
 
+nnoremap <leader>m `<CR>
+
 nnoremap <leader>vn :vnew<CR>
 nnoremap <leader>n :new<CR>
 

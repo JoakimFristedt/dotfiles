@@ -2,10 +2,10 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-ln -sf $DIR/inputrc $HOME/.inputrc
-ln -sf $DIR/bash_aliases $HOME/.bash_aliases
-ln -sf $DIR/bash_profile $HOME/.bash_profile
-ln -sf $DIR/bashrc $HOME/.bashrc
+ln -sv $DIR/inputrc $HOME/.inputrc
+ln -sv $DIR/bash_aliases $HOME/.bash_aliases
+ln -sv $DIR/bash_profile $HOME/.bash_profile
+ln -sv $DIR/bashrc $HOME/.bashrc
 
 bin_dir="$HOME/bin"
 

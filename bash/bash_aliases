@@ -59,10 +59,5 @@ alias kc='k config view | grep current-context | tr -s " " | cut -f 2 -d " "'
 alias kp='k --context $(kc) get pods -o custom-columns=":metadata.name"'
 
 alias kexec='k exec -it $(kubectl --context $(kc) get pods | fzf) -- /bin/bash'
-alias klogs='k logs -f $(kp | fzf)'
+alias ktail='k logs -f $(kp | fzf)'
 alias kgrep='k --context $(kc) get pods | grep $1'
-
-# Kafka
-## TODO: Hostname?
-#alias _kafka_list_topics='kafkacat -L -b localhost:9092 | grep "topic\s\"" | cut -d "\"" -f 2'
-#alias _kafka_consume_topic='kafkacat -C -t $(_kafka_list_topics | fzf) -b localhost:9092'

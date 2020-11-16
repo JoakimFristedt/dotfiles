@@ -19,16 +19,16 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'simnalamburt/vim-mundo'
 Plugin 'SirVer/ultisnips'
-Plugin 'tpope/vim-speeddating'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat' " cs,ds,yss
+Plugin 'tpope/vim-speeddating'
 Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
+"Plugin 'tpope/vim-unimpaired'
 Plugin 'Valloric/YouCompleteMe', { 'dir': '~/.vim/bundle/YouCompleteMe', 'do': './install.py' }
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'vim-scripts/vim-auto-save'
-Plugin 'terryma/vim-multiple-cursors'
 call vundle#end()
 
 set nocompatible
@@ -182,9 +182,10 @@ nnoremap <leader>th :tabprevious<CR>
 nnoremap <leader>tn :tabnew<CR>
 nnoremap <leader>to :tabonly<CR>
 nnoremap <leader>tc :tabclose<CR>
+nnoremap <leader>tC :tabclose!<CR>
 nnoremap <leader>tm :tabmove<CR>
 
-nnoremap <leader>m `<CR>
+nnoremap <leader>m `
 
 nnoremap <leader>vn :vnew<CR>
 nnoremap <leader>n :new<CR>

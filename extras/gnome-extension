@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+command -v gnome-extensions > /dev/null 2>&1 || {
+  echo >&2 "I require gnome-shell-extension-tool, but it's not installed. Aborting.";
+  exit 1;
+}
+
+extensions=(
+  "https://extensions.gnome.org/extension-data/pixel-saverdeadalnix.me.v23.shell-extension.zip"
+)
+
+extension_root_dir="$HOME/.local/share/gnome-shell/extensions"
+
+for uri in "${extensions[@]}" ; do
+  temp_extension_file="/tmp/extension.zip"
+  if [ ! -f $temp_extension_file ]; then
+    echo "Downloading: "  $uri
+    curl $uri > $temp_extension_file
+  fi
+
+  extension_name=$(unzip -cq $temp_extension_file metadata.json | jq -r .uuid)
+  extension_install_dir=$extension_root_dir/$extension_name
+  if [ ! -d $extension_install_dir ]; then
+    echo "Creating and unzipping extension:" $extension_name " to: " $extension_install_dir
+
+    mkdir -p $extension_install_dir
+    unzip -q $temp_extension_file -d $extension_install_dir
+
+    gnome-extensions enable $extension_name
+
+  else
+    echo "Extension already installed"
+    gnome-extensions show $extension_name
+  fi
+
+done

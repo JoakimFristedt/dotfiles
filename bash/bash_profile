@@ -16,7 +16,7 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 # set PATH so it includes user's private bin directories
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+PATH="$PATH:$HOME/bin:$HOME/.local/bin"
 
 export EDITOR=/usr/bin/vim
 
@@ -28,17 +28,14 @@ export PATH="$JAVA_HOME/bin:$PATH"
 
 # Maven
 export M2_HOME="/opt/maven"
-export M2="$M2_HOME/bin"
 export MAVEN_OPTS="-Xms4g -Xmx4g"
-export PATH="$M2:$PATH"
+export PATH="$PATH:$M2_HOME/bin"
 
 # Gradle
-export PATH="/opt/gradle/bin:$PATH"
+export PATH="$PATH:/opt/gradle/bin"
 
 # Intellij
-PATH="$PATH:/opt/idea/bin"
-
-export PATH=$PATH:~/bin
+export PATH="$PATH:/opt/idea/bin"
 
 alias img_check='/home/joakim/code/command-line-tools/bash/img_check.sh'
 export KUBECONFIG=/home/joakim/.kube/config:/home/joakim/.kube/config.lab:/home/joakim/.kube/config.dev:/home/joakim/.kube/config.qa:/home/joakim/.kube/config.stage:/home/joakim/.kube/config.prod

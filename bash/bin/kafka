@@ -27,20 +27,20 @@ else
     -X sasl.mechanisms=PLAIN"
 fi
 
-function _list_metadata_for_all_topics() {
+function _get_topics_metadata() {
   kafkacat \
     -L \
     $KAFKA_SECURITY_OPTS \
     -b $KAFKA_BROKER
 }
 
-function _list_topics() {
-  _list_metadata_for_all_topics | grep "topic\s\"" | cut -d "\"" -f 2
+function _get_topics() {
+  _get_topics_metadata | grep "topic\s\"" | cut -d "\"" -f 2
 }
 
 function _consume_topic() {
   if [ -z $TOPIC ]; then
-    TOPIC=$(_list_topics | fzf)
+    TOPIC=$(_get_topics | fzf)
   fi
   kafkacat \
     -C \
@@ -57,7 +57,7 @@ key="$1"
 case $key in
     -L | list)
     shift
-		_list_topics
+    _get_topics
     ;;
     -C | consume)
     shift
@@ -65,7 +65,7 @@ case $key in
     ;;
     -M | metadata)
     shift
-    _list_metadata_for_all_topics
+    _get_topics_metadata
     ;;
     -t | --topic)
     shift

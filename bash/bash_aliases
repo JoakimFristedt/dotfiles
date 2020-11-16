@@ -50,8 +50,6 @@ alias xclip='xclip -selection clipboard'
 
 alias fvim='vim $(fzf)'
 alias fv='fvim'
-alias gcb='git checkout $(git branch | fzf)'
-alias gcf='git checkout -- $(git diff --name-only --relative | fzf)'
 
 alias k="kubectl"
 alias kc='k config view | grep current-context | tr -s " " | cut -f 2 -d " "'

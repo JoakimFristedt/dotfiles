@@ -11,7 +11,8 @@ sudo apt-get install \
 ```
 
 ```bash
-gsettings set org.gnome.desktop.input-sources xkb-options "['caps:swapescape']"
+gsettings \
+  set org.gnome.desktop.input-sources xkb-options "['caps:swapescape']"
 ```
 
 ## i3vm

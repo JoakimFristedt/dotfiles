@@ -17,12 +17,12 @@ __install() {
     echo "$full_zip_file_name already exists, not downloading"
   fi
 
-    if [ ! -d "$full_install_path" ]; then
-        unzip $tar_file -d $install_dir
-        echo "Extracted $tar_file to $full_install_path"
-    else
-        echo "Not extracting $tar_file since $full_install_path exists"
-    fi
+  if [ ! -d "$full_install_path" ]; then
+      unzip $tar_file -d $install_dir
+      echo "Extracted $tar_file to $full_install_path"
+  else
+      echo "Not extracting $tar_file since $full_install_path exists"
+  fi
 
   symlink_gradle_file="$install_dir/gradle"
   rm $symlink_gradle_file

@@ -1,0 +1,107 @@
+{
+  "header": {
+    "uniqueIdentifiers": [
+      {
+        "ontologyReference": "http://ontology.bisnode.net/person/se/IdentityNumber",
+        "completeIdentifierValue": "199704200000"
+      }
+    ],
+    "ontologyVersion": "bisnode-tag-1.102.0",
+    "datasetOntologyReference": "http://ontology.bisnode.net/dataset#creditInquiriesSe",
+    "dataEntityOntologyReference": "http://ontology.bisnode.net/core/Person",
+    "scope": "LOAD",
+    "batchId": "ecf8f57d-32a9-4359-8ac8-e555104e8b1a",
+    "batchRecordId": "1",
+    "createdAtSourceTimestamp": null,
+    "firstSeenInOdpTimestamp": null,
+    "dataUpdatedInOdpTimestamp": null,
+    "lastSeenInOdpTimestamp": null,
+    "deletedFromSourceTimestamp": null,
+    "masterReadTimestamp": "2020-09-29T18:11:02.894+02:00",
+    "masterWriteTimestamp": "2019-12-02T06:31:16.416+02:00",
+    "dispatchedTimestamp": "2020-09-29T18:11:03.151863+02:00"
+  },
+  "data": {
+    "cor:Person": {
+      "cor:isIdentifiedBy": {
+        "per/se:IdentityNumber": {
+          "cor:hasCompleteIdentifierValue": "199704200000"
+        }
+      },
+      "inq:isSubjectIn": {
+        "inq/se:CreditInquiry": {
+          "inq:isRequestedBy": {
+            "bus:BisnodeCustomer": {
+              "inq:hasExecutingAgent": {
+                "bus:Agent": {
+                  "cor:isIdentifiedBy": {
+                    "bus/se:kappa/AgentCode": {
+                      "cor:hasCompleteIdentifierValue": "SMYQ"
+                    }
+                  }
+                }
+              },
+              "inq/se:hasCreditInquiryCategoryCode": {
+                "inq/se:CategoryCode": {
+                  "cor:referenceIRI": "http://ontology.bisnode.net/inquirycode/se/bisnode#749"
+                }
+              },
+              "cor:isIdentifiedBy": {
+                "bus/se:kappa/CustomerCode": {
+                  "cor:hasCompleteIdentifierValue": "OTV5"
+                }
+              }
+            }
+          },
+          "inq:hasInquiryDate": {
+            "cor:Date": {
+              "cor:hasDateTimeValue": "2019-04-02T06:31:16.415934+02:00",
+              "cor:hasDatePrecision": {
+                "cor:DatePrecision": {
+                  "cor:referenceIRI": "http://ontology.bisnode.net/dateprecision/bisnode#ms"
+                }
+              }
+            }
+          },
+          "cor:referenceId": "970420000045020190402063116415934",
+          "cor:isIdentifiedBy": {
+            "inq/se:CreditInquiryIdentifier": {
+              "cor:hasCompleteIdentifierValue": "97042000004502019-04-02 06:31:16.415934"
+            }
+          },
+          "cor:hasValidityPeriod": {
+            "cor:PeriodOfTime": {
+              "cor:hasStartDate": {
+                "cor:Date": {
+                  "cor:hasDateTimeValue": "2019-04-02T06:31:16.416001+02:00",
+                  "cor:hasDatePrecision": {
+                    "cor:DatePrecision": {
+                      "cor:referenceIRI": "http://ontology.bisnode.net/dateprecision/bisnode#ms"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "inq:isRequestedThrough": {
+            "bus:BisnodeProduct": {
+              "cor:isIdentifiedBy": {
+                "bus/se:kappa/ProductCode": {
+                  "cor:hasCompleteIdentifierValue": "SV1"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "@context": {
+      "bus": "http://ontology.bisnode.net/businesssupportsystem/",
+      "bus/se": "http://ontology.bisnode.net/businesssupportsystem/se/",
+      "per/se": "http://ontology.bisnode.net/person/se/",
+      "cor": "http://ontology.bisnode.net/core/",
+      "inq/se": "http://ontology.bisnode.net/inquiry/se/",
+      "inq": "http://ontology.bisnode.net/inquiry/"
+    }
+  }
+}

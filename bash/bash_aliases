@@ -26,11 +26,16 @@ alias idea='bash -c "nohup idea.sh . >/dev/null 2>&1 &"'
 
 alias mci='mvn clean install'
 alias mcid='mvn clean install -Ddockerfile.skip'
+alias mct='mvn clean test'
 alias mjr='mvn jetty:run'
 alias mvs='mvn versions:set'
 alias mvc='mvn versions:commit'
 alias msr='mvn spring-boot:run'
 alias mdt='mvn dependency:tree'
+
+# temp
+alias gc='git checkout $(git branch | fzf)'
+alias gca='git checkout -b $(git branch | fzf)'
 
 alias g='gradle'
 alias gcb='g clean build'

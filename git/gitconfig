@@ -15,7 +15,6 @@
 	t = "!git tree"
 	d = "!f() { git diff  HEAD~\"$1^\"; }; f"
 	b = "!git for-each-ref --sort='-authordate' --format='%(authordate)%09%(objectname:short)%09%(refname)' refs/heads | sed -e 's-refs/heads/--'"
-	gc = checkout
 	a = add
 	s = status -s
 	co = checkout

@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 
+#set -x
+
 command -v kafkacat > /dev/null 2>&1 || {
   echo >&2 "kafka: I require kafkacat, but it's not installed. Aborting.";
+  exit 1;
+}
+
+command -v jq > /dev/null 2>&1 || {
+  echo >&2 "kafka: I require jq, but it's not installed. Aborting.";
   exit 1;
 }
 
@@ -9,6 +16,46 @@ command -v fzf > /dev/null 2>&1 || {
   echo >&2 "kafka: I require fzf, but it's not installed. Aborting.";
   exit 1;
 }
+
+usage() {
+  echo "Usage:"
+  echo "  kafka ..."
+  echo ""
+  echo "Commands:"
+  echo ""
+  echo "  -L   List topics"
+  echo "  -C   Consume topic"
+  echo "  -P   Produce to topic"
+  echo "  -PP  Produce msg to all partitions on topic"
+  echo ""
+  echo "Arguments:"
+  echo ""
+  echo "  -t, --topic"
+  echo "  -p, --partition"
+  echo "  -o, --offset"
+  echo "  -m, --message     Message to produce (only applicable on -P, -PP)"
+  echo ""
+  echo ""
+  echo "Example:"
+  echo ""
+  echo "Consume topic:"
+  echo "kafka -t test -C"
+  echo ""
+  echo "Consume topic on partition"
+  echo "kafka -t test -C -p 0"
+  echo ""
+  echo "Produce message to topic:"
+  echo "kafka -t test -P"
+  echo ""
+  echo "Produce message to all partitions on topic:"
+  echo "  kafka -t test -PP -m '{"name":"joakim"}'"
+  echo ""
+}
+
+if [[ ${1} == "--help" ]]; then
+  usage
+  exit 0
+fi
 
 if [ -f .kafka_config ]; then
   source .kafka_config
@@ -42,11 +89,86 @@ function _consume_topic() {
   if [ -z $TOPIC ]; then
     TOPIC=$(_get_topics | fzf)
   fi
+  if [ -z $PARTITION ]; then
+    if [ -z $OFFSET ]; then
+      kafkacat \
+        -C \
+        $KAFKA_SECURITY_OPTS \
+        -b $KAFKA_BROKER \
+        -t $TOPIC
+    else
+      kafkacat \
+        -C \
+        $KAFKA_SECURITY_OPTS \
+        -b $KAFKA_BROKER \
+        -t $TOPIC \
+        -o $OFFSET
+    fi
+  else 
+    if [ -z $OFFSET ]; then
+      kafkacat \
+        -C \
+        $KAFKA_SECURITY_OPTS \
+        -b $KAFKA_BROKER \
+        -t $TOPIC \
+        -p $PARTITION
+    else
+      kafkacat \
+        -C \
+        $KAFKA_SECURITY_OPTS \
+        -b $KAFKA_BROKER \
+        -t $TOPIC \
+        -p $PARTITION \
+        -o $OFFSET
+    fi
+  fi
+}
+
+function _produce_to_topic() {
+  if [ -z $TOPIC ]; then
+    TOPIC=$(_get_topics | fzf)
+  fi
   kafkacat \
-    -C \
+    -P \
     $KAFKA_SECURITY_OPTS \
     -b $KAFKA_BROKER \
     -t $TOPIC
+}
+
+function _produce_msg_to_all_partitions() {
+  if [ -z $TOPIC ]; then
+    TOPIC=$(_get_topics | fzf)
+  fi
+  if [ -z $MSG ]; then
+    echo "Missing mandatory [-m,--message] flag"
+    exit 1
+  fi
+
+  partitions=$(_get_partitions_for_topic)
+  echo Topic $TOPIC has $partitions partitions
+
+  for ((i=0;i<=$partitions;i++)); do
+      echo "Writing msg to partition: $i"
+      echo $MSG | kafkacat \
+        -P \
+        $KAFKA_SECURITY_OPTS \
+        -b $KAFKA_BROKER \
+        -t $TOPIC \
+        -p $i
+        $1
+  done
+}
+
+function _get_partitions_for_topic() {
+  if [ -z $TOPIC ]; then
+    TOPIC=$(_get_topics | fzf)
+  fi
+  kafkacat \
+    -L \
+    $KAFKA_SECURITY_OPTS \
+    -b $KAFKA_BROKER \
+    -t $TOPIC \
+    -J | jq -r .topics[0].partitions[].partition | tail -n 1
 }
 
 POSITIONAL=()
@@ -57,19 +179,42 @@ key="$1"
 case $key in
     -L | list)
     shift
-    _get_topics
+    ARG=_get_topics
     ;;
     -C | consume)
     shift
-    _consume_topic
+    ARG=_consume_topic
+    ;;
+    -P | produce)
+    shift
+    ARG=_produce_to_topic
+    ;;
+    -PP | produce-to-all)
+    shift
+    ARG=_produce_msg_to_all_partitions
     ;;
     -M | metadata)
     shift
-    _get_topics_metadata
+    ARG=_get_topics_metadata
     ;;
     -t | --topic)
     shift
     TOPIC="$1"
+    shift
+    ;;
+    -p | --partition)
+    shift
+    PARTITION="$1"
+    shift
+    ;;
+    -o | --offset)
+    shift
+    OFFSET="$1"
+    shift
+    ;;
+    -m | --message)
+    shift
+    MSG=$1
     shift
     ;;
     -v | --verbose)
@@ -83,3 +228,5 @@ case $key in
     ;;
 esac
 done
+
+$ARG

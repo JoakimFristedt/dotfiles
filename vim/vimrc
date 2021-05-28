@@ -89,9 +89,11 @@ let g:solarized_visibility='high'
 let g:solarized_contrast='high'
 colorscheme solarized
 set background=dark
+"set background=light
 
 let g:airline_powerline_fonts=1
 let g:airline_solarized_bg='dark'
+"let g:airline_solarized_bg='light'
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 
@@ -108,7 +110,7 @@ let g:nerdtree_tabs_open_on_console_startup=1
 let g:nerdtree_tabs_no_startup_for_diff=0
 let g:nerdtree_tabs_autoclose=0
 
-let g:wildfire_objects=["iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
+let g:wildfire_objects=["iw", "iW", "i'", 'i"', "i)", "i]", "i}", "ip", "it"]
 
 let g:auto_save=1
 let g:auto_save_in_insert_mode=0

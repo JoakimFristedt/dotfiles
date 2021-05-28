@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+
+command -v curl > /dev/null 2>&1 || {
+  echo >&2 "es: I require curl, but it's not installed. Aborting.";
+  exit 1;
+}
+
+elasticsearch_base_url="http://localhost:9200"
+elasticsearch_user=""
+elasticsearch_password=""
+
+if ! [[ "${1^^}" =~ ^GET|PUT|POST|DELETE|HEAD$ ]] || [[ -z "$2" ]]; then
+  echo "Usage: es request_method es_path [body|@file|@-]"
+  echo ""
+  echo "Examples"
+  echo ""
+  echo "Search all documents:"
+  echo "  es get _search"
+  echo ""
+  echo "Search request with body:"
+  echo "  es get _search '{\"query\":{\"match_all\":{}}}'"
+  echo ""
+  echo "Update index template from file:"
+  echo "  es put _template/my-template @index-template.json"
+  echo ""
+  exit 0
+fi
+
+request_method="${1^^}"
+es_path="$2"
+body="$3"
+
+if [[ -f ".elastic-conf" ]]; then
+  source ".elastic-conf"
+fi
+
+if [[ $(curl --write-out %{http_code} --silent --output /dev/null "$elasticsearch_base_url") == 401 ]]; then
+  if [[ -z "$elasticsearch_user" ]]; then
+    read -p "Enter username: " elasticsearch_user
+  fi
+  if [[ -z "$elasticsearch_password" ]]; then
+    read -s -p "Enter Password: " elasticsearch_password
+  fi
+fi
+
+if [[ $body ]]; then
+  if [[ $body == @* ]] && [[ -f "${body#@}" ]]; then
+    curl \
+      "$elasticsearch_base_url/$es_path" \
+      --insecure \
+      --silent \
+      --request "$request_method" \
+      --header 'Content-Type: application/json' \
+      --data-binary $body
+  else
+    curl \
+      "$elasticsearch_base_url/$es_path" \
+      --insecure \
+      --silent \
+      --request "$request_method" \
+      --header 'Content-Type: application/json' \
+      --data-binary "$body"
+  fi
+else
+  curl \
+    "$elasticsearch_base_url/$es_path" \
+    --insecure \
+    --silent \
+    --request "$request_method"
+fi

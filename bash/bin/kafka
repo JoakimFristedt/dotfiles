@@ -19,14 +19,15 @@ command -v fzf > /dev/null 2>&1 || {
 
 usage() {
   echo "Usage:"
-  echo "  kafka ..."
+  echo "  kafka [command] [args]"
   echo ""
   echo "Commands:"
   echo ""
-  echo "  -L   List topics"
-  echo "  -C   Consume topic"
-  echo "  -P   Produce to topic"
-  echo "  -PP  Produce msg to all partitions on topic"
+  echo "  -L, list                                 List topics"
+  echo "  -C, consume                              Consume topic"
+  echo "  -P, produce                              Produce to topic"
+  echo "  -PP, produce-to-all-partitions           Produce msg to all partitions on topic (NOTE: wrap msg with double qoutes in single qoutes)"
+  echo "  -LP                                      List amount of partitions for topic"
   echo ""
   echo "Arguments:"
   echo ""
@@ -38,17 +39,22 @@ usage() {
   echo ""
   echo "Example:"
   echo ""
-  echo "Consume topic:"
-  echo "kafka -t test -C"
+  echo "  Consume topic:"
+  echo "  kafka -t test -C"
+  echo "  "
+  echo "  Consume topic on partition"
+  echo "  kafka -t test -C -p 0"
+  echo "  "
+  echo "  Produce message to topic:"
+  echo "  kafka -t test -P"
+  echo "  "
+  echo "  Produce message to all partitions on topic:"
+  echo "    kafka -t test -PP -m '{"name":"joakim"}'"
   echo ""
-  echo "Consume topic on partition"
-  echo "kafka -t test -C -p 0"
+  echo "Security:"
   echo ""
-  echo "Produce message to topic:"
-  echo "kafka -t test -P"
-  echo ""
-  echo "Produce message to all partitions on topic:"
-  echo "  kafka -t test -PP -m '{"name":"joakim"}'"
+  echo "  Script will look for env file '.kafka_config' in currect dir. It should contain values for:"
+  echo "    KAFKA_BROKER, KAFKA_USERNAME, KAFKA_PASSWORD"
   echo ""
 }
 
@@ -85,49 +91,30 @@ function _get_topics() {
   _get_topics_metadata | grep "topic\s\"" | cut -d "\"" -f 2
 }
 
-function _consume_topic() {
+function _set_topic() {
   if [ -z $TOPIC ]; then
     TOPIC=$(_get_topics | fzf)
-  fi
-  if [ -z $PARTITION ]; then
-    if [ -z $OFFSET ]; then
-      kafkacat \
-        -C \
-        $KAFKA_SECURITY_OPTS \
-        -b $KAFKA_BROKER \
-        -t $TOPIC
-    else
-      kafkacat \
-        -C \
-        $KAFKA_SECURITY_OPTS \
-        -b $KAFKA_BROKER \
-        -t $TOPIC \
-        -o $OFFSET
-    fi
-  else 
-    if [ -z $OFFSET ]; then
-      kafkacat \
-        -C \
-        $KAFKA_SECURITY_OPTS \
-        -b $KAFKA_BROKER \
-        -t $TOPIC \
-        -p $PARTITION
-    else
-      kafkacat \
-        -C \
-        $KAFKA_SECURITY_OPTS \
-        -b $KAFKA_BROKER \
-        -t $TOPIC \
-        -p $PARTITION \
-        -o $OFFSET
-    fi
   fi
 }
 
-function _produce_to_topic() {
-  if [ -z $TOPIC ]; then
-    TOPIC=$(_get_topics | fzf)
+function _consume_topic() {
+  _set_topic
+  CMD="kafkacat \
+    -C \
+    $KAFKA_SECURITY_OPTS \
+    -b $KAFKA_BROKER \
+    -t $TOPIC"
+  if [ ! -z $PARTITION ]; then
+    CMD+=" -p $PARTITION"
   fi
+  if [ ! -z $OFFSET ]; then
+    CMD+=" -o $OFFSET"
+  fi
+  $CMD
+}
+
+function _produce_to_topic() {
+  _set_topic
   kafkacat \
     -P \
     $KAFKA_SECURITY_OPTS \
@@ -136,9 +123,7 @@ function _produce_to_topic() {
 }
 
 function _produce_msg_to_all_partitions() {
-  if [ -z $TOPIC ]; then
-    TOPIC=$(_get_topics | fzf)
-  fi
+  _set_topic
   if [ -z $MSG ]; then
     echo "Missing mandatory [-m,--message] flag"
     exit 1
@@ -160,9 +145,7 @@ function _produce_msg_to_all_partitions() {
 }
 
 function _get_partitions_for_topic() {
-  if [ -z $TOPIC ]; then
-    TOPIC=$(_get_topics | fzf)
-  fi
+  _set_topic
   kafkacat \
     -L \
     $KAFKA_SECURITY_OPTS \
@@ -192,6 +175,10 @@ case $key in
     -PP | produce-to-all)
     shift
     ARG=_produce_msg_to_all_partitions
+    ;;
+    -LP | list-partitions-for-topic)
+    shift
+    ARG=_get_partitions_for_topic
     ;;
     -M | metadata)
     shift

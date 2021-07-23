@@ -81,10 +81,11 @@ else
 fi
 
 function _get_topics_metadata() {
-  kafkacat \
+  CMD="kafkacat \
     -L \
     $KAFKA_SECURITY_OPTS \
-    -b $KAFKA_BROKER
+    -b $KAFKA_BROKER"
+  $CMD
 }
 
 function _get_topics() {
@@ -93,7 +94,7 @@ function _get_topics() {
 
 function _set_topic() {
   if [ -z $TOPIC ]; then
-    TOPIC=$(_get_topics | fzf)
+    TOPIC=$(_get_topics | fzf --height 10%)
   fi
 }
 
@@ -124,7 +125,7 @@ function _produce_to_topic() {
 
 function _produce_msg_to_all_partitions() {
   _set_topic
-  if [ -z $MSG ]; then
+  if [ -z "$MSG" ]; then
     echo "Missing mandatory [-m,--message] flag"
     exit 1
   fi

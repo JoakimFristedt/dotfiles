@@ -42,3 +42,6 @@ export KUBECONFIG=/home/joakim/.kube/config:/home/joakim/.kube/config.lab:/home/
 
 source ~/bin/kubectx.bash_completion
 source ~/bin/kubens.bash_completion
+
+export FZF_DEFAULT_COMMAND='rg --files --follow'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

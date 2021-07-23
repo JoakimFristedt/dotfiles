@@ -7,7 +7,8 @@ sudo apt-get install \
   gcc \
   xclip \
   jq \
-  build-essential
+  build-essential \
+  ripgrep 
 ```
 
 ```bash

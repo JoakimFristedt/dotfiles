@@ -1,0 +1,337 @@
+#!/usr/bin/env bash
+
+#set -x
+
+command -v kubectl > /dev/null 2>&1 || {
+  echo >&2 "kubectl: I require kafkacat, but it's not installed. Aborting.";
+  exit 1;
+}
+
+command -v jq > /dev/null 2>&1 || {
+  echo >&2 "jq: I require jq, but it's not installed. Aborting.";
+  exit 1;
+}
+
+command -v fzf > /dev/null 2>&1 || {
+  echo >&2 "fzf: I require fzf, but it's not installed. Aborting.";
+  exit 1;
+}
+
+usage() {
+  echo "Usage:"
+  echo "  dc [commands...] "
+  echo ""
+  echo "Commands:"
+  echo ""
+  echo "  Kubernetes:"
+  echo ""
+  echo "    Commands:"
+  echo ""
+  echo "      pf, port-forward   Port forward specific DC pod"
+  echo "      logs, logs         Tail logs a pods matching a certain label"
+  echo "      rm, remvove        Remove all flowgraph resources"
+  echo ""
+  echo "    Resources:"
+  echo "      tm, taskmanager    Use to perfom commands on flink taskmanagers"
+  echo "      jm, jobmanager     Use to perfom commands on flink jobmangers"
+  echo "      grafana, grafana   Use to perform commands on grafana instance"
+  echo ""
+  echo "  FlowGraph / Kafka:"
+  echo ""
+  echo "    cmd-lc, load-complete-command    Send load complete msg to topic"
+  echo "    cmd-rm, replay-message-command   Send replay command msg"
+  echo ""
+  echo "  Atlassian:"
+  echo ""
+  echo "    open-ticket, open-jira-ticket     Open jira ticket from current sprint in browser"
+  echo "    open-pr,     open-bitbucket-pr    Open bitbucket pr in browser"
+  echo ""
+  echo "Arguments:"
+  echo ""
+  echo "    -f, --force        Reset cache data for command"
+  echo "    -h, --help         Show script usage"
+  echo ""
+  echo "Examples:"
+  echo ""
+  echo "  Kubernetes:"
+  echo ""
+  echo "    dc pf jm: Interactive mode to select jobmanager pod to port forward"
+  echo "    dc logs jm: Interactive mode to select jobmanager pod to tail logs from"
+  echo "    dc rm: Remove all k8s resoruces for a FlowGraph"
+  echo ""
+  echo "  FlowGraph / Kafka:"
+  echo ""
+  echo "    dc cmd-lc: Interactive mode to send load complete msg to topic"
+  echo "    dc cmd-rm: Interactive mode to send replay msg to topic"
+  echo ""
+  echo "  Atlassian:"
+  echo ""
+  echo "    dc open-ticket: Open ticket in broswer"
+  echo "    dc open-pr: Open PR in browser"
+  echo ""
+  echo "  Cache (internal scirpt cache):"
+  echo ""
+  echo "    The cache is used for to speed up some commands, e.g. k8s pod names, k8s app names and kafka topics"
+  echo ""
+  echo "    dc lc: List entries in cache"
+  echo "    dc cc: Clean cache"
+  echo ""
+}
+
+CACHE_BASE_DIR="/tmp/dc"
+ATLASSIAN_CONF_FILE="$HOME/.atlassian_config"
+
+function k8_port_forward() {
+  if [ "$SERVICE" = "jm" ]; then
+    __k8_port_forward_job_manager
+  fi
+  if [ "$SERVICE" = "grafana" ]; then
+    __k8_port_forward_grafana
+  fi
+}
+
+function k8_tail_logs() {
+  if [ "$SERVICE" = "jm" ]; then
+    __k8_tail_flink_reousrce jobmanager
+  fi
+  if [ "$SERVICE" = "tm" ]; then
+    __k8_tail_flink_reousrce taskmanager
+  fi
+  if [ "$SERVICE" = "grafana" ]; then
+    kubetail -l app=odp-dc-grafana
+  fi
+}
+
+function k8_remove_flowgraph() {
+  APP=$(__get_flink_app_labels jobmanager | fzf)
+  QUESTION="Are you sure you want to remove '$APP' in $(__k8_get_current_namespace)?"
+  __interactive_yes_no_dialog "$QUESTION"
+  kubectl delete cm,service,pods,deployment -l app=$APP
+}
+
+function kafka_send_load_complete_command_msg() {
+  LOAD_COMPLETE_MSG='{"identifier":"60c34e0c-ee30-47be-b2a1-cd979d0fc748","data":{"fullLoadComplete":{"@class":"com.bisnode.odp.dc.domain.message.command.LoadStatusCommandMessage","name":"fullLoadComplete","sourceDatasetReferences":["Not applicable"],"createdTimestamp":"2021-06-02T04:31:16.416000Z","date":"2021-06-02T04:31:16.416000Z","type":"fullLoad","status":"completed"}},"flowGraphName":null,"flowGraphVersion":null,"createdTimestamp":"2021-06-02T04:31:16.416000Z"}'
+  __send_msg_to_kafka "$LOAD_COMPLETE_MSG"
+}
+
+function kafka_send_replay_command_msg() {
+  REPLAY_CMD_MSG='{"identifier":"c2939441-db2b-4be2-a529-1161c8d256d1","data":{"replayMessage":{"@class":"com.bisnode.odp.dc.domain.message.command.ReplayStreamCommandMessage","name":"replayMessage","sourceDatasetReferences":["Not applicable"],"createdTimestamp":"2021-06-02T04:31:16.416000Z","date":"2021-06-02T04:31:16.416000Z"}},"flowGraphName":null,"flowGraphVersion":null,"createdTimestamp":"2021-06-02T04:31:16.416000Z"}'
+  __send_msg_to_kafka "$REPLAY_CMD_MSG"
+}
+
+function jira_list_tickets_in_current_sprint() {
+  __get_jira_tickets_in_current_sprint
+}
+
+function bitbucket_list_pull_requests() {
+  __get_open_pull_requests
+}
+
+function __k8_tail_flink_reousrce() {
+  APP=$(__get_flink_app_labels jobmanager | fzf)
+  kubetail -l app=$APP,component=$1
+}
+
+function __k8_port_forward_job_manager() {
+  kubectl port-forward $(__get_pod_names jobmanager | fzf) 8081
+}
+
+function __k8_port_forward_grafana() {
+  kubectl port-forward $(kubectl get pods -l app=odp-dc-grafana  --output=name) 3000
+}
+
+function __k8_get_current_namespace() {
+  kubectl config view | grep current-context | tr -s " " | cut -f 2 -d " "
+}
+
+function __get_pod_names() {
+  cache="$CACHE_BASE_DIR/pod-names-$1"
+  if [[ ! -s $cache ]]; then
+    kubectl get pods -l component=$1 --output=name > $cache
+  fi
+  cat $cache
+}
+
+function __get_flink_app_labels() {
+  cache="$CACHE_BASE_DIR/app-labels-$1"
+  if [[ ! -s $cache ]]; then
+    kubectl get pods -l component=$1 -o jsonpath='{.items[*].metadata.labels}' | jq -r .app | grep flink | uniq > $cache
+  fi
+  cat $cache
+}
+
+function __init_cache() {
+  if [ "$FORCE" = "true" ]; then
+    echo "Cache is being cleaned"
+    rm -r $CACHE_BASE_DIR
+  fi
+  if [ ! -d $CACHE_BASE_DIR ]; then
+    mkdir $CACHE_BASE_DIR
+  fi
+}
+
+function __empty_cache() {
+  FILES="$CACHE_BASE_DIR/*"
+  for i in $FILES
+  do
+    echo "Removing content in: $i"
+    rm $i
+  done
+}
+
+function __list_cache() {
+  FILES="$CACHE_BASE_DIR/*"
+  for i in $FILES
+  do
+    echo "File: $i"
+    cat $i
+  done
+}
+
+function __send_msg_to_kafka() {
+  TOPIC=$(__get_kafka_topics | fzf)
+  MSG=$1
+  if [ -z $TOPIC ]; then
+    echo "Missing topic!"
+    exit 1
+  fi
+  if [ -z "$MSG" ]; then
+    echo "Missing msg!"
+    exit 1
+  fi
+  __interactive_yes_no_dialog "Send load-complete msg to '$TOPIC'?"
+  kafka -t "$TOPIC" -PP -m "$MSG"
+}
+
+function __get_kafka_topics() {
+  cache="$CACHE_BASE_DIR/kafka-topics"
+  if [[ ! -s $cache ]]; then
+    kafka -L > $cache
+  fi
+  cat $cache
+}
+
+function __interactive_yes_no_dialog() {
+  QUESTION=$1
+  echo -n "$QUESTION - (y/n):"
+  read -r ANSWER
+  if [ "$ANSWER" = "n" ]; then
+    echo "Nothing to see here, bye bye"
+    exit 1
+  fi
+}
+
+function __init_atlassian_config() {
+  if [[ ! -s $ATLASSIAN_CONF_FILE ]]; then
+    echo "ATLASSIAN_USERNAME=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_PASSWORD=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_JIRA_HOST=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_JIRA_BOARD_ID=\"1019\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_BITBUCKET_HOST=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "Open $ATLASSIAN_CONF_FILE and add details"
+    exit 0
+  else
+    source $ATLASSIAN_CONF_FILE
+  fi
+}
+
+function __get_jira_tickets_in_current_sprint() {
+  __init_atlassian_config
+  cache="$CACHE_BASE_DIR/jira-$ATLASSIAN_JIRA_BOARD_ID"
+  if [[ ! -s $cache ]]; then
+    curl -su $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD "$ATLASSIAN_JIRA_HOST/rest/greenhopper/1.0/xboard/work/allData.json?rapidViewId=$ATLASSIAN_JIRA_BOARD_ID" \
+          | jq -r '.issuesData.issues[] | "\(.key) | \(.assignee) | \(.summary)"' > $cache
+  fi
+
+  JIRA_BROWSE_URI="$ATLASSIAN_JIRA_HOST/browse"
+
+  cat $cache \
+    | fzf \
+    | xdg-open $JIRA_BROWSE_URI/$(awk -F ' \| ' '{print $1}')
+}
+
+function __get_open_pull_requests() {
+  __init_atlassian_config
+  cache="$CACHE_BASE_DIR/bitbucket-pull-requests"
+  if [[ ! -s $cache ]]; then
+    curl -su $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD "$ATLASSIAN_BITBUCKET_HOST/rest/api/1.0/dashboard/pull-requests" \
+      | jq -r '.values[] | select(.open == true) | "\(.title) | \(.author.user.name) | \(.links.self[].href)"' > $cache
+  fi
+
+  cat $cache \
+    | fzf \
+    | xdg-open $(awk -F ' \| ' '{print $3}')
+}
+
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    pf | port-forward)
+    shift
+    ARG=k8_port_forward
+    ;;
+    l | logs)
+    shift
+    ARG=k8_tail_logs
+    ;;
+    rm | remove)
+    shift
+    ARG=k8_remove_flowgraph
+    ;;
+    cc | clean-cache)
+    shift
+    ARG=__empty_cache
+    ;;
+    lc | list-cache)
+    shift
+    ARG=__list_cache
+    ;;
+    cmd-lc | load-complete-command)
+    shift
+    ARG=kafka_send_load_complete_command_msg
+    ;;
+    cmd-rm | replay-message-command)
+    shift
+    ARG=kafka_send_replay_command_msg
+    ;;
+    open-ticket | open-jira-ticket)
+    shift
+    ARG=jira_list_tickets_in_current_sprint
+    ;;
+    open-pr | open-bitbucket-pr)
+    shift
+    ARG=bitbucket_list_pull_requests
+    ;;
+    jm | jobmanager)
+    shift
+    SERVICE="jm"
+    ;;
+    tm | taskmanager)
+    shift
+    SERVICE="tm"
+    ;;
+    grafana | grafana)
+    shift
+    SERVICE="grafana"
+    ;;
+    -f | --force)
+    shift
+    FORCE="true"
+    ;;
+    -h | --help)
+    shift
+    usage
+    ;;
+esac
+done
+
+if [ -z "$ARG" ]; then
+  usage
+  exit 1
+fi
+
+__init_cache
+$ARG

@@ -142,6 +142,7 @@ let g:loaded_syntastic_java_javac_checker=1
 
 let g:fzf_layout = { 'down': '~20%' }
 
+
 let g:auto_save=1
 
 " move to char
@@ -187,7 +188,14 @@ nnoremap <leader>tc :tabclose<CR>
 nnoremap <leader>tC :tabclose!<CR>
 nnoremap <leader>tm :tabmove<CR>
 
+nnoremap <leader>ld :%Linediff<CR>
+
+nnoremap <leader>d ``<CR>
+
+nnoremap <leader>tm :tabmove<CR>
+
 nnoremap <leader>m `
+nnoremap <leader>mm :Marks<CR>
 
 nnoremap <leader>vn :vnew<CR>
 nnoremap <leader>n :new<CR>

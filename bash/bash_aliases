@@ -2,7 +2,6 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias .3='cd ../../../'
 alias ~='cd ~'
-
 alias c='clear'
 
 alias rmr='rm -ri'
@@ -33,9 +32,8 @@ alias mvc='mvn versions:commit'
 alias msr='mvn spring-boot:run'
 alias mdt='mvn dependency:tree'
 
-# temp
-alias gc='git checkout $(git branch | fzf)'
-alias gca='git checkout -b $(git branch | fzf)'
+alias gc='git checkout $(git sortedBranches | fzf)'
+alias gcr='git checkout $(git branch -r | sed "s|origin/||g" | fzf)'
 
 alias g='gradle'
 alias gcb='g clean build'

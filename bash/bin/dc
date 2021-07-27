@@ -17,65 +17,104 @@ command -v fzf > /dev/null 2>&1 || {
   exit 1;
 }
 
+command -v awk > /dev/null 2>&1 || {
+  echo >&2 "awk: I require awk, but it's not installed. Aborting.";
+  exit 1;
+}
+
+command -v kafka > /dev/null 2>&1 || {
+  echo >&2 "kafka: I require kafka, but it's not installed. Aborting.";
+  exit 1;
+}
+
 usage() {
   echo "Usage:"
   echo "  dc [commands...] "
   echo ""
   echo "Commands:"
   echo ""
-  echo "  Kubernetes:"
   echo ""
-  echo "    Commands:"
+  echo "  Kubernetes/FlowGraph:"
   echo ""
-  echo "      pf, port-forward   Port forward specific DC pod"
-  echo "      logs, logs         Tail logs a pods matching a certain label"
-  echo "      rm, remvove        Remove all flowgraph resources"
+  echo "    k8s-pf, k8s-port-forward  Port forward k8s resource"
+  echo "    k8s-logs                  Tail k8s resources logs"
+  echo "    k8s-rm                    Remove k8s pods + deployment + service"
+  echo "    k8s-rm-all                Remove all k8s resource (pods + deployments + service + config)"
   echo ""
-  echo "    Resources:"
-  echo "      tm, taskmanager    Use to perfom commands on flink taskmanagers"
-  echo "      jm, jobmanager     Use to perfom commands on flink jobmangers"
-  echo "      grafana, grafana   Use to perform commands on grafana instance"
+  echo "  Resources:"
+  echo "    tm, taskmanager           Perform commands on flink taskmanagers"
+  echo "    jm, jobmanager            Perform commands on flink jobmangers"
+  echo "    grafana, grafana          Perform commands on grafana instance"
   echo ""
-  echo "  FlowGraph / Kafka:"
   echo ""
-  echo "    cmd-lc, load-complete-command    Send load complete msg to topic"
-  echo "    cmd-rm, replay-message-command   Send replay command msg"
+  echo "  Kafka/FlowGraph:"
   echo ""
-  echo "  Atlassian:"
+  echo "    kafka-send-load-complete-message     Send load complete message to topic"
+  echo "    kafka-send-replay-message            Send replay message to topic"
   echo ""
-  echo "    open-ticket, open-jira-ticket     Open jira ticket from current sprint in browser"
-  echo "    open-pr,     open-bitbucket-pr    Open bitbucket pr in browser"
+  echo ""
+  echo "  Bitbucket:"
+  echo ""
+  echo "    bitbucket-open-pr       Open pull request in browser"
+  echo ""
+  echo ""
+  echo "  Jira:"
+  echo ""
+  echo "    jira-open-ticket        Open Jira ticket in browser"
+  echo ""
+  echo ""
+  echo "  Bamboo:"
+  echo ""
+  echo "    bamboo-open-plan         Open bamboo build plan in browser"
+  echo "    bamboo-open-plan-logs    Open bamboo build plan result logs in browser"
+  echo "    bamboo-build-fg                Build FlowGraph"
+  echo "    bamboo-release-fg              Create release of FlowGraph"
+  echo "    bamboo-deploy-fg               Deploy FlowGraph to k8s environment"
+  echo ""
   echo ""
   echo "Arguments:"
   echo ""
-  echo "    -f, --force        Reset cache data for command"
-  echo "    -h, --help         Show script usage"
+  echo "    -h, --help              Show script usage"
+  echo "    -f, --force             Reset cache data for command"
+  echo "    --flowgraph             Choose FlowGraph to perform operations on"
+  echo "    --plan-key              Choose bamboo plan key to perform operations on"
+  echo "    --build-result-key      Choose build result to perform operations on"
+  echo "    --release-name          Choose name of release"
+  echo "    --next-release-name     Choose next name of release"
+  echo "    --environment           Choose bamboo environment to perform operations in"
+  echo ""
   echo ""
   echo "Examples:"
   echo ""
-  echo "  Kubernetes:"
+  echo "    K8s operations:"
   echo ""
-  echo "    dc pf jm: Interactive mode to select jobmanager pod to port forward"
-  echo "    dc logs jm: Interactive mode to select jobmanager pod to tail logs from"
-  echo "    dc rm: Remove all k8s resoruces for a FlowGraph"
+  echo "        dc k8s-pf jm"
+  echo "        dc k8s-logs jm"
+  echo "        dc k8s-rm"
   echo ""
-  echo "  FlowGraph / Kafka:"
+  echo "    Kafka/FlowGraph:"
   echo ""
-  echo "    dc cmd-lc: Interactive mode to send load complete msg to topic"
-  echo "    dc cmd-rm: Interactive mode to send replay msg to topic"
+  echo "        dc send-load-complete-message"
+  echo "        dc send-replay-message"
   echo ""
-  echo "  Atlassian:"
+  echo "    Jira/Bitbucket/Bamboo:"
   echo ""
-  echo "    dc open-ticket: Open ticket in broswer"
-  echo "    dc open-pr: Open PR in browser"
+  echo "        dc jira-open-ticket"
+  echo "        dc bitbucket-open-pr"
+  echo "        dc bamboo-open-plan"
   echo ""
-  echo "  Cache (internal scirpt cache):"
+  echo "    Build, release and deploy FlowGraph:"
   echo ""
-  echo "    The cache is used for to speed up some commands, e.g. k8s pod names, k8s app names and kafka topics"
+  echo "        dc bamboo-build-fg --flowgraph cap-martital-features: Build FG cap-marital-features on master branch"
   echo ""
-  echo "    dc lc: List entries in cache"
-  echo "    dc cc: Clean cache"
+  echo "        dc bamboo-build-fg --flowgraph cap-martital-features --plan-key DPDC-ODDCFG54: Build FG cap-marital-features for a specific bamboo plan branch"
   echo ""
+  echo "        dc bamboo-release-fg --flowgraph cap-taxation-features --build-result-key DPDC-ODDCFG54-6 --release-name release1 --next-release-name release2"
+  echo ""
+  echo "        dc bamboo-deploy-fg"
+  echo ""
+  echo ""
+
 }
 
 CACHE_BASE_DIR="/tmp/dc"
@@ -103,8 +142,15 @@ function k8_tail_logs() {
 }
 
 function k8_remove_flowgraph() {
-  APP=$(__get_flink_app_labels jobmanager | fzf)
-  QUESTION="Are you sure you want to remove '$APP' in $(__k8_get_current_namespace)?"
+  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  QUESTION="Are you sure you want to remove pods+deployment+service for '$APP' in $(__k8_get_current_namespace)?"
+  __interactive_yes_no_dialog "$QUESTION"
+  kubectl delete service,pods,deployment -l app=$APP
+}
+
+function k8_remove_all_flowgraph_resources() {
+  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  QUESTION="Are you sure you want to remove all resoruces for '$APP' in $(__k8_get_current_namespace)?"
   __interactive_yes_no_dialog "$QUESTION"
   kubectl delete cm,service,pods,deployment -l app=$APP
 }
@@ -120,20 +166,192 @@ function kafka_send_replay_command_msg() {
 }
 
 function jira_list_tickets_in_current_sprint() {
-  __get_jira_tickets_in_current_sprint
+  JIRA_BROWSE_URI="$ATLASSIAN_JIRA_HOST/browse"
+  __get_jira_tickets_in_current_sprint \
+    | fzf \
+    | xdg-open $JIRA_BROWSE_URI/$(awk -F ' \| ' '{print $1}') 2>/dev/null
 }
 
 function bitbucket_list_pull_requests() {
-  __get_open_pull_requests
+  __get_open_pull_requests \
+    | fzf \
+    | xdg-open $(awk -F ' \| ' '{print $3}') 2>/dev/null
+}
+
+function bamboo_open_plan() {
+  __get_bamboo_plans \
+    | fzf \
+    | xdg-open $ATLASSIAN_BAMBOO_HOST/browse/$(awk -F ' \| ' '{print $1}') 2>/dev/null
+}
+
+function bamboo_download_latest_build_logs() {
+  res=$(__get_bamboo_plans \
+    | fzf \
+    | curl --silent -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" "$ATLASSIAN_BAMBOO_HOST/rest/api/1.0/result/$(awk -F ' \| ' '{print $1}').json" \
+    | jq -r '.results.result[0] | "\(.plan.key) | \(.number) | \(.state) | \(.key)"')
+  planKey=$(echo $res | awk -F ' \| ' '{print $1}')
+  resNumber=$(echo $res | awk -F ' \| ' '{print $2}')
+
+  __bamboo_download_plan_log $planKey $resNumber
+}
+
+function bamboo_run_flowgraph_runner() {
+  flowgraph_runner_master_plan_key="DPDC-ODDCFG"
+  if [ -z $FLOWGRAPH ]; then
+    echo "Missing required '--flowgraph' param"
+    exit 1
+  fi
+  if [ -z $BAMBOO_PLAN_KEY ]; then
+    __interactive_yes_no_dialog "Are you sure you want to use master branch?"
+    planKey="$flowgraph_runner_master_plan_key"
+  else
+    planKey="$BAMBOO_PLAN_KEY"
+  fi
+  res=$(__bamboo_run_build_plan $planKey "bamboo.variable.TARGET_FLOWGRAPH=$FLOWGRAPH")
+  planKey=$(echo $res | jq -r .planKey)
+  buildNumber=$(echo $res | jq -r .buildNumber)
+  buildResultKey=$(echo $res | jq -r .buildResultKey)
+
+  echo ""
+  echo "Browse: $ATLASSIAN_BAMBOO_HOST/browse/$buildResultKey"
+  echo "Logs: $(__bamboo_get_download_logs_uri $planKey $buildNumber)"
+  echo ""
+  echo "Build result key: $buildResultKey"
+  echo ""
+  echo "Create release with: "
+  echo ""
+  echo "dc bamboo-release-fg --flowgraph cap-taxation-features --build-result-key $buildResultKey --release-name $FLOWGRAPH-1 --next-release-name $FLOWGRAPH-2"
+}
+
+function __bamboo_run_build_plan() {
+  if [ ! -z $2 ]; then
+    endpoint="$1.json?$2"
+  else
+    endpoint="$1.json"
+  fi
+  curl \
+    --silent \
+    -XPOST \
+    -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
+    "$ATLASSIAN_BAMBOO_HOST/rest/api/1.0/queue/$endpoint"
+}
+
+function __bamboo_download_plan_log() {
+  planKey="$1"
+  resNumber="$2"
+
+  curl \
+    --silent \
+    --user "$ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD" \
+    $(__bamboo_get_download_logs_uri $planKey $resNumber)
+}
+
+function __bamboo_get_download_logs_uri() {
+  planKey="$1"
+  resNumber="$2"
+
+  echo "$ATLASSIAN_BAMBOO_HOST/download/$planKey-JOB1/build_logs/$planKey-JOB1-$resNumber.log"
+}
+
+function __bamboo_create_release() {
+  __variable_is_set $BAMBOO_DEPLOY_RESULT_KEY "Param --build-result-key is missing"
+  __variable_is_set $BAMBOO_RELEASE_NAME "Param --release-name is missing"
+  __variable_is_set $BAMBOO_NEXT_REALEASE_NAME "Param --next-release-name is missing"
+
+  plan="$BAMBOO_DEPLOY_RESULT_KEY"
+  projectKey="2364243970" # TODO - This is odp-dc-flowgraphs-runner project
+  res=$(curl \
+    -XPOST \
+    -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
+    -H "Content-type: application/json" \
+    -d '{"planResultKey":"'$plan'","name":"'$BAMBOO_RELEASE_NAME'","nextVersionName":"'$BAMBOO_NEXT_REALEASE_NAME'"}' \
+    "$ATLASSIAN_BAMBOO_HOST/rest/api/latest/deploy/project/$projectKey/version")
+
+  echo "Deploy with: dc bamboo-deploy-fg"
+}
+
+function __bamboo_get_deployment_environments() {
+  cache="$CACHE_BASE_DIR/bamboo-deployment-environments"
+  if [[ ! -s $cache ]]; then
+    curl \
+      --silent \
+      -H 'Accepts: application/json' \
+      -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
+      "$ATLASSIAN_BAMBOO_HOST/rest/api/latest/deploy/project/2364243970" \
+      | jq '.environments[] | {id: .id, name: .name}' > $cache
+  fi
+  cat $cache
+}
+
+function __bamboo_get_flowgraph_runner_releases() {
+  cache="$CACHE_BASE_DIR/bamboo-flowgraph-runner-releases"
+  if [[ ! -s $cache ]]; then
+    curl \
+      --silent \
+      -H 'Accepts: application/json' \
+      -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
+      "$ATLASSIAN_BAMBOO_HOST/rest/api/latest/deploy/project/2364243970/versions" \
+      | jq '.versions[] | {id: .id, name: .name}' > $cache
+  fi
+  cat $cache
+}
+
+function __bamboo_deploy_flowgraph() {
+  versionId=$(__bamboo_choose_flowgraph_runner_realease_version)
+  environmentId=$(__bamboo_choose_environment)
+  res=$(curl \
+    --silent \
+    -XPOST \
+    -H 'Accepts: application/json' \
+    -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
+    "$ATLASSIAN_BAMBOO_HOST/rest/api/latest/queue/deployment/?environmentId=$environmentId&versionId=$versionId")
+
+  statusLink=$(echo $res | jq -r .link.href)
+
+  sleep 2
+
+  statusRes=$(curl \
+    --silent \
+    -H 'Accepts: application/json' \
+    -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
+    "$statusLink")
+
+  echo $statusRes | jq '. | {name: .deploymentVersion.name, creator: .deploymentVersion.creatorUserName, state: .deploymentState, lifeCycleState: .lifeCycleState}'
+}
+
+function __bamboo_choose_environment() {
+  if [ -z $ENVIRONMENT ]; then
+    ENVIRONMENT_ID=$(__bamboo_get_deployment_environments \
+      | jq -r '. | "\(.id) | \(.name)"' \
+      | fzf \
+      | awk -F ' \| ' '{print $1}')
+  else
+    ENVIRONMENT_ID=$(__bamboo_get_deployment_environments \
+      | jq -r --arg ENVIRONMENT "$ENVIRONMENT" '. | select(.name==$ENVIRONMENT) | .id')
+  fi
+  echo $ENVIRONMENT_ID
+}
+
+function __bamboo_choose_flowgraph_runner_realease_version() {
+  if [ -z $BAMBOO_RELEASE_NAME ]; then
+    RELEASE_NAME_ID=$(__bamboo_get_flowgraph_runner_releases \
+    | jq -r '. | "\(.id) | \(.name)"' \
+    | fzf \
+    | awk -F ' \| ' '{print $1}')
+  else 
+    RELEASE_NAME_ID=$(__bamboo_get_flowgraph_runner_releases \
+      | jq -r --arg BAMBOO_RELEASE_NAME "$BAMBOO_RELEASE_NAME" '. | select(.name==$BAMBOO_RELEASE_NAME) | .id')
+  fi
+  echo $RELEASE_NAME_ID
 }
 
 function __k8_tail_flink_reousrce() {
-  APP=$(__get_flink_app_labels jobmanager | fzf)
+  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
   kubetail -l app=$APP,component=$1
 }
 
 function __k8_port_forward_job_manager() {
-  kubectl port-forward $(__get_pod_names jobmanager | fzf) 8081
+  kubectl port-forward $(__k8_get_pod_names jobmanager | fzf) 8081
 }
 
 function __k8_port_forward_grafana() {
@@ -144,7 +362,7 @@ function __k8_get_current_namespace() {
   kubectl config view | grep current-context | tr -s " " | cut -f 2 -d " "
 }
 
-function __get_pod_names() {
+function __k8_get_pod_names() {
   cache="$CACHE_BASE_DIR/pod-names-$1"
   if [[ ! -s $cache ]]; then
     kubectl get pods -l component=$1 --output=name > $cache
@@ -152,7 +370,7 @@ function __get_pod_names() {
   cat $cache
 }
 
-function __get_flink_app_labels() {
+function __k8_get_flink_app_labels() {
   cache="$CACHE_BASE_DIR/app-labels-$1"
   if [[ ! -s $cache ]]; then
     kubectl get pods -l component=$1 -o jsonpath='{.items[*].metadata.labels}' | jq -r .app | grep flink | uniq > $cache
@@ -221,6 +439,13 @@ function __interactive_yes_no_dialog() {
   fi
 }
 
+function __variable_is_set() {
+  if [ -z $1 ]; then
+    echo "$2"
+    exit 1
+  fi
+}
+
 function __init_atlassian_config() {
   if [[ ! -s $ATLASSIAN_CONF_FILE ]]; then
     echo "ATLASSIAN_USERNAME=\"\"" >> $ATLASSIAN_CONF_FILE
@@ -228,6 +453,9 @@ function __init_atlassian_config() {
     echo "ATLASSIAN_JIRA_HOST=\"\"" >> $ATLASSIAN_CONF_FILE
     echo "ATLASSIAN_JIRA_BOARD_ID=\"1019\"" >> $ATLASSIAN_CONF_FILE
     echo "ATLASSIAN_BITBUCKET_HOST=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_BAMBOO_HOST=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_BAMBOO_AUTH_TOKEN=\"\"" >> $ATLASSIAN_CONF_FILE
+    echo "ATLASSIAN_BAMBOO_RPOJECT_KEY=\"\"" >> $ATLASSIAN_CONF_FILE
     echo "Open $ATLASSIAN_CONF_FILE and add details"
     exit 0
   else
@@ -236,31 +464,37 @@ function __init_atlassian_config() {
 }
 
 function __get_jira_tickets_in_current_sprint() {
-  __init_atlassian_config
   cache="$CACHE_BASE_DIR/jira-$ATLASSIAN_JIRA_BOARD_ID"
   if [[ ! -s $cache ]]; then
     curl -su $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD "$ATLASSIAN_JIRA_HOST/rest/greenhopper/1.0/xboard/work/allData.json?rapidViewId=$ATLASSIAN_JIRA_BOARD_ID" \
           | jq -r '.issuesData.issues[] | "\(.key) | \(.assignee) | \(.summary)"' > $cache
   fi
 
-  JIRA_BROWSE_URI="$ATLASSIAN_JIRA_HOST/browse"
-
-  cat $cache \
-    | fzf \
-    | xdg-open $JIRA_BROWSE_URI/$(awk -F ' \| ' '{print $1}')
+  cat $cache
 }
 
 function __get_open_pull_requests() {
-  __init_atlassian_config
   cache="$CACHE_BASE_DIR/bitbucket-pull-requests"
   if [[ ! -s $cache ]]; then
     curl -su $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD "$ATLASSIAN_BITBUCKET_HOST/rest/api/1.0/dashboard/pull-requests" \
       | jq -r '.values[] | select(.open == true) | "\(.title) | \(.author.user.name) | \(.links.self[].href)"' > $cache
   fi
 
-  cat $cache \
-    | fzf \
-    | xdg-open $(awk -F ' \| ' '{print $3}')
+  cat $cache
+}
+
+function __get_bamboo_plans() {
+  cache="$CACHE_BASE_DIR/bamboo-plans"
+  if [[ ! -s $cache ]]; then
+    curl --silent -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" "$ATLASSIAN_BAMBOO_HOST/rest/api/1.0/project/$ATLASSIAN_BAMBOO_RPOJECT_KEY.json?expand=plans" \
+      | jq -r '.plans.plan[] | "\(.planKey.key) | \(.shortName)"' > $cache
+  fi
+  cat $cache
+}
+
+function __init() {
+  __init_cache
+  __init_atlassian_config
 }
 
 POSITIONAL=()
@@ -269,17 +503,21 @@ do
 key="$1"
 
 case $key in
-    pf | port-forward)
+    k8s-pf | k8s-port-forward)
     shift
     ARG=k8_port_forward
     ;;
-    l | logs)
+    k8s-logs)
     shift
     ARG=k8_tail_logs
     ;;
-    rm | remove)
+    k8s-rm | k8s-remove)
     shift
     ARG=k8_remove_flowgraph
+    ;;
+    k8s-rm | k8s-remove)
+    shift
+    ARG=k8_remove_all_flowgraph_resources
     ;;
     cc | clean-cache)
     shift
@@ -289,21 +527,46 @@ case $key in
     shift
     ARG=__list_cache
     ;;
-    cmd-lc | load-complete-command)
+    kafka-send-load-complete-message)
     shift
     ARG=kafka_send_load_complete_command_msg
     ;;
-    cmd-rm | replay-message-command)
+    kafka-send-replay-message)
     shift
     ARG=kafka_send_replay_command_msg
     ;;
-    open-ticket | open-jira-ticket)
+    jira-open-ticket)
     shift
     ARG=jira_list_tickets_in_current_sprint
     ;;
-    open-pr | open-bitbucket-pr)
+    bitbucket-open-pr)
     shift
     ARG=bitbucket_list_pull_requests
+    ;;
+    bamboo-open-plan)
+    shift
+    ARG=bamboo_open_plan
+    ;;
+    bamboo-open-plan-logs)
+    shift
+    # TODO
+    ARG=bamboo_download_latest_build_logs
+    ;;
+    bamboo-build-fg | bamboo-build-fg)
+    shift
+    ARG=bamboo_run_flowgraph_runner
+    ;;
+    bamboo-release-fg | bamboo-release-fg)
+    shift
+    ARG=__bamboo_create_release
+    ;;
+    bamboo-deploy-fg | bamboo-deploy-fg)
+    shift
+    ARG=__bamboo_deploy_flowgraph
+    ;;
+    test)
+    shift
+    ARG=__bamboo_choose_flowgraph_runner_realease_version
     ;;
     jm | jobmanager)
     shift
@@ -321,6 +584,36 @@ case $key in
     shift
     FORCE="true"
     ;;
+    --flowgraph)
+    shift
+    FLOWGRAPH="$1"
+    shift
+    ;;
+    --plan-key)
+    shift
+    BAMBOO_PLAN_KEY="$1"
+    shift
+    ;;
+    --build-result-key)
+    shift
+    BAMBOO_DEPLOY_RESULT_KEY="$1"
+    shift
+    ;;
+    --release-name)
+    shift
+    BAMBOO_RELEASE_NAME="$1"
+    shift
+    ;;
+    --next-release-name)
+    shift
+    BAMBOO_NEXT_REALEASE_NAME="$1"
+    shift
+    ;;
+    --environment)
+    shift
+    ENVIRONMENT="$1"
+    shift
+    ;;
     -h | --help)
     shift
     usage
@@ -333,5 +626,5 @@ if [ -z "$ARG" ]; then
   exit 1
 fi
 
-__init_cache
+__init
 $ARG

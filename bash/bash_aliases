@@ -55,6 +55,7 @@ alias fvim='vim $(fzf)'
 alias fv='fvim'
 
 alias k="kubectl"
+alias kd="kubectl -n default"
 alias kc='k config view | grep current-context | tr -s " " | cut -f 2 -d " "'
 
 alias kp='k --context $(kc) get pods -o custom-columns=":metadata.name"'

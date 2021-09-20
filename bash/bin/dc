@@ -61,6 +61,8 @@ usage() {
   echo "  Jira:"
   echo ""
   echo "    jira-open-ticket        Open Jira ticket in browser"
+  echo "    jira-create-ticket      Create Jira ticket"
+  echo "    jira-assign-ticket      Assign ticket to you"
   echo ""
   echo ""
   echo "  Bamboo:"
@@ -120,6 +122,8 @@ usage() {
 CACHE_BASE_DIR="/tmp/dc"
 ATLASSIAN_CONF_FILE="$HOME/.atlassian_config"
 
+KUBETAIL_OPTS="--since 10m"
+
 function k8_port_forward() {
   if [ "$SERVICE" = "jm" ]; then
     __k8_port_forward_job_manager
@@ -137,7 +141,7 @@ function k8_tail_logs() {
     __k8_tail_flink_reousrce taskmanager
   fi
   if [ "$SERVICE" = "grafana" ]; then
-    kubetail -l app=odp-dc-grafana
+    kubetail $KUBETAIL_OPTS -l app=odp-dc-grafana
   fi
 }
 
@@ -169,19 +173,23 @@ function jira_list_tickets_in_current_sprint() {
   JIRA_BROWSE_URI="$ATLASSIAN_JIRA_HOST/browse"
   __get_jira_tickets_in_current_sprint \
     | fzf \
-    | xdg-open $JIRA_BROWSE_URI/$(awk -F ' \| ' '{print $1}') 2>/dev/null
+    | xdg-open $JIRA_BROWSE_URI/$(awk -F ' \| ' '{print $1}') > /dev/null 2>&1
 }
 
 function bitbucket_list_pull_requests() {
-  __get_open_pull_requests \
+  choosenPr=$(__get_open_pull_requests \
+    | jq -r '. | "\(.title) | \(.author) | \(.link)"' \
     | fzf \
-    | xdg-open $(awk -F ' \| ' '{print $3}') 2>/dev/null
+    | awk -F ' \| ' '{print $3}')
+  __variable_is_set "$choosenPr" "You must pick a PR to open"
+
+  xdg-open $choosenPr > /dev/null 2>&1
 }
 
 function bamboo_open_plan() {
   __get_bamboo_plans \
     | fzf \
-    | xdg-open $ATLASSIAN_BAMBOO_HOST/browse/$(awk -F ' \| ' '{print $1}') 2>/dev/null
+    | xdg-open $ATLASSIAN_BAMBOO_HOST/browse/$(awk -F ' \| ' '{print $1}') > /dev/null 2>&1
 }
 
 function bamboo_download_latest_build_logs() {
@@ -197,10 +205,8 @@ function bamboo_download_latest_build_logs() {
 
 function bamboo_run_flowgraph_runner() {
   flowgraph_runner_master_plan_key="DPDC-ODDCFG"
-  if [ -z $FLOWGRAPH ]; then
-    echo "Missing required '--flowgraph' param"
-    exit 1
-  fi
+  __variable_is_set $FLOWGRAPH "Missing required '--flowgraph' param"
+
   if [ -z $BAMBOO_PLAN_KEY ]; then
     __interactive_yes_no_dialog "Are you sure you want to use master branch?"
     planKey="$flowgraph_runner_master_plan_key"
@@ -298,7 +304,10 @@ function __bamboo_get_flowgraph_runner_releases() {
 
 function __bamboo_deploy_flowgraph() {
   versionId=$(__bamboo_choose_flowgraph_runner_realease_version)
+  __variable_is_set $versionId "You must pick a version"
+
   environmentId=$(__bamboo_choose_environment)
+  __variable_is_set $environmentId "You must pick a environment"
   res=$(curl \
     --silent \
     -XPOST \
@@ -347,7 +356,8 @@ function __bamboo_choose_flowgraph_runner_realease_version() {
 
 function __k8_tail_flink_reousrce() {
   APP=$(__k8_get_flink_app_labels jobmanager | fzf)
-  kubetail -l app=$APP,component=$1
+  __variable_is_set $APP "You must pick a app"
+  kubetail $KUBETAIL_OPTS -l app=$APP,component=$1
 }
 
 function __k8_port_forward_job_manager() {
@@ -473,11 +483,46 @@ function __get_jira_tickets_in_current_sprint() {
   cat $cache
 }
 
+function __jira_create_ticket() {
+  templateFilePath="/tmp/dc/jira-template"
+  template='{"fields":{"summary":"CHANGE ME","description":"CHANGE ME","project":{"key":"DP"},"customfield_10420":"Data Engineering","customfield_12638":"ODP","issuetype":{"name":"Story"},"labels":["DataCreation"]}}'
+  echo $template > $templateFilePath
+  vim $templateFilePath -c "%!jq ."
+
+  res=$(curl \
+    -u $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD \
+    -XPOST \
+    -H "Content-Type: application/json" \
+    --data-binary "@/tmp/dc/jira-template" \
+    "$ATLASSIAN_JIRA_HOST/rest/api/2/issue")
+
+  ticketId=$(echo $res | jq -r .key)
+  echo "Browse: $ATLASSIAN_JIRA_HOST/browse/$ticketId"
+}
+
+function __jira_assign_ticket_to_you() {
+  ticketId=$(__get_jira_tickets_in_current_sprint \
+    | fzf \
+    | awk -F ' \| ' '{print $1}')
+
+  if [ -z $ticketId ]; then
+    echo "Must pick a ticket!"
+    exit 1
+  fi
+
+  curl \
+    -u $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD \
+    -XPUT \
+    -H "Content-Type: application/json" \
+    --data '{"fields":{"assignee":{"name":"'$ATLASSIAN_USERNAME'"}}}' \
+    "$ATLASSIAN_JIRA_HOST/rest/api/2/issue/$ticketId"
+}
+
 function __get_open_pull_requests() {
   cache="$CACHE_BASE_DIR/bitbucket-pull-requests"
   if [[ ! -s $cache ]]; then
     curl -su $ATLASSIAN_USERNAME:$ATLASSIAN_PASSWORD "$ATLASSIAN_BITBUCKET_HOST/rest/api/1.0/dashboard/pull-requests" \
-      | jq -r '.values[] | select(.open == true) | "\(.title) | \(.author.user.name) | \(.links.self[].href)"' > $cache
+      | jq -c '.values[] | select(.open == true) | {title: .title, author: .author.user.name, link: .links.self[].href, reviewers: .reviewers}' > $cache
   fi
 
   cat $cache
@@ -538,6 +583,14 @@ case $key in
     jira-open-ticket)
     shift
     ARG=jira_list_tickets_in_current_sprint
+    ;;
+    jira-create-ticket)
+    shift
+    ARG=__jira_create_ticket
+    ;;
+    jira-assign-ticket)
+    shift
+    ARG=__jira_assign_ticket_to_you
     ;;
     bitbucket-open-pr)
     shift

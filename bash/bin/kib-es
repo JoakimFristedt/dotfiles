@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+
+command -v curl > /dev/null 2>&1 || {
+  echo >&2 "kib-es: I require curl, but it's not installed. Aborting.";
+  exit 1;
+}
+
+kibana_base_url="http://localhost:5601"
+kibana_user=""
+kibana_password=""
+elastic_version="6.8.13"
+
+if ! [[ "${1^^}" =~ ^GET|PUT|POST|DELETE|HEAD$ ]] || [[ -z "$2" ]]; then
+  echo "Usage: kib-es request_method es_path [body|@file]"
+  echo ""
+  echo "Examples"
+  echo ""
+  echo "Search all documents:"
+  echo "  kib-es get _search"
+  echo ""
+  echo "Search request with body:"
+  echo "  kib-es get _search '{\"query\":{\"match_all\":{}}}'"
+  echo ""
+  echo "Update index template from file:"
+  echo "  kib-es put _template/my-template @index-template.json"
+  echo ""
+  exit 0
+fi
+
+request_method="${1^^}"
+es_path="$2"
+body="$3"
+
+if [[ -f ".elastic-conf" ]]; then
+  source ".elastic-conf"
+fi
+
+if [[ $body ]]; then
+  if [[ $body == @* ]] && [[ -f "${body#@}" ]]; then
+    curl \
+      "$kibana_base_url/api/console/proxy?path=$es_path&method=$request_method" \
+      --insecure \
+      --silent \
+      --user "$kibana_user:$kibana_password" \
+      --request POST \
+      --header "kbn-version: $elastic_version" \
+      --header 'Content-Type: application/json' \
+      --data-binary $body
+  else
+    curl \
+      "$kibana_base_url/api/console/proxy?path=$es_path&method=$request_method" \
+      --insecure \
+      --user "$kibana_user:$kibana_password" \
+      --silent \
+      --request POST \
+      --header "kbn-version: $elastic_version" \
+      --header 'Content-Type: application/json' \
+      --data-binary "$body"
+  fi
+else
+  curl \
+    "$kibana_base_url/api/console/proxy?path=$es_path&method=$request_method" \
+    --insecure \
+    --user "$kibana_user:$kibana_password" \
+    --silent \
+    --request POST \
+    --header "kbn-version: $elastic_version"
+fi

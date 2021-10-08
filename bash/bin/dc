@@ -36,15 +36,17 @@ usage() {
   echo ""
   echo "  Kubernetes/FlowGraph:"
   echo ""
-  echo "    k8s-pf, k8s-port-forward  Port forward k8s resource"
-  echo "    k8s-logs                  Tail k8s resources logs"
-  echo "    k8s-rm                    Remove k8s pods + deployment + service"
-  echo "    k8s-rm-all                Remove all k8s resource (pods + deployments + service + config)"
+  echo "    k8s-pf, k8s-port-forward             Port forward k8s resource"
+  echo "    k8s-logs                             Tail k8s resources logs"
+  echo "    k8s-rm                               Remove k8s pods + deployment + service"
+  echo "    k8s-rm-all                           Remove all k8s resource (pods + deployments + service + config)"
+  echo "    k8s-scale                            Scale deployment"
   echo ""
   echo "  Resources:"
-  echo "    tm, taskmanager           Perform commands on flink taskmanagers"
-  echo "    jm, jobmanager            Perform commands on flink jobmangers"
-  echo "    grafana, grafana          Perform commands on grafana instance"
+  echo "    tm, taskmanager                      Perform commands on flink taskmanagers"
+  echo "    jm, jobmanager                       Perform commands on flink jobmangers"
+  echo "    grafana                              Perform commands on grafana instance"
+  echo "    prometheus                           Perform commands on grafana instance"
   echo ""
   echo ""
   echo "  Kafka/FlowGraph:"
@@ -55,35 +57,34 @@ usage() {
   echo ""
   echo "  Bitbucket:"
   echo ""
-  echo "    bitbucket-open-pr       Open pull request in browser"
+  echo "    bitbucket-open-pr                    Open pull request in browser"
   echo ""
   echo ""
   echo "  Jira:"
   echo ""
-  echo "    jira-open-ticket        Open Jira ticket in browser"
-  echo "    jira-create-ticket      Create Jira ticket"
-  echo "    jira-assign-ticket      Assign ticket to you"
+  echo "    jira-open-ticket                     Open Jira ticket in browser"
+  echo "    jira-create-ticket                   Create Jira ticket"
+  echo "    jira-assign-ticket                   Assign ticket to you"
   echo ""
   echo ""
   echo "  Bamboo:"
   echo ""
-  echo "    bamboo-open-plan         Open bamboo build plan in browser"
-  echo "    bamboo-open-plan-logs    Open bamboo build plan result logs in browser"
-  echo "    bamboo-build-fg                Build FlowGraph"
-  echo "    bamboo-release-fg              Create release of FlowGraph"
-  echo "    bamboo-deploy-fg               Deploy FlowGraph to k8s environment"
+  echo "    bamboo-open-plan                     Open bamboo build plan in browser"
+  echo "    bamboo-open-plan-logs                Open bamboo build plan result logs in browser"
+  echo "    bamboo-build-fg                      Build FlowGraph"
+  echo "    bamboo-release-fg                    Create release of FlowGraph"
+  echo "    bamboo-deploy-fg                     Deploy FlowGraph to k8s environment"
   echo ""
   echo ""
   echo "Arguments:"
   echo ""
-  echo "    -h, --help              Show script usage"
-  echo "    -f, --force             Reset cache data for command"
-  echo "    --flowgraph             Choose FlowGraph to perform operations on"
-  echo "    --plan-key              Choose bamboo plan key to perform operations on"
-  echo "    --build-result-key      Choose build result to perform operations on"
-  echo "    --release-name          Choose name of release"
-  echo "    --next-release-name     Choose next name of release"
-  echo "    --environment           Choose bamboo environment to perform operations in"
+  echo "    -h, --help                           Show script usage"
+  echo "    -f, --force                          Reset cache data for command"
+  echo "    --flowgraph                          Choose FlowGraph to perform operations on"
+  echo "    --plan-key                           Choose bamboo plan key to perform operations on"
+  echo "    --build-result-key                   Choose build result to perform operations on"
+  echo "    --release-name                       Choose name of release"
+  echo "    --environment                        Choose bamboo environment to perform operations in"
   echo ""
   echo ""
   echo "Examples:"
@@ -93,11 +94,13 @@ usage() {
   echo "        dc k8s-pf jm"
   echo "        dc k8s-logs jm"
   echo "        dc k8s-rm"
+  echo "        dc k8s-rm-all"
+  echo "        dc k8s-scale"
   echo ""
   echo "    Kafka/FlowGraph:"
   echo ""
-  echo "        dc send-load-complete-message"
-  echo "        dc send-replay-message"
+  echo "        dc kafka-send-load-complete-message"
+  echo "        dc kafka-send-replay-message"
   echo ""
   echo "    Jira/Bitbucket/Bamboo:"
   echo ""
@@ -111,7 +114,7 @@ usage() {
   echo ""
   echo "        dc bamboo-build-fg --flowgraph cap-martital-features --plan-key DPDC-ODDCFG54: Build FG cap-marital-features for a specific bamboo plan branch"
   echo ""
-  echo "        dc bamboo-release-fg --flowgraph cap-taxation-features --build-result-key DPDC-ODDCFG54-6 --release-name release1 --next-release-name release2"
+  echo "        dc bamboo-release-fg --build-result-key DPDC-ODDCFG54-6 --release-name release1"
   echo ""
   echo "        dc bamboo-deploy-fg"
   echo ""
@@ -131,6 +134,9 @@ function k8_port_forward() {
   if [ "$SERVICE" = "grafana" ]; then
     __k8_port_forward_grafana
   fi
+  if [ "$SERVICE" = "prometheus" ]; then
+    __k8_port_forward_prometheus
+  fi
 }
 
 function k8_tail_logs() {
@@ -149,14 +155,42 @@ function k8_remove_flowgraph() {
   APP=$(__k8_get_flink_app_labels jobmanager | fzf)
   QUESTION="Are you sure you want to remove pods+deployment+service for '$APP' in $(__k8_get_current_namespace)?"
   __interactive_yes_no_dialog "$QUESTION"
-  kubectl delete service,pods,deployment -l app=$APP
+  kubectl delete deployment,service,pods -l app=$APP
 }
 
 function k8_remove_all_flowgraph_resources() {
   APP=$(__k8_get_flink_app_labels jobmanager | fzf)
-  QUESTION="Are you sure you want to remove all resoruces for '$APP' in $(__k8_get_current_namespace)?"
+  currentNamespace=$(__k8_get_current_namespace)
+  QUESTION="Are you sure you want to remove all resoruces for '$APP' in '$currentNamespace'?"
   __interactive_yes_no_dialog "$QUESTION"
-  kubectl delete cm,service,pods,deployment -l app=$APP
+
+  if [[ $currentNamespace =~ "prod" ]]; then
+    SAFETY_QUESTION="Are you really sure? This will remove entire flink job state and can't be recovered?"
+    __interactive_yes_no_dialog "$SAFETY_QUESTION"
+  fi
+
+  kubectl delete deployment,cm,service,pods -l app=$APP
+}
+
+function k8_scale_deployment() {
+  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  currentNamespace=$(__k8_get_current_namespace)
+  taskmanagerDeploymentName="$APP-taskmanager"
+
+  QUESTION="How many replicas of '$taskmanagerDeploymentName' in '$currentNamespace' do you want?"
+
+  __interactive_input_dialog "$QUESTION"
+  REPLICAS=$ANSWER
+
+  re='^[0-9]$'
+  if ! [[ $REPLICAS =~ $re ]] ; then
+    echo "Answer must be [0-9]"
+    exit 1
+  fi
+
+  echo $REPLICAS
+
+  echo "kubectl scale deployment $taskmanagerDeploymentName --replicas=$REPLICAS"
 }
 
 function kafka_send_load_complete_command_msg() {
@@ -205,7 +239,7 @@ function bamboo_download_latest_build_logs() {
 
 function bamboo_run_flowgraph_runner() {
   flowgraph_runner_master_plan_key="DPDC-ODDCFG"
-  __variable_is_set $FLOWGRAPH "Missing required '--flowgraph' param"
+  __variable_is_set "$FLOWGRAPH" "Missing required '--flowgraph' param"
 
   if [ -z $BAMBOO_PLAN_KEY ]; then
     __interactive_yes_no_dialog "Are you sure you want to use master branch?"
@@ -226,7 +260,8 @@ function bamboo_run_flowgraph_runner() {
   echo ""
   echo "Create release with: "
   echo ""
-  echo "dc bamboo-release-fg --flowgraph cap-taxation-features --build-result-key $buildResultKey --release-name $FLOWGRAPH-1 --next-release-name $FLOWGRAPH-2"
+  echo "dc bamboo-release-fg --build-result-key $buildResultKey --release-name $FLOWGRAPH-1"
+  echo ""
 }
 
 function __bamboo_run_build_plan() {
@@ -262,18 +297,18 @@ function __bamboo_get_download_logs_uri() {
 function __bamboo_create_release() {
   __variable_is_set $BAMBOO_DEPLOY_RESULT_KEY "Param --build-result-key is missing"
   __variable_is_set $BAMBOO_RELEASE_NAME "Param --release-name is missing"
-  __variable_is_set $BAMBOO_NEXT_REALEASE_NAME "Param --next-release-name is missing"
 
   plan="$BAMBOO_DEPLOY_RESULT_KEY"
   projectKey="2364243970" # TODO - This is odp-dc-flowgraphs-runner project
   res=$(curl \
+    --silent \
     -XPOST \
     -H "Authorization: Bearer $ATLASSIAN_BAMBOO_AUTH_TOKEN" \
     -H "Content-type: application/json" \
-    -d '{"planResultKey":"'$plan'","name":"'$BAMBOO_RELEASE_NAME'","nextVersionName":"'$BAMBOO_NEXT_REALEASE_NAME'"}' \
+    -d '{"planResultKey":"'$plan'","name":"'$BAMBOO_RELEASE_NAME'"}' \
     "$ATLASSIAN_BAMBOO_HOST/rest/api/latest/deploy/project/$projectKey/version")
 
-  echo "Deploy with: dc bamboo-deploy-fg"
+  echo "Deploy FG with: dc bamboo-deploy-fg"
 }
 
 function __bamboo_get_deployment_environments() {
@@ -361,15 +396,26 @@ function __k8_tail_flink_reousrce() {
 }
 
 function __k8_port_forward_job_manager() {
-  kubectl port-forward $(__k8_get_pod_names jobmanager | fzf) 8081
+  podName=$(__k8_get_pod_names jobmanager | fzf)
+  xdg-open "http://localhost:8081" > /dev/null 2>&1
+  kubectl port-forward $podName 8081
 }
 
 function __k8_port_forward_grafana() {
+  xdg-open "http://localhost:3000" > /dev/null 2>&1
   kubectl port-forward $(kubectl get pods -l app=odp-dc-grafana  --output=name) 3000
 }
 
+function __k8_port_forward_prometheus() {
+  xdg-open "http://localhost:9092" > /dev/null 2>&1
+  kubectl port-forward $(kubectl get pods -l app=odp-dc-prometheus --output=name) 9092
+}
+
 function __k8_get_current_namespace() {
-  kubectl config view | grep current-context | tr -s " " | cut -f 2 -d " "
+  kubectl config view \
+    | grep current-context \
+    | tr -s " " \
+    | cut -f 2 -d " "
 }
 
 function __k8_get_pod_names() {
@@ -383,14 +429,16 @@ function __k8_get_pod_names() {
 function __k8_get_flink_app_labels() {
   cache="$CACHE_BASE_DIR/app-labels-$1"
   if [[ ! -s $cache ]]; then
-    kubectl get pods -l component=$1 -o jsonpath='{.items[*].metadata.labels}' | jq -r .app | grep flink | uniq > $cache
+    kubectl get pods -l component=$1 -o jsonpath='{.items[*].metadata.labels}' \
+      | jq -r .app \
+      | grep flink \
+      | uniq > $cache
   fi
   cat $cache
 }
 
 function __init_cache() {
   if [ "$FORCE" = "true" ]; then
-    echo "Cache is being cleaned"
     rm -r $CACHE_BASE_DIR
   fi
   if [ ! -d $CACHE_BASE_DIR ]; then
@@ -440,16 +488,42 @@ function __get_kafka_topics() {
 }
 
 function __interactive_yes_no_dialog() {
+  if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters. Expected 2"
+    exit 1
+  fi
+
   QUESTION=$1
-  echo -n "$QUESTION - (y/n):"
+  echo -n "$QUESTION - (y/n): "
   read -r ANSWER
+
   if [ "$ANSWER" = "n" ]; then
     echo "Nothing to see here, bye bye"
     exit 1
   fi
 }
 
+function __interactive_input_dialog() {
+  if [ "$#" -ne 1 ]; then
+    echo "Illegal number of parameters. Expected 2"
+    exit 1
+  fi
+
+  QUESTION=$1
+  echo -n "$QUESTION: "
+  read -r ANSWER
+
+  if [ -z $ANSWER ]; then
+    echo "Answer can't be empty"
+    exit 1
+  fi
+}
+
 function __variable_is_set() {
+  if [ "$#" -ne 2 ]; then
+    echo "Illegal number of parameters. Expected 2"
+    exit 1
+  fi
   if [ -z $1 ]; then
     echo "$2"
     exit 1
@@ -560,9 +634,13 @@ case $key in
     shift
     ARG=k8_remove_flowgraph
     ;;
-    k8s-rm | k8s-remove)
+    k8s-rm-all | k8s-remove-all)
     shift
     ARG=k8_remove_all_flowgraph_resources
+    ;;
+    k8s-scale | k8s-scale-deployment)
+    shift
+    ARG=k8_scale_deployment
     ;;
     cc | clean-cache)
     shift
@@ -633,6 +711,10 @@ case $key in
     shift
     SERVICE="grafana"
     ;;
+    prometheus | prometheus)
+    shift
+    SERVICE="prometheus"
+    ;;
     -f | --force)
     shift
     FORCE="true"
@@ -655,11 +737,6 @@ case $key in
     --release-name)
     shift
     BAMBOO_RELEASE_NAME="$1"
-    shift
-    ;;
-    --next-release-name)
-    shift
-    BAMBOO_NEXT_REALEASE_NAME="$1"
     shift
     ;;
     --environment)

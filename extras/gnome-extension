@@ -6,7 +6,7 @@ command -v gnome-extensions > /dev/null 2>&1 || {
 }
 
 extensions=(
-  "https://extensions.gnome.org/extension-data/pixel-saverdeadalnix.me.v23.shell-extension.zip"
+  "https://extensions.gnome.org/extension-data/pixel-saverdeadalnix.me.v26.shell-extension.zip"
 )
 
 extension_root_dir="$HOME/.local/share/gnome-shell/extensions"

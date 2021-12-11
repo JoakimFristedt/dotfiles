@@ -53,6 +53,8 @@ usage() {
   echo ""
   echo "    kafka-send-load-complete-message     Send load complete message to topic"
   echo "    kafka-send-replay-message            Send replay message to topic"
+  echo "    flowgraph-create-savepoint           "
+  echo "    flowgraph-get-savepoint-status       "
   echo ""
   echo ""
   echo "  Bitbucket:"
@@ -101,6 +103,8 @@ usage() {
   echo ""
   echo "        dc kafka-send-load-complete-message"
   echo "        dc kafka-send-replay-message"
+  echo "        dc flowgraph-create-savepoint"
+  echo "        dc flowgraph-get-savepoint-status"
   echo ""
   echo "    Jira/Bitbucket/Bamboo:"
   echo ""
@@ -110,13 +114,21 @@ usage() {
   echo ""
   echo "    Build, release and deploy FlowGraph:"
   echo ""
-  echo "        dc bamboo-build-fg --flowgraph cap-martital-features: Build FG cap-marital-features on master branch"
+  echo "        Build FG cap-marital-features on master branch:"
   echo ""
-  echo "        dc bamboo-build-fg --flowgraph cap-martital-features --plan-key DPDC-ODDCFG54: Build FG cap-marital-features for a specific bamboo plan branch"
+  echo "            dc bamboo-build-fg --flowgraph cap-martital-features"
   echo ""
-  echo "        dc bamboo-release-fg --build-result-key DPDC-ODDCFG54-6 --release-name release1"
+  echo "        Build FG cap-marital-features for a specific bamboo plan branch:"
   echo ""
-  echo "        dc bamboo-deploy-fg"
+  echo "            dc bamboo-build-fg --flowgraph cap-martital-features --plan-key DPDC-ODDCFG54"
+  echo ""
+  echo "        Create bamboo release:"
+  echo ""
+  echo "            dc bamboo-release-fg --build-result-key DPDC-ODDCFG54-6 --release-name release1"
+  echo ""
+  echo "        Deploy bamboo release:"
+  echo ""
+  echo "            dc bamboo-deploy-fg"
   echo ""
   echo ""
 
@@ -152,14 +164,14 @@ function k8_tail_logs() {
 }
 
 function k8_remove_flowgraph() {
-  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  APP=$(__get_k8_flink_app_labels_v2 jobmanager)
   QUESTION="Are you sure you want to remove pods+deployment+service for '$APP' in $(__k8_get_current_namespace)?"
   __interactive_yes_no_dialog "$QUESTION"
   kubectl delete deployment,service,pods -l app=$APP
 }
 
 function k8_remove_all_flowgraph_resources() {
-  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  APP=$(__get_k8_flink_app_labels_v2 jobmanager)
   currentNamespace=$(__k8_get_current_namespace)
   QUESTION="Are you sure you want to remove all resoruces for '$APP' in '$currentNamespace'?"
   __interactive_yes_no_dialog "$QUESTION"
@@ -173,13 +185,14 @@ function k8_remove_all_flowgraph_resources() {
 }
 
 function k8_scale_deployment() {
-  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  APP=$(__get_k8_flink_app_labels_v2 jobmanager)
   currentNamespace=$(__k8_get_current_namespace)
   taskmanagerDeploymentName="$APP-taskmanager"
 
   QUESTION="How many replicas of '$taskmanagerDeploymentName' in '$currentNamespace' do you want?"
 
   __interactive_input_dialog "$QUESTION"
+
   REPLICAS=$ANSWER
 
   re='^[0-9]$'
@@ -188,9 +201,7 @@ function k8_scale_deployment() {
     exit 1
   fi
 
-  echo $REPLICAS
-
-  echo "kubectl scale deployment $taskmanagerDeploymentName --replicas=$REPLICAS"
+  kubectl scale deployment $taskmanagerDeploymentName --replicas=$REPLICAS
 }
 
 function kafka_send_load_complete_command_msg() {
@@ -201,6 +212,25 @@ function kafka_send_load_complete_command_msg() {
 function kafka_send_replay_command_msg() {
   REPLAY_CMD_MSG='{"identifier":"c2939441-db2b-4be2-a529-1161c8d256d1","data":{"replayMessage":{"@class":"com.bisnode.odp.dc.domain.message.command.ReplayStreamCommandMessage","name":"replayMessage","sourceDatasetReferences":["Not applicable"],"createdTimestamp":"2021-06-02T04:31:16.416000Z","date":"2021-06-02T04:31:16.416000Z"}},"flowGraphName":null,"flowGraphVersion":null,"createdTimestamp":"2021-06-02T04:31:16.416000Z"}'
   __send_msg_to_kafka "$REPLAY_CMD_MSG"
+}
+
+function flowgraph_create_savepoint() {
+  __variable_is_set $JOB_ID "Missing required --job-id"
+
+  requestId=$(curl \
+    -X POST \
+    --silent \
+    -d '{"target-directory": "s3://bisnode-odp-dc-runtime-dev/flink/savepoints", "cancel-job": false}' \
+    http://localhost:8081/jobs/$JOB_ID/savepoints | jq -r '."request-id"')
+
+  echo "dc flowgraph-get-savepoint-status --job-id $JOB_ID --request-id $requestId"
+}
+
+function flowgraph_get_savepoint_status() {
+  __variable_is_set $JOB_ID "Missing required --job-id"
+  __variable_is_set $REQUEST_ID "Missing required --request-id"
+
+  curl http://localhost:8081/jobs/$JOB_ID/savepoints/$REQUEST_ID
 }
 
 function jira_list_tickets_in_current_sprint() {
@@ -390,10 +420,21 @@ function __bamboo_choose_flowgraph_runner_realease_version() {
 }
 
 function __k8_tail_flink_reousrce() {
-  APP=$(__k8_get_flink_app_labels jobmanager | fzf)
+  APP=$(__get_k8_flink_app_labels_v2 $1)
   __variable_is_set $APP "You must pick a app"
   kubetail $KUBETAIL_OPTS -l app=$APP,component=$1
 }
+
+function __get_k8_flink_app_labels_v2() {
+  TYPE=$1
+  __variable_is_set $TYPE "Missing arg for __get_flink_app_labels"
+  if [ -z $FLOWGRAPH ]; then
+    __k8_get_flink_app_labels $TYPE | fzf
+  else
+    __k8_get_flink_app_labels $TYPE | grep $FLOWGRAPH
+  fi
+}
+
 
 function __k8_port_forward_job_manager() {
   podName=$(__k8_get_pod_names jobmanager | fzf)
@@ -475,7 +516,7 @@ function __send_msg_to_kafka() {
     echo "Missing msg!"
     exit 1
   fi
-  __interactive_yes_no_dialog "Send load-complete msg to '$TOPIC'?"
+  __interactive_yes_no_dialog "Send msg to '$TOPIC'?"
   kafka -t "$TOPIC" -PP -m "$MSG"
 }
 
@@ -540,7 +581,8 @@ function __init_atlassian_config() {
     echo "ATLASSIAN_BAMBOO_HOST=\"\"" >> $ATLASSIAN_CONF_FILE
     echo "ATLASSIAN_BAMBOO_AUTH_TOKEN=\"\"" >> $ATLASSIAN_CONF_FILE
     echo "ATLASSIAN_BAMBOO_RPOJECT_KEY=\"\"" >> $ATLASSIAN_CONF_FILE
-    echo "Open $ATLASSIAN_CONF_FILE and add details"
+    echo ""
+    echo "Open $ATLASSIAN_CONF_FILE and add details!"
     exit 0
   else
     source $ATLASSIAN_CONF_FILE
@@ -658,6 +700,14 @@ case $key in
     shift
     ARG=kafka_send_replay_command_msg
     ;;
+    flowgraph-create-savepoint)
+    shift
+    ARG=flowgraph_create_savepoint
+    ;;
+    flowgraph-get-savepoint-status)
+    shift
+    ARG=flowgraph_get_savepoint_status
+    ;;
     jira-open-ticket)
     shift
     ARG=jira_list_tickets_in_current_sprint
@@ -742,6 +792,16 @@ case $key in
     --environment)
     shift
     ENVIRONMENT="$1"
+    shift
+    ;;
+    --job-id)
+    shift
+    JOB_ID="$1"
+    shift
+    ;;
+    --request-id)
+    shift
+    REQUEST_ID="$1"
     shift
     ;;
     -h | --help)

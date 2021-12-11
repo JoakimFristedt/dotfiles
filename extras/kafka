@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+uri="https://archive.apache.org/dist/kafka/2.8.1/kafka_2.12-2.8.1.tgz"
+
+install_dir="/opt"
+
+tar_file="$install_dir/kafka_2.12-2.8.1.tgz"
+kafka_install_dir="$install_dir/kafka_2.12-2.8.1"
+symlink_path="$install_dir/kafka"
+
+if [ ! -f "$tar_file" ]; then
+  wget --continue --directory-prefix $install_dir $uri
+fi
+
+tar -xf $tar_file -C $install_dir
+
+ln -sf $kafka_install_dir $symlink_path
+
+chown -R joakim:joakim $kafka_install_dir
+chown -R joakim:joakim $symlink_path

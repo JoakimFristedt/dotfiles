@@ -35,27 +35,38 @@ usage() {
   echo "  -p, --partition"
   echo "  -o, --offset      Set to integer value or 'beginning' or 'end'"
   echo "  -m, --message     Message to produce (only applicable on -P, -PP)"
+  echo "  -k, --key         Supply key in -m e.g -m '1337:{"name":"name"}"
   echo ""
   echo ""
   echo "Example:"
   echo ""
   echo "  Consume topic:"
-  echo "  kafka -t test -C"
+  echo "  "
+  echo "    kafka -t test -C"
   echo "  "
   echo "  Consume topic on partition"
-  echo "  kafka -t test -C -p 0"
+  echo "  "
+  echo "    kafka -t test -C -p 0"
   echo "  "
   echo "  Consume topic from beginning"
-  echo "  kafka -t test -C -o beginning"
+  echo "  "
+  echo "    kafka -t test -C -o beginning"
   echo "  "
   echo "  "
   echo "  Consume topic from end"
-  echo "  kafka -t test -C -o end"
+  echo "  "
+  echo "    kafka -t test -C -o end"
   echo "  "
   echo "  Produce message to topic:"
-  echo "  kafka -t test -P"
+  echo "  "
+  echo "    kafka -t test -P"
+  echo "  "
+  echo "  Produce message to topic with key:"
+  echo "  "
+  echo "    kafka -t test -k -P -m '{"name":"joakim"}'"
   echo "  "
   echo "  Produce message to all partitions on topic:"
+  echo "  "
   echo "    kafka -t test -PP -m '{"name":"joakim"}'"
   echo ""
   echo "Security:"
@@ -118,16 +129,34 @@ function _consume_topic() {
   if [ ! -z $OFFSET ]; then
     CMD+=" -o $OFFSET"
   fi
+  if [ ! -z $KEY ]; then
+    CMD+=" -K:"
+  fi
   $CMD
 }
 
 function _produce_to_topic() {
   _set_topic
-  kafkacat \
-    -P \
-    $KAFKA_SECURITY_OPTS \
-    -b $KAFKA_BROKER \
-    -t $TOPIC
+  if [ -z "$MSG" ]; then
+    echo "Missing mandatory [-m,--message] flag"
+    exit 1
+  fi
+  if [ -z "$KEY" ]; then
+    echo $MSG | kafkacat \
+      -P \
+      $KAFKA_SECURITY_OPTS \
+      -b $KAFKA_BROKER \
+      -t $TOPIC \
+      $1
+  else 
+    echo $MSG | kafkacat \
+      -P \
+      $KAFKA_SECURITY_OPTS \
+      -b $KAFKA_BROKER \
+      -t $TOPIC \
+      -K: \
+      $1
+  fi
 }
 
 function _produce_msg_to_all_partitions() {
@@ -211,6 +240,10 @@ case $key in
     shift
     MSG=$1
     shift
+    ;;
+    -k | --key)
+    shift
+    KEY=true
     ;;
     -v | --verbose)
     echo "Topic: " $TOPIC

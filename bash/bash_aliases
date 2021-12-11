@@ -23,6 +23,8 @@ alias __fix_line_endings='find ./ -type f -exec dos2unix {} \;'
 
 alias idea='bash -c "nohup idea.sh . >/dev/null 2>&1 &"'
 
+alias datagrip='bash -c "nohup /opt/datagrip/bin/datagrip.sh . >/dev/null 2>&1 &"'
+
 alias mci='mvn clean install'
 alias mcid='mvn clean install -Ddockerfile.skip'
 alias mct='mvn clean test'
@@ -34,6 +36,9 @@ alias mdt='mvn dependency:tree'
 
 alias gc='git checkout $(git sortedBranches | fzf)'
 alias gcr='git checkout $(git branch -r | sed "s|origin/||g" | fzf)'
+
+alias gr='git rebase $(git branch -r | fzf)'
+alias gri='git rebase -i $(git branch -r | fzf)'
 
 alias g='gradle'
 alias gcb='g clean build'
@@ -63,3 +68,7 @@ alias kp='k --context $(kc) get pods -o custom-columns=":metadata.name"'
 alias kexec='k exec -it $(kubectl --context $(kc) get pods | fzf) -- /bin/bash'
 alias ktail='k logs -f $(kp | fzf)'
 alias kgrep='k --context $(kc) get pods | grep $1'
+
+alias dev='cd $HOME/bisnode/dev'
+alias qa='cd $HOME/bisnode/qa'
+alias prod='cd $HOME/bisnode/prod'

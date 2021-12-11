@@ -50,3 +50,6 @@ export FZF_DEFAULT_COMMAND='rg --files --follow'
 #export FZF_DEFAULT_OPTS='--height 40%  -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort  +m --read0'
 export FZF_DEFAULT_OPTS='--height 40%'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export PATH=$PATH:~/bin
+alias k="kubectl"
+alias kc='kubectl config view | grep current-context'

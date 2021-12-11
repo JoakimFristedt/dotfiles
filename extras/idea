@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 base_url="https://download.jetbrains.com/idea"
-idea_version="ideaIC-2020.3.3"
+idea_version="ideaIC-2021.3"
 extension="tar.gz"
 install_dir="/opt"
 

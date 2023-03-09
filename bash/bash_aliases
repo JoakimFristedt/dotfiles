@@ -71,4 +71,5 @@ alias kgrep='k --context $(kc) get pods | grep $1'
 
 alias dev='cd $HOME/bisnode/dev'
 alias qa='cd $HOME/bisnode/qa'
+alias stage='cd $HOME/bisnode/stage'
 alias prod='cd $HOME/bisnode/prod'

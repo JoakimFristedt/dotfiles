@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+uri="https://downloads.mongodb.com/compass/mongosh-1.1.7-linux-x64.tgz"
+
+install_dir="/opt"
+
+tar_file="$install_dir/mongosh-1.1.7-linux-x64.tgz"
+mongosh_install_dir="$install_dir/mongosh-1.1.7-linux-x64"
+symlink_path="$install_dir/mongosh"
+
+if [ ! -f "$tar_file" ]; then
+  wget --continue --directory-prefix $install_dir $uri
+fi
+
+tar -xf $tar_file -C $install_dir
+
+ln -sf $mongosh_install_dir $symlink_path
+
+chown -R joakim:joakim $mongosh_install_dir
+chown -R joakim:joakim $symlink_path

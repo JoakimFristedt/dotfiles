@@ -40,6 +40,9 @@ export PATH="$PATH:/opt/idea/bin"
 # Kafka
 export PATH="$PATH:/opt/kafka/bin"
 
+# Mongosh 
+export PATH="$PATH:/opt/mongosh/bin"
+
 alias img_check='/home/joakim/code/command-line-tools/bash/img_check.sh'
 export KUBECONFIG=/home/joakim/.kube/config:/home/joakim/.kube/config.lab:/home/joakim/.kube/config.dev:/home/joakim/.kube/config.qa:/home/joakim/.kube/config.stage:/home/joakim/.kube/config.prod
 

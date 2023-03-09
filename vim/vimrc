@@ -9,16 +9,16 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'godlygeek/tabular'
 Plugin 'haya14busa/incsearch-fuzzy.vim'
 Plugin 'haya14busa/incsearch.vim'
-Plugin 'honza/vim-snippets'
+"Plugin 'honza/vim-snippets'
 Plugin 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plugin 'junegunn/fzf.vim'
-Plugin 'junegunn/limelight.vim'
+"Plugin 'junegunn/limelight.vim'
 Plugin 'mkitt/tabline.vim'
-Plugin 'nvie/vim-flake8'
+"Plugin 'nvie/vim-flake8'
 Plugin 'scrooloose/nerdtree'
 Plugin 'scrooloose/syntastic'
 Plugin 'simnalamburt/vim-mundo'
-Plugin 'SirVer/ultisnips'
+"Plugin 'SirVer/ultisnips'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tmux-plugins/vim-tmux'
 Plugin 'tpope/vim-repeat' " cs,ds,yss
@@ -33,7 +33,7 @@ Plugin 'scrooloose/nerdtree-project-plugin'
 Plugin 'tpope/vim-dadbod'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
-Plugin 'chrisbra/csv.vim'
+"Plugin 'chrisbra/csv.vim'
 call vundle#end()
 
 set nocompatible
@@ -70,6 +70,10 @@ set backspace=indent,eol,start
 set number
 set shortmess=atI
 set t_Co=256
+
+set timeoutlen=1000
+
+set ttimeoutlen=0
 
 setlocal complete+=k
 "setlocal dictionary+=/tmp/complete-*
@@ -156,12 +160,13 @@ let g:auto_save=1
 so ~/.vim/rdb.vim
 
 " move to char
-map  <leader>f <Plug>(easymotion-bd-f)
+" map  <leader>f <Plug>(easymotion-bd-f)
 " move to line
-map <leader>L <Plug>(easymotion-bd-jk)
+"map <leader>L <Plug>(easymotion-bd-jk)
 " move to word
-map  <leader>w <Plug>(easymotion-bd-w)
-map <C-b> :YcmCompleter GoTo<CR>
+"map  <leader>w <Plug>(easymotion-bd-w)
+
+"map <C-b> :YcmCompleter GoTo<CR>
 
 " fzf
 map <leader>b :Buffers<CR>
@@ -235,3 +240,22 @@ cnoremap <C-H> <Left>
 cnoremap <C-J> <Down>
 cnoremap <C-K> <Up>
 cnoremap <C-L> <Right>
+
+function! CloseHiddenBuffers()
+    " >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    " close any buffers hidden
+    " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    let open_buffers = []
+
+    for i in range(tabpagenr('$'))
+        call extend(open_buffers, tabpagebuflist(i + 1))
+    endfor
+
+    for num in range(1, bufnr("$") + 1)
+        if buflisted(num) && index(open_buffers, num) == -1
+            exec "bdelete ".num
+        endif
+    endfor
+endfunction
+
+au BufEnter * call CloseHiddenBuffers()

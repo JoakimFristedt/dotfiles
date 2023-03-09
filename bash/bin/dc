@@ -41,6 +41,8 @@ usage() {
   echo "    k8s-rm                               Remove k8s pods + deployment + service"
   echo "    k8s-rm-all                           Remove all k8s resource (pods + deployments + service + config)"
   echo "    k8s-scale                            Scale deployment"
+  echo "    k8s-reset-down                       Reset Flink deployment and remove HA resources"
+  echo "    k8s-reset-up                         Scale Flink deployment back up, with fresh state"
   echo ""
   echo "  Resources:"
   echo "    tm, taskmanager                      Perform commands on flink taskmanagers"
@@ -87,6 +89,7 @@ usage() {
   echo "    --build-result-key                   Choose build result to perform operations on"
   echo "    --release-name                       Choose name of release"
   echo "    --environment                        Choose bamboo environment to perform operations in"
+  echo "    --topic                              Choose kafka topic"
   echo ""
   echo ""
   echo "Examples:"
@@ -102,7 +105,9 @@ usage() {
   echo "    Kafka/FlowGraph:"
   echo ""
   echo "        dc kafka-send-load-complete-message"
-  echo "        dc kafka-send-replay-message"
+  echo "        dc kafka-send-load-complete-message --topic my-topic-name"
+  echo "        dc kafka-send-audit-message"
+  echo ""
   echo "        dc flowgraph-create-savepoint"
   echo "        dc flowgraph-get-savepoint-status"
   echo ""
@@ -124,7 +129,7 @@ usage() {
   echo ""
   echo "        Create bamboo release:"
   echo ""
-  echo "            dc bamboo-release-fg --build-result-key DPDC-ODDCFG54-6 --release-name release1"
+  echo "            dc bamboo-release-fg --build-result-key DPDC-ODDCFG55-6 --release-name release1"
   echo ""
   echo "        Deploy bamboo release:"
   echo ""
@@ -137,7 +142,7 @@ usage() {
 CACHE_BASE_DIR="/tmp/dc"
 ATLASSIAN_CONF_FILE="$HOME/.atlassian_config"
 
-KUBETAIL_OPTS="--since 10m"
+KUBETAIL_OPTS="--since 1m"
 
 function k8_port_forward() {
   if [ "$SERVICE" = "jm" ]; then
@@ -158,6 +163,9 @@ function k8_tail_logs() {
   if [ "$SERVICE" = "tm" ]; then
     __k8_tail_flink_reousrce taskmanager
   fi
+  if [ "$SERVICE" = "flink" ]; then
+    __k8_tail_flink_reousrce taskmanager
+  fi
   if [ "$SERVICE" = "grafana" ]; then
     kubetail $KUBETAIL_OPTS -l app=odp-dc-grafana
   fi
@@ -167,7 +175,7 @@ function k8_remove_flowgraph() {
   APP=$(__get_k8_flink_app_labels_v2 jobmanager)
   QUESTION="Are you sure you want to remove pods+deployment+service for '$APP' in $(__k8_get_current_namespace)?"
   __interactive_yes_no_dialog "$QUESTION"
-  kubectl delete deployment,service,pods -l app=$APP
+  kubectl delete deployment,service,pods,horizontalpodautoscalers.autoscaling -l app=$APP
 }
 
 function k8_remove_all_flowgraph_resources() {
@@ -181,16 +189,70 @@ function k8_remove_all_flowgraph_resources() {
     __interactive_yes_no_dialog "$SAFETY_QUESTION"
   fi
 
-  kubectl delete deployment,cm,service,pods -l app=$APP
+  kubectl delete deployment,cm,service,pods,horizontalpodautoscalers.autoscaling -l app=$APP
+}
+
+function k8_reset_down_flowgraph() {
+  APP=$(__get_k8_flink_app_labels_v2 jobmanager)
+  currentNamespace=$(__k8_get_current_namespace)
+  QUESTION="Are you sure you want to reset flowgraph '$APP' in '$currentNamespace'?"
+  __interactive_yes_no_dialog "$QUESTION"
+
+  if [[ $currentNamespace =~ "prod" ]]; then
+    SAFETY_QUESTION="Are you really sure? This will remove entire flink job state and can't be recovered?"
+    __interactive_yes_no_dialog "$SAFETY_QUESTION"
+  fi
+
+  configMaps=$(kubectl get cm -l app=$APP -o jsonpath='{.items[*].metadata.name}')
+
+  echo "Scaling $APP-jobmanager to 0 pods"
+  kubectl scale deployment $APP-jobmanager --replicas=0
+
+  echo "Scaling $APP-taskmanager to 0 pods"
+  kubectl scale deployment $APP-taskmanager --replicas=0
+
+  a=($(echo $configMaps | tr ' ' "\n"))
+  for name in "${a[@]}"; do
+    if [[ $name != *"config"* ]]; then
+     kubectl delete cm $name
+    fi
+  done
+}
+
+function k8_reset_up_flowgraph() {
+  APP=$(__get_k8_flink_app_labels_v2 jobmanager)
+  currentNamespace=$(__k8_get_current_namespace)
+  QUESTION="Are you sure you want to reset up flowgraph '$APP' in '$currentNamespace'?"
+  __interactive_yes_no_dialog "$QUESTION"
+
+  if [[ $currentNamespace =~ "prod" ]]; then
+    SAFETY_QUESTION="Are you really sure? Since in PROD?: "
+    __interactive_yes_no_dialog "$SAFETY_QUESTION"
+  fi
+
+  SERVICE=jm
+  k8_scale_deployment
+
+  SERVICE=tm
+  k8_scale_deployment
 }
 
 function k8_scale_deployment() {
-  APP=$(__get_k8_flink_app_labels_v2 jobmanager)
+  if [ "$SERVICE" = "jm" ]; then
+    APP=$(__get_k8_flink_app_labels_v2 jobmanager)
+    name=jobmanager
+  fi
+  if [ "$SERVICE" = "tm" ]; then
+    APP=$(__get_k8_flink_app_labels_v2 taskmanager)
+    name=taskmanager
+  fi
+
+  __variable_is_set $SERVICE "Missing required service, one of [jm, tm]"
+
   currentNamespace=$(__k8_get_current_namespace)
-  taskmanagerDeploymentName="$APP-taskmanager"
+  taskmanagerDeploymentName="$APP-$name"
 
   QUESTION="How many replicas of '$taskmanagerDeploymentName' in '$currentNamespace' do you want?"
-
   __interactive_input_dialog "$QUESTION"
 
   REPLICAS=$ANSWER
@@ -209,9 +271,10 @@ function kafka_send_load_complete_command_msg() {
   __send_msg_to_kafka "$LOAD_COMPLETE_MSG"
 }
 
-function kafka_send_replay_command_msg() {
-  REPLAY_CMD_MSG='{"identifier":"c2939441-db2b-4be2-a529-1161c8d256d1","data":{"replayMessage":{"@class":"com.bisnode.odp.dc.domain.message.command.ReplayStreamCommandMessage","name":"replayMessage","sourceDatasetReferences":["Not applicable"],"createdTimestamp":"2021-06-02T04:31:16.416000Z","date":"2021-06-02T04:31:16.416000Z"}},"flowGraphName":null,"flowGraphVersion":null,"createdTimestamp":"2021-06-02T04:31:16.416000Z"}'
-  __send_msg_to_kafka "$REPLAY_CMD_MSG"
+function kafka_send_audit_command_msg() {
+  __variable_is_set $ID "You must provide a identifier"
+  AUDIT_MSG='{"identifier":"'$ID'","data":{"auditCommandMessage":{"@class":"com.bisnode.odp.dc.domain.message.command.AuditCommandMessage","name":"auditCommandMessage","sourceDatasetReferences":["Not applicable"],"createdTimestamp":"2022-10-05T07:39:07.548179Z","date":"2022-10-05T07:39:07.548184Z"}},"flowGraphName":null,"flowGraphVersion":null,"sequenceNumber":null,"createdTimestamp":"2022-10-05T07:39:07.548179Z"}'
+  __send_msg_to_kafka "$AUDIT_MSG"
 }
 
 function flowgraph_create_savepoint() {
@@ -506,7 +569,9 @@ function __list_cache() {
 }
 
 function __send_msg_to_kafka() {
-  TOPIC=$(__get_kafka_topics | fzf)
+  if [ -z "$TOPIC" ]; then
+    TOPIC=$(__get_kafka_topics | fzf)
+  fi
   MSG=$1
   if [ -z $TOPIC ]; then
     echo "Missing topic!"
@@ -517,7 +582,7 @@ function __send_msg_to_kafka() {
     exit 1
   fi
   __interactive_yes_no_dialog "Send msg to '$TOPIC'?"
-  kafka -t "$TOPIC" -PP -m "$MSG"
+  kafka -t "$TOPIC" -P -m "$MSG"
 }
 
 function __get_kafka_topics() {
@@ -680,6 +745,14 @@ case $key in
     shift
     ARG=k8_remove_all_flowgraph_resources
     ;;
+    k8s-reset-down | k8s-reset-down)
+    shift
+    ARG=k8_reset_down_flowgraph
+    ;;
+    k8s-reset-up | k8s-reset-up)
+    shift
+    ARG=k8_reset_up_flowgraph
+    ;;
     k8s-scale | k8s-scale-deployment)
     shift
     ARG=k8_scale_deployment
@@ -696,9 +769,11 @@ case $key in
     shift
     ARG=kafka_send_load_complete_command_msg
     ;;
-    kafka-send-replay-message)
+    kafka-send-audit-message)
     shift
-    ARG=kafka_send_replay_command_msg
+    ARG=kafka_send_audit_command_msg
+    ID="$1"
+    shift
     ;;
     flowgraph-create-savepoint)
     shift
@@ -757,6 +832,10 @@ case $key in
     shift
     SERVICE="tm"
     ;;
+    flink)
+    shift
+    SERVICE="flink"
+    ;;
     grafana | grafana)
     shift
     SERVICE="grafana"
@@ -802,6 +881,11 @@ case $key in
     --request-id)
     shift
     REQUEST_ID="$1"
+    shift
+    ;;
+    -t | --topic)
+    shift
+    TOPIC="$1"
     shift
     ;;
     -h | --help)

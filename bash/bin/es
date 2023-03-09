@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-
-command -v curl > /dev/null 2>&1 || {
-  echo >&2 "es: I require curl, but it's not installed. Aborting.";
+command -v curl > /dev/null 2>&1 || { echo >&2 "es: I require curl, but it's not installed. Aborting.";
   exit 1;
 }
 

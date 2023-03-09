@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-gradle_version="6.7"
+gradle_version="7.3.3"
 gradle_dir_name="gradle-$gradle_version"
 full_zip_file_name="$gradle_dir_name-all.zip"
 url="https://services.gradle.org/distributions/$full_zip_file_name"
